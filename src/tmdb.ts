@@ -176,7 +176,6 @@ export async function fetchDetails(
     : { country: region, link: null, free: [], ads: [], checkedAt, error: 'Provider information could not be checked.' }
   const candidates = Array.isArray(raw.videos?.results) ? raw.videos.results : []
   const trailer = candidates.find((v) => v.site === 'YouTube' && v.type === 'Trailer' && v.official === true && /^[a-zA-Z0-9_-]{11}$/.test(v.key ?? ''))
-    ?? candidates.find((v) => v.site === 'YouTube' && v.type === 'Trailer' && /^[a-zA-Z0-9_-]{11}$/.test(v.key ?? ''))
   const runtime = item.mediaType === 'movie' ? raw.runtime : raw.episode_run_time?.[0]
   return {
     ...base,
