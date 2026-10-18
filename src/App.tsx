@@ -115,6 +115,7 @@ function App() {
   return (
     <div className="app-shell">
       <div className="top-glow" aria-hidden="true" />
+      <a className="skip-link" href="#main-content">Skip to main content</a>
       <header className="site-header">
         <button className="brand" onClick={() => changeTab('discover')} aria-label="ReelCommons home">
           <span className="brand-mark"><Icon name="play" size={19} /></span>
@@ -126,7 +127,7 @@ function App() {
         <span className="header-label"><span className="status-dot" /> ALWAYS FREE TO EXPLORE</span>
       </header>
 
-      <main>
+      <main id="main-content" tabIndex={-1}>
         {tab === 'catalog' && <PublicCatalog savedKeys={items.map((item) => item.id)} onSave={addFromCatalog} onOpenWatchlist={() => changeTab('watchlist')} />}
         {tab === 'discover' && <>
           <section className="hero wrap">

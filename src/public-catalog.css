@@ -18,3 +18,25 @@
 .rc-evidence-status strong{font-size:10px;letter-spacing:.09em;color:#ffe2a5}
 .rc-evidence-status span{font-size:12px;color:#dfd5c2}
 @media(max-width:680px){.rc-provider-select{max-width:none;flex:1;min-width:160px}}
+
+
+/* v0.5: visible age, honest recovery, provenance receipts, and keyboard controls. */
+.rc-refresh-button{border:1px solid #adcba7;background:#263b35;color:#d1ffc2;border-radius:7px;padding:7px 11px;font-weight:850;font-size:11px;min-height:35px}
+.rc-refresh-button:hover:not(:disabled){background:#3b5144}
+.rc-refresh-button:disabled{cursor:wait;opacity:.65}
+.rc-session-label{font-size:10px;font-weight:900;letter-spacing:.065em;padding:6px 8px;border:1px solid #d9b77c;background:#5c422d;color:#ffe1ae;border-radius:5px}
+.rc-catalog-notice{margin:20px 0 -7px;background:#1d342e;border:1px solid #56765b;color:#d0f9d5;border-radius:8px;padding:14px 18px;line-height:1.6;font-size:12px}
+.rc-notice-warning{background:#443526;border-color:#a58b5a;color:#ffe1bb}
+.rc-evidence-desk{border:1px solid #587461;background:linear-gradient(125deg,#203b33,#23314a);border-radius:10px;padding:18px;display:flex;gap:20px;align-items:center;justify-content:space-between;margin-top:18px}
+.rc-evidence-kicker{color:#b6fc83;letter-spacing:.12em;font-size:10px;font-weight:900}
+.rc-evidence-desk h4{color:#fff;letter-spacing:-.025em;margin:7px 0;font-size:20px}
+.rc-evidence-desk p{font-size:12px;line-height:1.65;margin:5px 0}
+.rc-evidence-desk p strong{color:#ffd3a0}
+.rc-evidence-timestamp{font-size:11px!important;color:#a9c8b6!important}
+.rc-copy-evidence{border:1px solid #b6fc83;background:#b6fc83;color:#14241d;padding:12px 15px;font-weight:900;border-radius:7px;white-space:nowrap;font-size:12px;min-height:42px}
+.rc-copy-evidence:hover{background:#d4ffb4}
+.rc-receipt-status{color:#b6fc83!important;font-weight:800}
+.rc-source-explainer{margin-top:16px;border-top:1px solid #43506a;padding:16px 0 0;color:#d4deea;font-size:12px}
+.rc-source-explainer summary{cursor:pointer;font-weight:850;color:#d0f8b8;padding:8px 0}
+.rc-source-explainer summary:hover{text-decoration:underline}
+@media(max-width:650px){.rc-evidence-desk{flex-direction:column;align-items:stretch}.rc-copy-evidence{white-space:normal}.rc-public-note{align-items:flex-start}}
