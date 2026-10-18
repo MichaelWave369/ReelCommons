@@ -6,6 +6,13 @@ ReelCommons is an original, independent, open-source directory for **legitimate 
 
 > **Scope honesty:** v0.1 is a curated **service directory**, not a live title-availability search engine. Provider links go to official homepages. Verify a specific title, ad load, cost, geographic restrictions, and accessibility features on the provider's site.
 
+## v0.4: The Trust Layer
+
+**Provider names now appear on the public catalog cards**, along with each title's region-specific report date. Visitors can filter the cached catalog by viewing region, movie/TV, reported access (free vs with ads), and individual streaming provider. Movie Night Roulette respects the active filters and still prefers unsaved titles.
+
+**Evidence interpretation:** All availability and named providers are **reported by JustWatch through TMDB**. ReelCommons does **not** independently verify actual playback, entitlement, prices, geographic restrictions, or direct streaming URLs. The TMDB availability link is an information/checking link, not a verified provider deep link. A dated snapshot may be stale, and no result never proves a title is unavailable.
+
+Provider choices are derived directly from the current snapshot, per region, title type, and access category; no independent provider ID list is manufactured. The public catalog remains token-free for visitors. Nothing changes about secret handling, static generation, existing watchlist, or scheduled refresh.
 ## v0.3: A public catalog, no visitor API token required
 
 **Film catalog → Public catalog** is now the default. It reads a small curated **static snapshot** generated during our GitHub Pages deploy by GitHub Actions. Visitors do not need any token, login or account. The former personal TMDB mode remains under **Advanced live search** for the broader live catalog.
