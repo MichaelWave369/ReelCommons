@@ -6,6 +6,35 @@ ReelCommons is an original, independent, open-source directory for **legitimate 
 
 > **Scope honesty:** v0.1 is a curated **service directory**, not a live title-availability search engine. Provider links go to official homepages. Verify a specific title, ad load, cost, geographic restrictions, and accessibility features on the provider's site.
 
+## v0.6: RCTV Live TV & FTA
+
+The new **Live TV & FTA** tab introduces a visually rich, original, keyboard-friendly guide to legitimate free **internet television** and **free-to-air broadcast reception**.
+
+### Curated official destinations
+
+- **FAST internet streaming:** Pluto TV, Tubi Live TV, Plex Live TV, Sling Freestream, The Roku Channel, and Xumo Play.
+- **Public-service live:** PBS Local Livestream (restricted to participating local service areas), NASA Live / NASA+ (events and free programming).
+- **Over-the-air (FTA/OTA):** The U.S. FCC digital television reception map. Antenna broadcasts are **not** internet streams and require an antenna and compatible tuner. Free-to-air satellite reception is a separate equipment and reception problem, not a promise that satellite channels will play in the browser.
+
+The guide provides **source type / interest / text filters**, optional browser-local **favorite destinations**, and a **Surprise Me** picker among currently visible official sources. It has large focusable actions plus left/right/up/down arrow navigation between provider links, useful when visiting from TV-style interfaces such as Field Atlas. No registration is needed for ReelCommons itself.
+
+### Integrity and limitations
+
+ReelCommons **does not host, proxy, scrape, restream, embed, or intercept TV streams**. A destination link opens the provider's official website, not a guaranteed current channel or a verified playable stream. The app does not claim to know what's playing now, display an EPG, or circumvent geographic restrictions, login requirements, DRM, copyright protections, or advertisements. Actual service lineups, access requirements, and reception depend on provider policies and location.
+
+Favorites are stored locally under `reelcommons.live-tv.favorites.v1` and checked against our fixed directory. They can be lost when site data is cleared. Neither the TMDB API token nor movie watchlist is changed by this release.
+
+### Source references
+
+- FCC signal predictions: https://transition.fcc.gov/mb/engineering/dtvmaps/
+- Tubi official live guide: https://tubitv.com/live
+- Plex official live TV guide: https://watch.plex.tv/live-tv/channel
+- Sling Freestream: https://www.sling.com/freestream
+- Roku Channel: https://therokuchannel.roku.com/
+- Xumo Play: https://play.xumo.com/live-guide
+- PBS local live stream: https://help.pbs.org/support/solutions/articles/12000069454-pbs-live-streaming-faq-and-troubleshooting
+- NASA Live: https://www.nasa.gov/live/
+
 ## v0.5: The Evidence Desk
 
 **Accessibility and reliability upgrade:** A keyboard-accessible **Skip to main content** link, manual **Check for new snapshot** action, clear error and retry states, and explicit published snapshot age labels. Movie details include a readable evidence explanation and a **Copy evidence receipt** button.

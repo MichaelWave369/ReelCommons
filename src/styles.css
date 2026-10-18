@@ -13,3 +13,8 @@
 .skip-link{position:absolute;z-index:999;left:12px;top:-70px;border:2px solid #0c111f;border-radius:7px;background:#b6fc83;color:#131a1e;padding:12px 16px;font-size:13px;font-weight:900}
 .skip-link:focus{top:12px}
 #main-content:focus{outline:3px solid #b6fc83;outline-offset:-3px}
+
+
+/* Five-tab main navigation: scroll instead of clipping smaller displays. */
+@media(max-width:900px){.primary-nav{gap:18px}}
+@media(max-width:750px){.primary-nav{overflow-x:auto;overscroll-behavior-x:contain;justify-content:flex-start;gap:21px;scrollbar-width:thin}.nav-link{flex-shrink:0}}
