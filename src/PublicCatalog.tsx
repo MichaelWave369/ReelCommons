@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { posterUrl, tmdbTitleUrl } from './tmdb'
 import type { MediaType, TitleCard } from './tmdb'
-import { ageOfSnapshot, parsePublicSnapshot, visiblePublicTitles } from './publicCatalog'
-import type { PublicSnapshot, PublicTitle } from './publicCatalog'
+import { ageOfSnapshot, parsePublicSnapshot, providersForRegion, shortProviderLabels, visiblePublicTitles } from './publicCatalog'
+import type { AccessFilter, ProviderFilter, PublicSnapshot, PublicTitle } from './publicCatalog'
 import Discovery from './Discovery'
 import './public-catalog.css'
 
@@ -21,6 +21,8 @@ export default function PublicCatalog({ savedKeys, onSave, onOpenWatchlist }: Pr
   const [loading, setLoading] = useState(true)
   const [region, setRegion] = useState('US')
   const [mediaType, setMediaType] = useState<MediaType | 'all'>('all')
+  const [access, setAccess] = useState<AccessFilter>('all')
+  const [provider, setProvider] = useState<ProviderFilter>('all')
   const [query, setQuery] = useState('')
   const [selected, setSelected] = useState<PublicTitle | null>(null)
   const dialogRef = useRef<HTMLDivElement>(null)
@@ -36,7 +38,8 @@ export default function PublicCatalog({ savedKeys, onSave, onOpenWatchlist }: Pr
     return () => controller.abort()
   }, [])
 
-  const titles = useMemo(() => visiblePublicTitles(snapshot?.records ?? [], { query, region, mediaType }), [snapshot, query, region, mediaType])
+  const providers = useMemo(() => providersForRegion(snapshot?.records ?? [], { region, mediaType, access }), [snapshot, region, mediaType, access])
+  const titles = useMemo(() => visiblePublicTitles(snapshot?.records ?? [], { query, region, mediaType, access, provider }), [snapshot, query, region, mediaType, access, provider])
   const saved = useMemo(() => new Set(savedKeys), [savedKeys])
   const age = ageOfSnapshot(snapshot?.generatedAt ?? null)
   const chosenProviders = selected?.availabilityByRegion[region]
@@ -74,7 +77,7 @@ export default function PublicCatalog({ savedKeys, onSave, onOpenWatchlist }: Pr
 
   return <>
     <div className="rc-public-mode wrap" role="group" aria-label="Catalog data source">
-      <div><span className="rc-public-tag">THE SCREEN ROOM / v0.3</span><h2>Everyone gets <em>a seat.</em></h2></div>
+      <div><span className="rc-public-tag">THE SCREEN ROOM / v0.4</span><h2>Everyone gets <em>a seat.</em></h2></div>
       <div className="rc-mode-switch">
         <button className={mode === 'public' ? 'active' : ''} aria-pressed={mode === 'public'} onClick={() => setMode('public')}>Public catalog <span>No login</span></button>
         <button className={mode === 'live' ? 'active' : ''} aria-pressed={mode === 'live'} onClick={() => setMode('live')}>Advanced live search <span>Optional token</span></button>
@@ -91,27 +94,40 @@ export default function PublicCatalog({ savedKeys, onSave, onOpenWatchlist }: Pr
           </div>
         </div>
         <div className="rc-public-controls">
-          <label>YOUR REGION<select value={region} onChange={(e) => setRegion(e.target.value)}>{(snapshot?.regions ?? ['US','CA','GB','AU']).map((code) => <option key={code} value={code}>{availableLabel(code)}</option>)}</select></label>
-          <label>SHOW ME<select value={mediaType} onChange={(e) => setMediaType(e.target.value as MediaType | 'all')}><option value="all">Movies & TV</option><option value="movie">Movies</option><option value="tv">TV series</option></select></label>
+          <label>YOUR REGION<select aria-label="Viewing region" value={region} onChange={(e) => { setRegion(e.target.value); setProvider('all') }}>{(snapshot?.regions ?? ['US','CA','GB','AU']).map((code) => <option key={code} value={code}>{availableLabel(code)}</option>)}</select></label>
+          <label>SHOW ME<select aria-label="Media type" value={mediaType} onChange={(e) => { setMediaType(e.target.value as MediaType | 'all'); setProvider('all') }}><option value="all">Movies & TV</option><option value="movie">Movies</option><option value="tv">TV series</option></select></label>
+          <label>ACCESS<select aria-label="Streaming access type" value={access} onChange={(e) => { setAccess(e.target.value as AccessFilter); setProvider('all') }}><option value="all">Free or with ads</option><option value="free">Reported free</option><option value="ads">Reported with ads</option></select></label>
+          <label className="rc-provider-select">STREAMING SERVICE<select aria-label="Streaming service" value={provider} onChange={(e) => setProvider(e.target.value === 'all' ? 'all' : Number(e.target.value))}><option value="all">All reported providers</option>{providers.map((entry) => <option value={entry.provider_id} key={entry.provider_id}>{entry.provider_name}</option>)}</select></label>
           <label className="rc-public-search">FIND A STORY<input aria-label="Search the public catalog" value={query} onChange={(e) => setQuery(e.target.value)} maxLength={80} placeholder="Search titles or genres..." /></label>
           <button className="rc-public-roulette" onClick={choose} disabled={titles.length === 0}>✳ Surprise me</button>
         </div>
 
-        <div className="rc-public-results"><div><span className="eyebrow">PUBLIC COLLECTION / 001</span><h2>Tonight's possibilities.</h2></div><span>{titles.length} REPORTED TITLES</span></div>
+        <div className="rc-public-results"><div><span className="eyebrow">PUBLIC COLLECTION / 001</span><h2>Tonight's possibilities.</h2></div><span>{titles.length} REPORTED TITLES · {providers.length} PROVIDERS</span></div>
         {loading && <div className="rc-public-empty" role="status">Loading the public catalog…</div>}
         {error && <div className="rc-public-empty" role="alert">{error} The original free-source directory still works without the catalog.</div>}
         {!loading && !error && snapshot?.records.length === 0 && <div className="rc-public-empty"><span aria-hidden="true">◎</span><h3>The public catalog is waiting for its first screening.</h3><p>The site owner must configure the private GitHub Actions TMDB token and run the Pages deployment. Until then, visit the free-source directory or use Advanced live search with your own token.</p></div>}
-        {!loading && !error && (snapshot?.records.length ?? 0) > 0 && titles.length === 0 && <div className="rc-public-empty">No titles in this small snapshot match your filters. Try a different region or search. This is not proof that nothing is available to watch.</div>}
+        {!loading && !error && (snapshot?.records.length ?? 0) > 0 && titles.length === 0 && <div className="rc-public-empty">No titles in this small snapshot match your filters. This is not proof that nothing is available to watch.<div><button className="rc-reset-filters" onClick={() => { setQuery(''); setMediaType('all'); setAccess('all'); setProvider('all') }}>Clear filters</button></div></div>}
         {titles.length > 0 && <div className="rc-public-grid">{titles.map((item) => {
           const key = 'tmdb-' + item.mediaType + '-' + item.id
           const poster = posterUrl(item.posterPath)
           const availability = item.availabilityByRegion[region]
+          const providersOnCard = shortProviderLabels(availability, access)
+          const observedTime = availability?.checkedAt && !Number.isNaN(Date.parse(availability.checkedAt)) ? availability.checkedAt : snapshot?.generatedAt
+          const accessLabel = access === 'ads' ? 'REPORTED WITH ADS' : access === 'free' ? 'REPORTED FREE' : availability?.free?.length ? 'REPORTED FREE' : 'REPORTED WITH ADS'
           return <article key={key} className="rc-public-card"><button onClick={() => setSelected(item)} aria-label={'Explore viewing options for ' + item.title}>
-            <div className="rc-public-poster">{poster ? <img src={poster} alt="" loading="lazy" /> : <span>REEL<br/>COMMONS</span>}<span className="rc-public-postertag">{availability?.free?.length ? 'REPORTED FREE' : 'WITH ADS'}</span></div>
-            <div className="rc-public-cardbody"><h3>{item.title}</h3><p>{item.year} · {item.mediaType === 'movie' ? 'Movie' : 'Series'}{item.rating ? ' · ★ ' + item.rating.toFixed(1) : ''}</p></div>
+            <div className="rc-public-poster">{poster ? <img src={poster} alt="" loading="lazy" /> : <span>REEL<br/>COMMONS</span>}<span className="rc-public-postertag">{accessLabel}</span></div>
+            <div className="rc-public-cardbody">
+              <h3>{item.title}</h3>
+              <p>{item.year} · {item.mediaType === 'movie' ? 'Movie' : 'Series'}{item.rating ? ' · ★ ' + item.rating.toFixed(1) : ''}</p>
+              <div className="rc-card-evidence" aria-label="Reported streaming services">
+                <span className="rc-evidence-heading">AS REPORTED BY JUSTWATCH</span>
+                <div className="rc-card-services">{providersOnCard.labels.map((name) => <span className="rc-service-pill" key={name} title={name}>{name}</span>)}{providersOnCard.extra > 0 && <span className="rc-service-more">+{providersOnCard.extra} more</span>}</div>
+                {observedTime && <time dateTime={observedTime} title={new Date(observedTime).toLocaleString()}>Reported {new Date(observedTime).toLocaleDateString()}</time>}
+              </div>
+            </div>
           </button>{saved.has(key) && <span className="rc-public-saved">✓ Saved</span>}</article>
         })}</div>}
-        <div className="rc-public-disclaimer"><strong>Availability is a dated report, not a guarantee.</strong> Movie and TV rights change; provider information comes from JustWatch through TMDB. Titles here are a sampled selection, not a comprehensive search. Always confirm eligibility, ads and playback on the source service.</div>
+        <div className="rc-public-disclaimer"><strong>Availability is a dated third-party report, not verified playback.</strong> Service names and “reported free/with ads” labels come from JustWatch through TMDB, not an independent test. ReelCommons has no verified direct playback links. A TMDB title or provider-information link is for checking details, not a guarantee of streaming access. Rights, account requirements, region and pricing can change.</div>
         <div className="rc-public-attribution"><a href="https://www.themoviedb.org/" target="_blank" rel="noopener noreferrer"><img src={SOURCE_LOGO} width="60" height="44" alt="TMDB logo" /></a><p>This product uses the TMDB API but is not endorsed or certified by TMDB. Movie information and images are from TMDB. Availability information is from <a href="https://www.justwatch.com/" target="_blank" rel="noopener noreferrer">JustWatch</a> via TMDB.</p></div>
       </section>}
 
@@ -124,10 +140,11 @@ export default function PublicCatalog({ savedKeys, onSave, onOpenWatchlist }: Pr
         </div>
         <div className="rc-public-modal-info">
           {selected.cast.length > 0 && <div><h3>Featuring</h3><p>{selected.cast.map((p) => p.name).join(' · ')}</p></div>}
-          <h3>Where to watch · {availableLabel(region)}</h3>
+          <h3>Reported viewing options · {availableLabel(region)}</h3>
+          <div className="rc-evidence-status"><strong>THIRD-PARTY REPORT</strong><span>Playback not independently verified</span></div>
           <div className="rc-public-provider-list">{chosenProviders?.free?.length ? <div><strong>REPORTED FREE</strong><p>{chosenProviders.free.map((p) => p.provider_name).join(' · ')}</p></div> : null}{chosenProviders?.ads?.length ? <div><strong>REPORTED WITH ADS</strong><p>{chosenProviders.ads.map((p) => p.provider_name).join(' · ')}</p></div> : null}</div>
-          <p>Report last checked {chosenProviders ? new Date(chosenProviders.checkedAt).toLocaleString() : 'at snapshot publication'}. Streaming availability is provided by JustWatch through TMDB; this snapshot does not verify today's availability.</p>
-          <div className="rc-public-modal-actions">{chosenProviders?.link && <a className="btn btn-primary" href={chosenProviders.link} target="_blank" rel="noopener noreferrer">View links on TMDB ↗</a>}<a className="btn btn-outline" href={tmdbTitleUrl(selected)} target="_blank" rel="noopener noreferrer">Open movie details ↗</a><button className="btn btn-outline" onClick={() => { setSelected(null); onOpenWatchlist() }}>My watchlist →</button></div>
+<p>Availability snapshot checked {chosenProviders?.checkedAt ? new Date(chosenProviders.checkedAt).toLocaleString() : 'at publication'}. JustWatch supplies the provider report through TMDB. ReelCommons has not independently confirmed that these services can play this title today.</p>
+          <div className="rc-public-modal-actions">{chosenProviders?.link && <a className="btn btn-primary" href={chosenProviders.link} target="_blank" rel="noopener noreferrer">Review availability on TMDB ↗</a>}<a className="btn btn-outline" href={tmdbTitleUrl(selected)} target="_blank" rel="noopener noreferrer">Open movie details ↗</a><button className="btn btn-outline" onClick={() => { setSelected(null); onOpenWatchlist() }}>My watchlist →</button></div>
           <p className="rc-public-provider-credit">Availability source: <a href="https://www.justwatch.com/" target="_blank" rel="noopener noreferrer">JustWatch</a> via TMDB. These links are not direct playback URLs.</p>
         </div>
       </div>
