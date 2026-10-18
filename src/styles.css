@@ -29,3 +29,11 @@
 @media(max-width:1050px){.header-label{display:none}}
 @media(max-width:900px){.primary-nav{gap:11px}}
 @media(max-width:750px){.primary-nav{gap:20px;overflow-x:auto;justify-content:flex-start}.nav-link{flex-shrink:0}}
+
+
+/* Signal Bridge discovery from the existing FTA Lab. */
+.sig-lab-teaser{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px;border:1px solid #6ca187;background:linear-gradient(120deg,#274238,#23314d);border-radius:9px;padding:21px 24px;margin-top:22px}
+.sig-lab-teaser strong{font-size:11px;letter-spacing:.12em;color:#b6fc83}
+.sig-lab-teaser p{font-size:12px;line-height:1.7;max-width:620px;color:#c4d7d5;margin:7px 0}
+.sig-lab-teaser button{min-height:45px;border:1px solid #b6fc83;background:#b6fc83;color:#18281e;border-radius:7px;padding:12px 15px;font-weight:900;font-size:12px}
+@media(max-width:900px){.primary-nav{overflow-x:auto;justify-content:flex-start;gap:18px}.nav-link{flex-shrink:0}}
