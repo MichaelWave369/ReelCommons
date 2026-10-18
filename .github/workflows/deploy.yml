@@ -3,6 +3,9 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  schedule:
+    # Daily refresh. Pages is updated by this workflow itself, no GITHUB_TOKEN push.
+    - cron: '19 10 * * *'
 permissions:
   contents: read
   pages: write
@@ -23,6 +26,15 @@ jobs:
           node-version: '22'
       - name: Install
         run: npm install --no-audit --no-fund
+      - name: Build public catalog snapshot (if configured)
+        env:
+          TMDB_READ_ACCESS_TOKEN: ${{ secrets.TMDB_READ_ACCESS_TOKEN }}
+        run: |
+          if [ -z "$TMDB_READ_ACCESS_TOKEN" ]; then
+            echo "No TMDB_READ_ACCESS_TOKEN secret configured; building the transparent empty-state placeholder."
+          else
+            node scripts/generate-public-catalog.mjs
+          fi
       - name: Build Pages bundle
         run: npm run build
         env:
