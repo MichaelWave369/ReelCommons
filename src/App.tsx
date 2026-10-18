@@ -4,7 +4,7 @@ import { moods, serviceKinds, services } from './catalog'
 import type { MediaKind, Mood, Service, ServiceFilter, Tab, WatchItem } from './catalog'
 import { filterServices, formatWatchlist, pickTonight } from './logic'
 import { readWatchlist, saveWatchlist } from './storage'
-import Discovery from './Discovery'
+import PublicCatalog from './PublicCatalog'
 import type { TitleCard } from './tmdb'
 
 const nav: { id: Tab; label: string }[] = [
@@ -127,7 +127,7 @@ function App() {
       </header>
 
       <main>
-        {tab === 'catalog' && <Discovery savedKeys={items.map((item) => item.id)} onSave={addFromCatalog} onOpenWatchlist={() => changeTab('watchlist')} />}
+        {tab === 'catalog' && <PublicCatalog savedKeys={items.map((item) => item.id)} onSave={addFromCatalog} onOpenWatchlist={() => changeTab('watchlist')} />}
         {tab === 'discover' && <>
           <section className="hero wrap">
             <div className="hero-copy">

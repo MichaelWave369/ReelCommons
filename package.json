@@ -1,13 +1,13 @@
 {
   "name": "reelcommons",
   "private": true,
-  "version": "0.2.0",
+  "version": "0.3.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
-    "test": "vitest run",
+    "test": "vitest run src && node --test scripts/generate-public-catalog.test.mjs",
     "test:watch": "vitest"
   },
   "dependencies": {
