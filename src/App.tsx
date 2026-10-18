@@ -4,9 +4,12 @@ import { moods, serviceKinds, services } from './catalog'
 import type { MediaKind, Mood, Service, ServiceFilter, Tab, WatchItem } from './catalog'
 import { filterServices, formatWatchlist, pickTonight } from './logic'
 import { readWatchlist, saveWatchlist } from './storage'
+import Discovery from './Discovery'
+import type { TitleCard } from './tmdb'
 
 const nav: { id: Tab; label: string }[] = [
-  { id: 'discover', label: 'Discover' },
+  { id: 'discover', label: 'Free sources' },
+  { id: 'catalog', label: 'Film catalog' },
   { id: 'watchlist', label: 'My watchlist' },
   { id: 'guide', label: 'The guide' },
 ]
@@ -67,6 +70,19 @@ function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
+  function addFromCatalog(card: TitleCard) {
+    const id = 'tmdb-' + card.mediaType + '-' + card.id
+    if (items.some((entry) => entry.id === id)) { setToast('Already on your list.'); return }
+    if (items.length >= 250) { setToast('Watchlist is full (250 items).'); return }
+    const item: WatchItem = {
+      id, title: card.title, kind: card.mediaType === 'movie' ? 'Movie' : 'Series',
+      note: 'From TMDB catalog' + (card.year !== 'Year unknown' ? ' · ' + card.year : ''),
+      watched: false, createdAt: Date.now(),
+    }
+    setItems((current) => current.some((entry) => entry.id === id) ? current : [item, ...current])
+    setToast('Saved to your local watchlist.')
+  }
+
   function addToWatchlist(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const safeTitle = title.trim().slice(0, 120)
@@ -111,6 +127,7 @@ function App() {
       </header>
 
       <main>
+        {tab === 'catalog' && <Discovery savedKeys={items.map((item) => item.id)} onSave={addFromCatalog} onOpenWatchlist={() => changeTab('watchlist')} />}
         {tab === 'discover' && <>
           <section className="hero wrap">
             <div className="hero-copy">
