@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { syntheticTransportFixture } from './syntheticTransport'
 import {
   inspectTransportStream, MAX_TS_BYTES, mpegPsiCrcValid, streamTypeLabel, transportEvidenceReceipt,
 } from './transportInspector'
@@ -138,5 +139,22 @@ describe('RCTV Signal Bridge transport sample inspector', () => {
     const result = inspectTransportStream(sample(common()))
     expect(result.warnings.join(' ')).toContain('not from observed RF hardware')
     expect(result.warnings.join(' ')).toContain('not video decodability')
+  })
+})
+
+
+describe('synthetic transport tutorial', () => {
+  it('produces CRC-valid PAT/PMT sample data while clearly labeling it non-observational', () => {
+    const fixture = syntheticTransportFixture()
+    expect(fixture.length).toBe(188 * 6)
+    const report = inspectTransportStream(fixture, '2026-10-18T12:00:00Z', 'GENERATED_DEMO_BYTES')
+    expect(report.provenance).toBe('GENERATED_DEMO_BYTES')
+    expect(report.crcValidPatSections).toBeGreaterThan(0)
+    expect(report.crcValidPmtSections).toBeGreaterThan(0)
+    expect(report.programs[0].number).toBe(42)
+    expect(report.programs[0].streams).toHaveLength(2)
+    expect(report.warnings.join(' ')).toContain('not a hardware observation')
+    expect(transportEvidenceReceipt(report, 'generated-fixture.ts', fixture.length))
+      .toContain('No original broadcast or hardware observation exists')
   })
 })

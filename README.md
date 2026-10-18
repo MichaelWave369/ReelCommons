@@ -6,6 +6,28 @@ ReelCommons is an original, independent, open-source directory for **legitimate 
 
 > **Scope honesty:** v0.1 is a curated **service directory**, not a live title-availability search engine. Provider links go to official homepages. Verify a specific title, ad load, cost, geographic restrictions, and accessibility features on the provider's site.
 
+## v0.9: Signal Bridge · Local Transport Inspector
+
+RCTV now includes a **Signal Bridge** tab, plus an entry from the FTA Simulator. It is a safe, bounded, **read-only local MPEG-TS file inspector**, the first practical phase of the future hardware Signal Bridge. It does **not** open a tuner, port, network socket or streaming player and does **not** upload user media.
+
+### How to use
+
+1. Open **Signal Bridge** and choose **Load synthetic demo** to examine a generated 188-byte MPEG transport-stream fixture containing a CRC-valid PAT and PMT for fake Program 42, or choose a local `.ts` recording. The demo isn't broadcast evidence.
+2. The browser reads **at most 8 MiB** from the selected file, reports the observed sample size, and ignores any later bytes. It checks transport packet alignment, per-PID packet counts, scrambling-control flags, transport-error bits, adaptation-field validity, and continuity anomalies.
+3. Inspect the CRC-checked **Program Association Table (PAT)** and **Program Map Table (PMT)** results. They map declared program numbers to PMT PIDs, PCR PIDs, and elementary stream type identifiers. Stream type names are **metadata hints**, not successful codec decoding or playable video.
+4. Expand **Inspect top packet IDs** for the local sample's most frequent PIDs, or export a **JSON inspection receipt**. The receipt contains metadata and counts, not media payloads.
+5. Clear the report to discard it from this page. No local copies, uploads or server accounts are created.
+
+### Scope and integrity
+
+- **Two distinct provenance states:** `GENERATED_DEMO_BYTES` and `OBSERVED_LOCAL_FILE_BYTES`. User-selected files show **local file bytes observed**, not verified satellite reception, broadcaster authenticity, correct hardware tuning, legal ownership, actual decoder lock or valid playback.
+- File-type support is limited to **188-byte MPEG-TS** packets. 192-byte M2TS and 204-byte variants, comprehensive tables (EPG/SDT), fragmented multi-section edge cases, encryption systems, channel playback, live tuner control, and full-file analysis are outside this release.
+- PAT/PMT sections are accepted only with the **MPEG-2 CRC32** check. A missing table in the small sample doesn't prove one is absent from the original stream.
+- Continuity-counter anomalies are **diagnostic estimates** on a bounded file sample. They can be affected by duplicate packets, discontinuity events, truncation, remuxing or adaptation details and aren't a calibrated measurement of physical packet loss.
+- The app does not extract video, unscramble content, circumvent encryption, retransmit copyrighted material, or connect to physical tuners. Browser input remains opt-in.
+- **Hardware plan:** A separately installed, opt-in, read-only, loopback-only tuner companion could eventually provide independently sourced tuner observations and captured transport bytes. An arbitrary imported JSON receipt must never upgrade itself to verified hardware status.
+
+Existing virtual FTA calculations, TMDB credentials, movie metadata, FAST sources, Living Room Mode, favorites and watchlists are unchanged.
 ## v0.8: Virtual FTA Receiver
 
 RCTV now includes an original **FTA Simulator** tab plus a launch entry from **Live TV & FTA**. This is a deterministic, browser-local educational **geostationary Ku-band link model**, not a real RF receiver, MPEG-TS decoder, dish controller, live channel scanner or service authorization system. No actual signal or program is received.

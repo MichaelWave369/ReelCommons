@@ -37,7 +37,7 @@ function valueOrNull(value: string): number | null {
   return Number.isFinite(parsed) ? parsed : null
 }
 
-export default function FTALab() {
+export default function FTALab({ onOpenBridge }: { onOpenBridge: () => void }) {
   const [settings, setSettings] = useState<ReceiverSettings>({ ...DEFAULT_SETTINGS })
   const [entries, setEntries] = useState<Transponder[]>(() => EXAMPLES.map((entry) => ({ ...entry, listedChannels: [...entry.listedChannels] })))
   const [selectedId, setSelectedId] = useState(EXAMPLES[0].id)
@@ -222,6 +222,7 @@ export default function FTALab() {
         </section>}
       </div>
     </div>
+    <div className="sig-lab-teaser"><div><strong>THE SIGNAL BRIDGE · NEW IN v0.9</strong><p>The simulator predicts a satellite link. Signal Bridge inspects actual MPEG transport-file structure, or lets you try a generated example.</p></div><button type="button" onClick={onOpenBridge}>Open Signal Bridge ↗</button></div>
     <div className="fta-bottom-note"><strong>BUILD OUTWARD, CIRCLE BACK.</strong> Future steps: calibrated thresholds and ITU propagation models, source-licensed satellite listings, and optional local tuner integration. This simulator does not scrape feeds, bypass encryption, or host television.</div>
   </section>
 }
