@@ -1,0 +1,104 @@
+/* RCTV v0.8 · Virtual FTA Receiver. The visual instrument is simulation-only. */
+.fta-page{padding-top:66px;padding-bottom:95px;min-height:70vh}
+.fta-hero{margin:16px 0 17px;padding:52px 46px;background:radial-gradient(circle at 77% 26%,#34566b 0,#263b51 32%,transparent 58%),linear-gradient(125deg,#142437,#1d2440);border:1px solid #405468;border-radius:15px;display:grid;grid-template-columns:1.25fr .75fr;align-items:center;gap:15px;overflow:hidden}
+.fta-eyebrow{display:flex;align-items:center;gap:10px;color:#befc9c;font-size:10px;letter-spacing:.15em;font-weight:900}
+.fta-pulse{height:9px;width:9px;border-radius:50%;background:#b6fc83;box-shadow:0 0 18px #b6fc83}
+.fta-hero h1{font-size:clamp(51px,6vw,78px);font-weight:950;letter-spacing:-.075em;line-height:1.04;margin:17px 0 20px}
+.fta-hero h1 em{font-style:normal;color:#b6fc83}
+.fta-hero p{line-height:1.78;color:#bdccde;font-size:14px;max-width:630px}
+.fta-hero-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
+.fta-hero-tags span{font-size:9px;letter-spacing:.07em;color:#c9ead4;font-weight:900;border:1px solid #527768;padding:7px 9px;border-radius:5px;background:#1d3839}
+.fta-hero-display{min-height:270px;display:flex;justify-content:center;align-items:center;flex-direction:column;position:relative}
+.fta-hero-display:before,.fta-hero-display:after{content:'';position:absolute;width:285px;height:285px;border:1px solid #93aeb94d;border-radius:50%}
+.fta-hero-display:after{height:345px;width:345px;border-style:dashed}
+.fta-dish-circle{height:180px;width:180px;border:15px solid #76a7c3;border-radius:50%;background:radial-gradient(circle at 60% 40%,#bbe8b1,#448688 55%,#2b425f);box-shadow:10px 15px 0 #0a172550;transform:rotate(-17deg);position:absolute;opacity:.7}
+.fta-dish-circle span{font-size:150px;font-weight:100;color:#102a3c55;line-height:1}
+.fta-hero-display>strong{font-size:85px;font-weight:1000;letter-spacing:-.09em;line-height:.8;z-index:2;text-shadow:0 4px 20px #0008}
+.fta-hero-display>strong small{display:block;color:#b6fc83;font-size:33px;letter-spacing:.18em;text-align:center;margin-top:16px}
+.fta-hero-display>span{z-index:2;letter-spacing:.16em;font-size:9px;font-weight:900;color:#cde7d0;position:absolute;bottom:12px}
+.fta-integrity{border:1px solid #876f50;border-left:4px solid #e8b875;background:#2d2a2b;color:#efd8b7;border-radius:8px;padding:16px 19px;font-size:12px;line-height:1.7}
+.fta-integrity strong{color:#ffe0a4}
+.fta-main-grid{display:grid;grid-template-columns:0.9fr 1.1fr;gap:20px;align-items:start;margin-top:25px}
+.fta-panel{border:1px solid #394963;background:#171e32;border-radius:12px;padding:23px;margin-bottom:20px}
+.fta-heading{display:flex;align-items:start;gap:12px;margin-bottom:24px}
+.fta-heading h2{font-size:21px;letter-spacing:-.05em;margin:0 0 6px}
+.fta-heading p{font-size:12px;color:#a8b7c9;line-height:1.6;margin:0}
+.fta-section-no{width:35px;height:35px;flex-shrink:0;display:grid;place-items:center;background:#2c4337;border:1px solid #547761;color:#b6fc83;border-radius:7px;font-size:15px;font-weight:900}
+.fta-source-actions{display:flex;flex-wrap:wrap;gap:8px}
+.fta-import-label,.fta-secondary{border:1px solid #8dc87b;background:#b6fc83;color:#10201a;border-radius:7px;font-weight:900;font-size:12px;padding:12px 14px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;min-height:43px;position:relative}
+.fta-import-label input{position:absolute;width:1px;height:1px;overflow:hidden;opacity:0}
+.fta-import-label:focus-within{outline:3px solid #fff;outline-offset:2px}
+.fta-secondary{background:#253047;color:#d8e4ed;border-color:#536079}
+.fta-helper{font-size:11px;line-height:1.7;color:#a1afc2}
+.fta-helper code{color:#e3c7a6}
+.fta-alert{border:1px solid #63846b;background:#263d31;color:#d7f6d6;border-radius:7px;padding:12px;font-size:11px;line-height:1.6;margin:13px 0}
+.fta-alert.warning{background:#382e26;border-color:#aa8960;color:#efddbd}
+.fta-alert.error{background:#462a36;border-color:#bf7682;color:#ffc7ca}
+.fta-alert p{margin:5px 0}
+.fta-directory{display:flex;flex-direction:column;gap:8px;max-height:365px;overflow-y:auto;margin:21px 0;padding-right:4px}
+.fta-directory button{border:1px solid #425069;background:#222c43;color:#ecf3f7;border-radius:8px;text-align:left;display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:space-between;padding:12px}
+.fta-directory button.active{border-color:#b6fc83;box-shadow:inset 0 0 0 1px #b6fc83;background:#273e38}
+.fta-directory button>span{font-size:12px;color:#dee9ee;flex-basis:100%;font-weight:800}
+.fta-directory button strong{font-size:12px}
+.fta-mini-status{font-weight:900;font-size:9px;letter-spacing:.04em;color:#bfc7d4}
+.fta-mini-status.simulated_lock{color:#b6fc83}
+.fta-mini-status.below_horizon,.fta-mini-status.no_model_lock{color:#ffb6ab}
+.fta-mini-status.marginal_model{color:#ffe0a9}
+.fta-mini-status.incomplete{color:#d0bddc}
+.fta-subheading{font-size:10px;letter-spacing:.12em;font-weight:950;color:#b6fc83;border-top:1px solid #3d4b63;padding:19px 0 14px}
+.fta-subheading small{letter-spacing:0;font-size:10px;color:#9faec1;font-weight:600;margin-left:7px}
+.fta-field-grid,.fta-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.fta-controls{grid-template-columns:repeat(3,minmax(0,1fr))}
+.fta-field{font-size:11px;color:#c6d3df;font-weight:800;display:flex;flex-direction:column;gap:8px;min-width:0;position:relative}
+.fta-field span{position:absolute;right:3px;top:0;font-size:9px;color:#94adba;font-weight:700}
+.fta-field input,.fta-field select{width:100%;min-width:0;min-height:43px;background:#0d1628;border:1px solid #526078;border-radius:7px;color:#f4f5fa;padding:11px 10px;font-size:13px}
+.fta-provenance,.fta-listed{border-top:1px solid #3a4660;padding-top:15px;margin-top:18px}
+.fta-provenance strong,.fta-listed strong{font-size:10px;color:#b6fc83;letter-spacing:.11em}
+.fta-provenance p,.fta-listed p{font-size:11px;color:#b3c2d1;line-height:1.8;margin:7px 0}
+.fta-provenance p strong{letter-spacing:0;color:#ffd7aa}
+.fta-expand{border:1px solid #475c6c;background:#24344a;color:#d5f7c8;border-radius:7px;font-weight:850;font-size:12px;padding:10px 13px;margin:19px 0}
+.fta-advanced{padding-top:12px;border-top:1px solid #35445c}
+.fta-settings-notice{font-size:11px;line-height:1.75;color:#91a6bb;margin-top:16px}
+.fta-result-panel{margin-top:0}
+.fta-model-count{margin-left:auto;color:#c1ffab;font-size:21px;font-weight:950;white-space:nowrap}
+.fta-model-count small{font-size:9px;letter-spacing:.07em;display:block;text-align:right;color:#9db6a5}
+.fta-status-box{border:1px solid #5d7766;border-radius:11px;background:linear-gradient(110deg,#253e35,#202c45);display:flex;align-items:center;justify-content:space-between;gap:15px;padding:24px}
+.fta-status-box.status-below_horizon,.fta-status-box.status-no_model_lock{background:linear-gradient(110deg,#4a302f,#262c40);border-color:#99625e}
+.fta-status-box.status-incomplete{background:linear-gradient(110deg,#373147,#242b41);border-color:#72648d}
+.fta-status-box.status-marginal_model{background:linear-gradient(110deg,#514229,#2a2e40);border-color:#b49a60}
+.fta-status-label{display:block;color:#aac9ae;font-size:10px;letter-spacing:.12em;font-weight:900;margin-bottom:8px}
+.fta-status-box strong{font-size:clamp(23px,3vw,35px);color:#d8ffbf;line-height:1.15;letter-spacing:-.05em;display:block}
+.fta-status-box.status-below_horizon strong,.fta-status-box.status-no_model_lock strong{color:#ffb2a7}
+.fta-status-box.status-incomplete strong{color:#e3c3fa}
+.fta-status-box.status-marginal_model strong{color:#ffe2a3}
+.fta-status-box small{color:#b5c6d0;line-height:1.65;font-size:11px;display:block;margin-top:8px}
+.fta-status-symbol{font-size:57px;color:#b6fc8377}
+.fta-metric-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;margin-top:15px}
+.fta-metric-grid>div{border:1px solid #3f4c65;background:#212b41;padding:17px;border-radius:9px;min-width:0}
+.fta-metric-grid span{font-size:11px;color:#a0b2c7;display:block}
+.fta-metric-grid small{font-size:9px}
+.fta-metric-grid strong{font-size:clamp(18px,2.5vw,27px);font-weight:950;letter-spacing:-.05em;margin-top:10px;display:block;overflow-wrap:anywhere}
+.fta-margin-panel{margin-top:15px;padding:21px;background:#111b2e;border:1px solid #3c4e63;border-radius:9px}
+.fta-margin-title{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.fta-margin-title span{font-size:10px;letter-spacing:.12em;font-weight:900;color:#aec9b2}
+.fta-margin-title strong{font-size:23px;color:#d9f6c8;letter-spacing:-.05em}
+.fta-meter{height:22px;background:linear-gradient(to right,#9a565c,#d4a55f 43%,#364355 50%,#7bac75 55%,#b6fc83);border:1px solid #6f7e8e;border-radius:7px;position:relative;margin-top:22px;overflow:visible}
+.fta-meter-zero{position:absolute;height:36px;top:-8px;width:2px;background:#f6f8ee;left:50%;z-index:1}
+.fta-meter-pointer{position:absolute;z-index:2;height:35px;width:7px;background:#fff;border:2px solid #0e182b;border-radius:3px;top:-7px;transform:translateX(-50%)}
+.fta-meter-axis{display:flex;justify-content:space-between;font-size:10px;color:#aab8c9;margin-top:10px}
+.fta-margin-panel p{line-height:1.75;font-size:11px;color:#a5b5c8;margin-bottom:0}
+.fta-ledger{padding:15px;border:1px solid #41516a;border-radius:8px;background:#121d31}
+.fta-ledger>div{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:10px;border-bottom:1px solid #35445b}
+.fta-ledger>div span{color:#b8c6d5;font-size:11px}
+.fta-ledger>div strong{font-size:12px}
+.fta-ledger p{color:#a9b9c9;font-size:11px;line-height:1.75}
+.fta-export{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.fta-export button{border:1px solid #98c886;background:#b6fc83;color:#17261a;border-radius:7px;padding:12px 14px;font-size:12px;font-weight:900}
+.fta-export button+button{color:#d9e6f2;border-color:#637286;background:#26334b}
+.fta-not-playback{font-size:11px;line-height:1.7;color:#a5b4c5;margin:18px 0 0}
+.fta-bottom-note{margin-top:30px;padding:22px;border-top:1px solid #394b5a;font-size:12px;color:#aabdc8;line-height:1.8}
+.fta-bottom-note strong{color:#b6fc83}
+@media(max-width:1080px){.fta-main-grid{grid-template-columns:1fr}.fta-hero{grid-template-columns:1fr .7fr}.fta-controls{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:720px){.fta-hero{grid-template-columns:1fr;padding:34px 25px}.fta-hero-display{min-height:140px;transform:scale(.68);margin-block:-38px}.fta-hero h1{font-size:clamp(47px,8vw,70px)}.fta-controls{grid-template-columns:repeat(2,minmax(0,1fr))}.fta-panel{padding:17px}}
+@media(max-width:435px){.fta-controls,.fta-field-grid{grid-template-columns:1fr 1fr}.fta-hero-tags span{font-size:8px}.fta-margin-title{align-items:flex-start;flex-direction:column}.fta-status-symbol{display:none}.fta-metric-grid>div{padding:12px}.fta-metric-grid strong{font-size:18px}}
+@media(prefers-reduced-motion:reduce){.fta-meter-pointer{transition:none}}

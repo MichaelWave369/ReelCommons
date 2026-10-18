@@ -6,6 +6,34 @@ ReelCommons is an original, independent, open-source directory for **legitimate 
 
 > **Scope honesty:** v0.1 is a curated **service directory**, not a live title-availability search engine. Provider links go to official homepages. Verify a specific title, ad load, cost, geographic restrictions, and accessibility features on the provider's site.
 
+## v0.8: Virtual FTA Receiver
+
+RCTV now includes an original **FTA Simulator** tab plus a launch entry from **Live TV & FTA**. This is a deterministic, browser-local educational **geostationary Ku-band link model**, not a real RF receiver, MPEG-TS decoder, dish controller, live channel scanner or service authorization system. No actual signal or program is received.
+
+### How to explore
+
+1. Open **FTA Simulator**. Built-in sample Galaxy 19 (97°W) and Eutelsat 9B (9°E) records are deliberately **illustrative and unverified**.
+2. Adjust the sample site (default **38°N, 121°W**; this is *not* your detected location), dish diameter, efficiency, rain fade, pointing loss, cable loss, LNB noise figure, assumed antenna noise temperature and roll-off.
+3. Select a transponder to see calculated elevation, GEO slant range, dish gain, free-space path loss, received carrier (dBW), thermal noise (dBW), calculated C/N and **signed margin** relative to an illustrative threshold.
+4. Optional: **Import Gemini/Grok JSON** from a local file. Supports the flat sample map keyed by satellite and a nested `satellites` map, including Grok-style `Symbol_Rate`, `FEC`, and `EIRP_dBW`. Imported `Status: LOCKED` is preserved as **unverified source metadata** and ignored by the model.
+5. **Fill in missing parameters explicitly** for imported records. If symbol rate, EIRP, MODCOD, orbit or other required inputs are missing, the simulator displays **INPUT INCOMPLETE** instead of inventing numbers.
+6. Use **Copy evidence receipt** or **Export model JSON** to save all assumptions, calculations and warnings locally. This export is **not** a receiver-compatible channel file and has no transport streams.
+
+### Modeling ledger
+
+- Satellite range and elevation: simple spherical-Earth geometry for a GEO orbit of approximately **42,164 km** from Earth's center and **6,378.137 km** reference Earth radius. Satellites below the geometric horizon return **BELOW HORIZON** before any C/N calculation.
+- Antenna gain: `10 log10(η (π D / λ)²)` dBi. Free-space loss: `20 log10(4πr/λ)` dB.
+- Received carrier: assumed satellite EIRP + modeled dish gain − FSPL − manually assumed rain, pointing and cable losses.
+- Receiver equivalent temperature: `290 (10^(NF/10) − 1)` kelvin; system temperature adds user-assumed antenna temperature. Noise power: `10 log10(k Tsys B)` dBW, using a bandwidth of `symbolRate × (1 + rolloff)`.
+- **C/N = received carrier − noise power**. **Margin = C/N − assumed required C/N**, with no clamping or random jitter. **SIMULATED LOCK** denotes 3+ dB margin; **MARGINAL MODEL** denotes 0–3 dB; negative margin means **NO MODEL LOCK**.
+- The threshold lookup supports selected illustrative DVB-S/S2, QPSK/8PSK and FEC pairs only. It is **not** a normative DVB-S2 MODCOD performance reference and does not predict a real demodulator. The model omits beam footprint, practical pointing geometry, polarization mismatch details, interference, decoder margin, rain-region propagation and equipment calibration.
+
+### Data integrity and privacy
+
+- All fixtures and imported channels are labeled **illustrative/unverified listing names**, never received program IDs or confirmed free availability. Real broadcast parameters and encryption status must be checked with an authorized source and receiver.
+- Import is handled inside the browser, limited to **200 KB, 16 satellites and 120 transponders**, with explicit missing-field warnings; there is no scraping, backend, cloud upload, account, password, or tuner access.
+- The demo has **no relation to the TMDB credential**, film metadata, free internet TV links, or RCTV Living Room playback. The new lab is entirely separate.
+- This tool cannot decrypt broadcasts, bypass entitlements, serve external programs or prove real hardware signal lock. A separate local device adapter would be needed for observed RF measurements.
 ## v0.7: Living Room Mode
 
 **RCTV now has a ten-foot, remote-friendly browsing mode**, opened from the **Live TV & FTA** tab. It displays large destination panels, a scrollable directory rail, and readable access/region disclosures.

@@ -6,12 +6,14 @@ import { filterServices, formatWatchlist, pickTonight } from './logic'
 import { readWatchlist, saveWatchlist } from './storage'
 import PublicCatalog from './PublicCatalog'
 import LiveTV from './LiveTV'
+import FTALab from './FTALab'
 import type { TitleCard } from './tmdb'
 
 const nav: { id: Tab; label: string }[] = [
   { id: 'discover', label: 'Free sources' },
   { id: 'catalog', label: 'Film catalog' },
   { id: 'live', label: 'Live TV & FTA' },
+  { id: 'fta', label: 'FTA Simulator' },
   { id: 'watchlist', label: 'My watchlist' },
   { id: 'guide', label: 'The guide' },
 ]
@@ -130,7 +132,8 @@ function App() {
       </header>
 
       <main id="main-content" tabIndex={-1}>
-        {tab === 'live' && <LiveTV />}
+        {tab === 'live' && <LiveTV onOpenLab={() => changeTab('fta')} />}
+        {tab === 'fta' && <FTALab />}
         {tab === 'catalog' && <PublicCatalog savedKeys={items.map((item) => item.id)} onSave={addFromCatalog} onOpenWatchlist={() => changeTab('watchlist')} />}
         {tab === 'discover' && <>
           <section className="hero wrap">
