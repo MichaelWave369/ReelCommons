@@ -49,7 +49,7 @@ export default function PublicCatalog({ savedKeys, onSave, onOpenWatchlist }: Pr
         setSnapshot(published)
         setOrigin('network')
         setError('')
-        setRecoveryNotice(published.records.length ? 'Published catalog retrieved successfully.' : '')
+        setRecoveryNotice(published.records.length && refreshId > 0 ? 'Latest published catalog retrieved. Provider information is still a third-party report.' : '')
         const encoded = encodeSessionSnapshot(published)
         if (encoded) {
           try { window.sessionStorage.setItem(SESSION_SNAPSHOT_KEY, encoded) } catch { /* session storage unavailable */ }

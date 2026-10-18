@@ -6,6 +6,19 @@ ReelCommons is an original, independent, open-source directory for **legitimate 
 
 > **Scope honesty:** v0.1 is a curated **service directory**, not a live title-availability search engine. Provider links go to official homepages. Verify a specific title, ad load, cost, geographic restrictions, and accessibility features on the provider's site.
 
+## v0.5: The Evidence Desk
+
+**Accessibility and reliability upgrade:** A keyboard-accessible **Skip to main content** link, manual **Check for new snapshot** action, clear error and retry states, and explicit published snapshot age labels. Movie details include a readable evidence explanation and a **Copy evidence receipt** button.
+
+### What the receipt proves
+
+The text receipt names the title, viewing region, original TMDB title page, published timestamp, provider report timestamp, reported free and ad-supported provider names/IDs, and whether the copy is from the published site or a previous browser-session fallback. It states that ReelCommons has **not** independently tested playback or verified a direct service URL. Provider information is attributed to **JustWatch via TMDB**. No new API credentials or accounts are needed.
+
+### Failure behavior
+
+On successful retrieval, a **bounded public-data-only snapshot** is retained in browser **sessionStorage**. It excludes personal watchlists and API keys. If a later request fails, the app can display the last usable session copy with an obvious **BROWSER SESSION FALLBACK** warning. This is *not* presented as fresh streaming availability. Cached copies older than seven days, malformed documents, or suspicious external links are rejected. Browser storage may be disabled or wiped when the tab closes. Empty placeholders never overwrite a useful cached copy. The public provider directory and original watchlist continue to work independently.
+
+The **Check for new snapshot** button refetches the latest published static JSON; it does **not** request a new upstream TMDB scan. The automated GitHub Actions job still controls the refresh schedule. All earlier provider filtering and watchlist behavior is preserved.
 ## v0.4: The Trust Layer
 
 **Provider names now appear on the public catalog cards**, along with each title's region-specific report date. Visitors can filter the cached catalog by viewing region, movie/TV, reported access (free vs with ads), and individual streaming provider. Movie Night Roulette respects the active filters and still prefers unsaved titles.
