@@ -79,6 +79,7 @@ export default function PublicCatalog({ savedKeys, onSave, onOpenWatchlist }: Pr
     // Refresh attempts control this effect; snapshot is only used as a recovery fallback.
   }, [refreshId])
 
+  const providers = useMemo(() => providersForRegion(snapshot?.records ?? [], { region, mediaType, access }), [snapshot, region, mediaType, access])
   const titles = useMemo(() => visiblePublicTitles(snapshot?.records ?? [], { query, region, mediaType, access, provider }), [snapshot, query, region, mediaType, access, provider])
   const saved = useMemo(() => new Set(savedKeys), [savedKeys])
   const age = ageOfSnapshot(snapshot?.generatedAt ?? null)
