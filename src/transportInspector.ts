@@ -162,13 +162,18 @@ export function inspectTransportStream(
       if (!payload.length) { invalidPsiSections++; state.data = []; return }
       const pointer = payload[0]
       if (pointer + 1 > payload.length) { invalidPsiSections++; state.data = []; return }
-      if (pointer && state.data.length) invalidPsiSections += psiSections(state, payload.subarray(1, 1 + pointer), (section) => decodeSection(pid, section))
+      if (pointer && state.data.length) {
+        const malformed = psiSections(state, payload.subarray(1, 1 + pointer), (section) => decodeSection(pid, section))
+        invalidPsiSections += malformed
+      }
       // A PUSI section starts after pointer bytes. Any unfinished old section
       // is discarded, not merged with the new section.
       state.data = []
-      invalidPsiSections += psiSections(state, payload.subarray(1 + pointer), (section) => decodeSection(pid, section))
+      const malformed = psiSections(state, payload.subarray(1 + pointer), (section) => decodeSection(pid, section))
+      invalidPsiSections += malformed
     } else if (state.data.length) {
-      invalidPsiSections += psiSections(state, payload, (section) => decodeSection(pid, section))
+      const malformed = psiSections(state, payload, (section) => decodeSection(pid, section))
+      invalidPsiSections += malformed
     }
   }
 
@@ -253,8 +258,8 @@ export function transportEvidenceReceipt(report: TransportReport, name: string, 
       report.provenance === 'GENERATED_DEMO_BYTES'
         ? 'This is a generated educational fixture. No original broadcast or hardware observation exists.'
         : 'The file was user-selected and read locally; its origin and broadcaster authenticity were not independently verified.',
-      'PAT/PMT describe program structure, not actual RF lock or current satellite reception.',
-      'No media playback, decryption, tuner tuning, retransmission, or rights verification occurred.',
+      'PAT/PMT describe program structure, not live satellite reception or playable video. An MPEG-TS file does not prove an actual RF lock.',
+      'No media playback, decryption, tuner tuning, retransmission, or rights verification occurred; no actual RF lock was verified.',
     ],
   }, null, 2)
 }
