@@ -18,7 +18,7 @@ const clock = (stamp: string) => {
 }
 const pidHex = (pid: number): string => '0x' + pid.toString(16).toUpperCase().padStart(4, '0')
 
-export default function SignalBridge() {
+export default function SignalBridge({ onOpenScout }: { onOpenScout: () => void }) {
   const [observation, setObservation] = useState<FileObservation | null>(null)
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
@@ -154,6 +154,7 @@ export default function SignalBridge() {
         </div>
       </div>
     </div>
+    <div className="scout-bridge-teaser"><div><strong>v1.0 · LOCAL TUNER SCOUT</strong><p>Optionally inspect Windows device-name inventory, then bring a minimal JSON report into RCTV without opening a device or listening on a port.</p></div><button type="button" onClick={onOpenScout}>Open Tuner Scout ↗</button></div>
     <div className="sig-footer-note"><strong>WHAT COMES NEXT?</strong> A separately installed, explicitly authorized localhost tuner companion could someday produce read-only hardware observations. That will require device drivers, a secure local trust boundary, new tests, and an explicit distinction from arbitrary imported files. The public GitHub Pages app currently opens no devices or network ports.</div>
   </section>
 }

@@ -37,3 +37,11 @@
 .sig-lab-teaser p{font-size:12px;line-height:1.7;max-width:620px;color:#c4d7d5;margin:7px 0}
 .sig-lab-teaser button{min-height:45px;border:1px solid #b6fc83;background:#b6fc83;color:#18281e;border-radius:7px;padding:12px 15px;font-weight:900;font-size:12px}
 @media(max-width:900px){.primary-nav{overflow-x:auto;justify-content:flex-start;gap:18px}.nav-link{flex-shrink:0}}
+
+
+/* RCTV v1.0 companion launcher from Signal Bridge */
+.scout-bridge-teaser{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:17px;padding:20px 23px;margin-top:22px;background:linear-gradient(110deg,#224339,#26334d);border:1px solid #639e82;border-radius:9px}
+.scout-bridge-teaser strong{color:#b6fc83;letter-spacing:.1em;font-size:11px}
+.scout-bridge-teaser p{color:#bdcfcf;font-size:12px;line-height:1.7;max-width:640px;margin:7px 0}
+.scout-bridge-teaser button{background:#b6fc83;border:1px solid #b6fc83;color:#16241b;border-radius:7px;padding:13px 16px;font-weight:900;font-size:12px}
+@media(max-width:970px){.primary-nav{overflow-x:auto;gap:16px;justify-content:flex-start}.nav-link{flex-shrink:0}}
