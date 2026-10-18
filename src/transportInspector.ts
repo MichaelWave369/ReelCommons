@@ -20,7 +20,7 @@ export interface ProgramSummary {
 }
 export interface TransportReport {
   kind: 'RCTV_LOCAL_TRANSPORT_SAMPLE'
-  provenance: 'OBSERVED_LOCAL_FILE_BYTES'
+  provenance: 'OBSERVED_LOCAL_FILE_BYTES' | 'GENERATED_DEMO_BYTES'
   sampleBytes: number
   alignmentOffset: number
   packetSize: 188
@@ -104,7 +104,11 @@ function psiSections(state: PsiState, chunk: Uint8Array, emit: (section: Uint8Ar
   return bad
 }
 
-export function inspectTransportStream(bytes: Uint8Array, observedAt = new Date().toISOString()): TransportReport {
+export function inspectTransportStream(
+  bytes: Uint8Array,
+  observedAt = new Date().toISOString(),
+  provenance: TransportReport['provenance'] = 'OBSERVED_LOCAL_FILE_BYTES',
+): TransportReport {
   if (!(bytes instanceof Uint8Array)) throw new Error('Expected binary MPEG-TS bytes.')
   if (bytes.byteLength > MAX_TS_BYTES) throw new Error('Transport sample is over the 8 MiB inspection limit.')
   if (bytes.length < PACKET_SIZE * 3) throw new Error('At least three complete MPEG-TS packets are needed.')
@@ -222,7 +226,9 @@ export function inspectTransportStream(bytes: Uint8Array, observedAt = new Date(
     .sort((a, b) => b.packets - a.packets || a.pid - b.pid)
     .slice(0, 24)
   const warnings: string[] = [
-    'These results come from the first bounded bytes of a local file, not from observed RF hardware.',
+    provenance === 'GENERATED_DEMO_BYTES'
+      ? 'This is a generated synthetic MPEG-TS fixture, not a hardware observation or recording.'
+      : 'These results come from the first bounded bytes of a local file, not from observed RF hardware.',
     'PAT and PMT only identify declared service and elementary-stream mappings, not video decodability, stream rights or current reception.',
   ]
   if (!crcValidPatSections) warnings.push('No CRC-valid PAT found in the inspected sample.')
@@ -231,7 +237,7 @@ export function inspectTransportStream(bytes: Uint8Array, observedAt = new Date(
   if (continuityAnomalies || transportErrors) warnings.push('Packet continuity or transport-error flags were observed in the sample.')
   if (bytes.length - offset - packets * PACKET_SIZE > 0) warnings.push('Trailing partial packet bytes were ignored.')
   return {
-    kind: 'RCTV_LOCAL_TRANSPORT_SAMPLE', provenance: 'OBSERVED_LOCAL_FILE_BYTES',
+    kind: 'RCTV_LOCAL_TRANSPORT_SAMPLE', provenance,
     sampleBytes: bytes.byteLength, alignmentOffset: offset, packetSize: 188, packets,
     syncLosses, transportErrors, scrambledPackets, invalidAdaptationPackets, continuityAnomalies,
     crcValidPatSections, crcValidPmtSections, invalidPsiSections,
@@ -244,7 +250,9 @@ export function transportEvidenceReceipt(report: TransportReport, name: string, 
     schemaVersion: 1, file: { name: name.slice(0, 180), bytes: size, inspectedBytes: report.sampleBytes },
     report,
     limitations: [
-      'The file was user-selected and read locally; its origin and broadcaster authenticity were not independently verified.',
+      report.provenance === 'GENERATED_DEMO_BYTES'
+        ? 'This is a generated educational fixture. No original broadcast or hardware observation exists.'
+        : 'The file was user-selected and read locally; its origin and broadcaster authenticity were not independently verified.',
       'PAT/PMT describe program structure, not actual RF lock or current satellite reception.',
       'No media playback, decryption, tuner tuning, retransmission, or rights verification occurred.',
     ],
