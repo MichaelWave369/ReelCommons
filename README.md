@@ -6,6 +6,42 @@ ReelCommons is an original, independent, open-source directory for **legitimate 
 
 > **Scope honesty:** v0.1 is a curated **service directory**, not a live title-availability search engine. Provider links go to official homepages. Verify a specific title, ad load, cost, geographic restrictions, and accessibility features on the provider's site.
 
+## v1.0: Local Tuner Scout · Companion foundation
+
+**RCTV v1.0** introduces an explicit, opt-in Windows companion script and an RCTV **Tuner Scout** evidence screen. This is the first *local hardware inventory* rung; it is **not** a receiver driver, tuner controller, RF signal probe, satellite scan, video player, or SAT>IP server.
+
+### Quick start on Windows
+
+Install Python 3.10+ if necessary and clone or download this repository. From PowerShell in the repo root:
+
+```powershell
+py .\companion\tuner_scout.py --demo --out .\rctv-tuner-inventory-demo.json
+py .\companion\tuner_scout.py --scan --out .\rctv-tuner-inventory.json
+```
+
+The **demo** only writes two clearly fictional candidate devices. The **scan** explicitly invokes a fixed, read-only Windows PowerShell `Get-PnpDevice -PresentOnly` query, selecting only `FriendlyName`, `Class`, and `Status`. It attempts to identify potential broadcast tuners or SDR devices from display names, without connecting to them. No administrator privileges requested; no commands that install drivers or change hardware. **No localhost HTTP listener or network port is opened in v1.0.**
+
+The output JSON is written only to the local path supplied with `--out`. Existing output files are **not overwritten** unless `--force` is explicitly supplied. The report has at most 32 candidate records and contains **no instance IDs, serials, MAC addresses, IP addresses, username, machine name, channel streams or RF observations**. It does include the sanitized PnP display name/class/status and generation timestamp; review these before sharing.
+
+Open the **Tuner Scout** tab on ReelCommons GitHub Pages and import the generated JSON. Parsing is local to the browser and constrained to 80 KB, 32 candidates and the `RCTV_TUNER_SCOUT_V1` schema. No upload, tracking account, background scanner, external API or local-storage persistence.
+
+### Interpretation
+
+- `POSSIBLE_BROADCAST_TUNER` and `POSSIBLE_SDR` are **name-based guesses**, not proof of working tuners. SDR devices often cannot decode DVB/ATSC TV without specialized software or hardware.
+- Windows PnP status `OK` doesn't verify a compatible driver for RCTV, aerial/dish connection, successful RF lock, frequency tuning, demodulation, a decoded MPEG-TS stream, broadcasting rights, or live television.
+- The web app treats **all imported files as untrusted user-supplied evidence**, including ones labeling their source `WINDOWS_PNP_ENUMERATION`; imports cannot cryptographically authenticate their origin.
+- Import rejects any report asserting `hardwareLockObserved: true`, `signalMeasurementsAvailable: true` or `transportStreamDecoded: true`. Those authority levels need a different protocol and independent validation in a later hardware rung.
+- Reports use schema version 1 and remain separate from simulator calculations, MPEG-TS file results, RCTV provider catalogs, TMDB credentials, and watchlists.
+
+### Test and development
+
+```powershell
+py -m unittest discover -s companion -p 'test_*.py'
+npm test
+npm run build
+```
+
+CI runs the Python stdlib tests alongside the existing Vitest, TypeScript and Vite build. A future adapter might accept explicitly opted-in device-specific diagnostics with a fixed loopback-only endpoint after threat modeling, but v1.0 deliberately avoids any listeners, local service, automatic polling, and device commands.
 ## v0.9: Signal Bridge · Local Transport Inspector
 
 RCTV now includes a **Signal Bridge** tab, plus an entry from the FTA Simulator. It is a safe, bounded, **read-only local MPEG-TS file inspector**, the first practical phase of the future hardware Signal Bridge. It does **not** open a tuner, port, network socket or streaming player and does **not** upload user media.

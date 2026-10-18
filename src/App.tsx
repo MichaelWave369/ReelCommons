@@ -8,6 +8,7 @@ import PublicCatalog from './PublicCatalog'
 import LiveTV from './LiveTV'
 import FTALab from './FTALab'
 import SignalBridge from './SignalBridge'
+import TunerScout from './TunerScout'
 import type { TitleCard } from './tmdb'
 
 const nav: { id: Tab; label: string }[] = [
@@ -16,6 +17,7 @@ const nav: { id: Tab; label: string }[] = [
   { id: 'live', label: 'Live TV & FTA' },
   { id: 'fta', label: 'FTA Simulator' },
   { id: 'signal', label: 'Signal Bridge' },
+  { id: 'tuner', label: 'Tuner Scout' },
   { id: 'watchlist', label: 'My watchlist' },
   { id: 'guide', label: 'The guide' },
 ]
@@ -136,7 +138,8 @@ function App() {
       <main id="main-content" tabIndex={-1}>
         {tab === 'live' && <LiveTV onOpenLab={() => changeTab('fta')} />}
         {tab === 'fta' && <FTALab onOpenBridge={() => changeTab('signal')} />}
-        {tab === 'signal' && <SignalBridge />}
+        {tab === 'signal' && <SignalBridge onOpenScout={() => changeTab('tuner')} />}
+        {tab === 'tuner' && <TunerScout />}
         {tab === 'catalog' && <PublicCatalog savedKeys={items.map((item) => item.id)} onSave={addFromCatalog} onOpenWatchlist={() => changeTab('watchlist')} />}
         {tab === 'discover' && <>
           <section className="hero wrap">

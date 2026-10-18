@@ -22,6 +22,7 @@ SCHEMA = "RCTV_TUNER_SCOUT_V1"
 MAX_CANDIDATES = 32
 MAX_STDOUT_BYTES = 2_000_000
 SCAN_COMMAND = (
+    "[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false); "
     "Get-PnpDevice -PresentOnly -ErrorAction Stop | "
     "Select-Object -Property FriendlyName,Class,Status | "
     "ConvertTo-Json -Compress -Depth 2"
