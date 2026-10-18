@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import DeviceDiagnostics from './DeviceDiagnostics'
 import type { ChangeEvent } from 'react'
 import {
   DEMO_SCOUT_REPORT, MAX_SCOUT_JSON_BYTES, parseScoutReport, scoutEvidenceReceipt,
@@ -55,7 +56,7 @@ export default function TunerScout() {
   }
 
   return <section className="scout-page wrap" aria-labelledby="scout-heading">
-    <div className="eyebrow">RCTV ENGINEERING / EXPERIMENT 010 · WINDOWS COMPANION</div>
+    <div className="eyebrow">RCTV ENGINEERING / EXPERIMENT 011 · WINDOWS COMPANION</div>
     <div className="scout-hero">
       <div>
         <span className="scout-kicker"><span/>THE LOCAL BRIDGE BEGINS HERE</span>
@@ -113,6 +114,7 @@ export default function TunerScout() {
         </>}
       </div>
     </div>
+    <DeviceDiagnostics />
     <div className="scout-next"><strong>NEXT ENGINEERING RUNG</strong><p>Once compatible hardware is identified, we can research driver-specific, strictly opt-in telemetry with a separate local trust boundary. That would be a new review and a new test gate, never silently promoted from this inventory.</p></div>
   </section>
 }
