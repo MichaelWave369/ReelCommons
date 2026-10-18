@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import type { CSSProperties, FormEvent } from 'react'
+import type { FormEvent, ReactNode } from 'react'
 import { moods, serviceKinds, services } from './catalog'
 import type { MediaKind, Mood, Service, ServiceFilter, Tab, WatchItem } from './catalog'
 import { filterServices, formatWatchlist, pickTonight } from './logic'
@@ -12,7 +12,7 @@ const nav: { id: Tab; label: string }[] = [
 ]
 
 function Icon({ name, size = 20 }: { name: 'play' | 'arrow' | 'search' | 'plus' | 'check' | 'spark' | 'close' | 'external' | 'shuffle' | 'copy'; size?: number }) {
-  const paths: Record<typeof name, React.ReactNode> = {
+  const paths: Record<typeof name, ReactNode> = {
     play: <path d="m8 5 11 7-11 7V5Z" />,
     arrow: <><path d="M5 12h14" /><path d="m13 6 6 6-6 6" /></>,
     search: <><circle cx="11" cy="11" r="7" /><path d="m16 16 5 5" /></>,
