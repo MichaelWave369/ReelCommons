@@ -82,7 +82,7 @@ export function parseScoutReport(raw: string): ScoutReport {
   // Canonical projection deliberately discards all undeclared extra fields.
   return {
     schema: TUNER_SCOUT_SCHEMA, source: json.source,
-    generatedAt: json.generatedAt, platform: json.platform,
+    generatedAt: json.generatedAt, platform: json.source === 'SYNTHETIC_DEMO' ? 'Synthetic' : 'Windows',
     candidateOnly: true, scanResult, truncated: json.truncated,
     devices, rf: {
       hardwareLockObserved: false,
