@@ -5,6 +5,7 @@ import {
   kindFilters, liveSources, parseFavorites, pickSource,
 } from './liveTv'
 import type { GenreFilter, LiveSource, SourceFilter } from './liveTv'
+import LivingRoom from './LivingRoom'
 import './live-tv.css'
 
 const kindNames = { fast: 'FREE INTERNET TV', public: 'PUBLIC LIVESTREAM', antenna: 'OVER-THE-AIR FTA' } as const
@@ -22,6 +23,7 @@ export default function LiveTV() {
   const [favoritesOnly, setFavoritesOnly] = useState(false)
   const [pick, setPick] = useState<string | null>(null)
   const [notice, setNotice] = useState('')
+  const [roomRoster, setRoomRoster] = useState<LiveSource[] | null>(null)
 
   const visible = useMemo(() => filterLiveSources(liveSources, {
     kind, genre, query: search, favoritesOnly, favorites,
@@ -102,7 +104,7 @@ export default function LiveTV() {
   }
 
   return <section className="rc-live-page wrap" aria-labelledby="rc-live-heading">
-    <div className="eyebrow">THE COMMON SCREEN / RCTV v0.6</div>
+    <div className="eyebrow">THE COMMON SCREEN / RCTV v0.7</div>
     <div className="rc-live-hero">
       <div className="rc-live-hero-copy">
         <div className="rc-live-overline"><span className="rc-live-signal" /> THE AIRWAVES ARE OPEN</div>
@@ -116,12 +118,17 @@ export default function LiveTV() {
       </div>
       <div className="rc-live-hero-visual" aria-hidden="true">
         <div className="rc-live-screen">
-          <div className="rc-live-scan"><span>RCTV</span><strong>FREE<br/>TO<br/>EXPLORE</strong><small>THE COMMON SCREEN · CH 06</small></div>
+          <div className="rc-live-scan"><span>RCTV</span><strong>FREE<br/>TO<br/>EXPLORE</strong><small>THE COMMON SCREEN · CH 07</small></div>
           <div className="rc-live-screen-stand" />
         </div>
         <div className="rc-live-antenna" />
         <span className="rc-live-ring rc-live-ring-one" /><span className="rc-live-ring rc-live-ring-two" />
       </div>
+    </div>
+
+    <div className="rc-room-launcher">
+      <div><span className="rc-room-launcher-icon" aria-hidden="true">▣</span><div><strong>Living Room Mode</strong><p>Big-screen browsing with remote-style controls, favorites and 1–9 directory shortcuts.</p></div></div>
+      <button className="rc-room-open" type="button" onClick={() => setRoomRoster([...visible])} disabled={visible.length === 0} aria-haspopup="dialog">Open Living Room Mode ↗</button>
     </div>
 
     <div className="rc-live-truth"><span aria-hidden="true">ⓘ</span><p><strong>What's actually live here?</strong> These are official <em>service and reception-guide destinations</em>, not individual streams or a real-time program schedule. ReelCommons doesn't rebroadcast video, scrape IPTV playlists, remove advertisements, or claim that a channel is airing right now. Playback and availability depend on the provider or your antenna reception.</p></div>
@@ -165,6 +172,7 @@ export default function LiveTV() {
       </div>
       <div className="rc-live-footnote">All service names belong to their respective owners. ReelCommons is independent, does not host or provide live channel streams, and earns no revenue from these links. Links lead to provider-owned sites. Channel availability, technical requirements, service areas, advertising and terms can change.</div>
     </div>
+    {roomRoster && <LivingRoom sources={roomRoster} favorites={favorites} onFavoriteToggle={toggleFavorite} onClose={() => setRoomRoster(null)} />}
     <div className="rc-live-footer-link"><button onClick={() => document.getElementById('rc-live-heading')?.scrollIntoView({ behavior: 'smooth' })}>↑ Back to the tuner</button><span>Navigation tip: focus an “Open official guide” link, then use arrow keys to move among destinations.</span></div>
   </section>
 }

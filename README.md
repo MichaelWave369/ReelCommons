@@ -6,6 +6,19 @@ ReelCommons is an original, independent, open-source directory for **legitimate 
 
 > **Scope honesty:** v0.1 is a curated **service directory**, not a live title-availability search engine. Provider links go to official homepages. Verify a specific title, ad load, cost, geographic restrictions, and accessibility features on the provider's site.
 
+## v0.7: Living Room Mode
+
+**RCTV now has a ten-foot, remote-friendly browsing mode**, opened from the **Live TV & FTA** tab. It displays large destination panels, a scrollable directory rail, and readable access/region disclosures.
+
+- **Keyboard remote:** `←`/`→` or `↑`/`↓` switch official directory destinations; `Home` and `End` jump to first/last; `1`–`9` select visible directory slots; `F` toggles that source as a local favorite; `Esc` closes the mode. On-screen Previous, Next, Surprise Me, Favorite and Exit controls work with mouse, keyboard and touch.
+- **Selected lineup:** The mode starts with the sources matching your current Live TV filters, in their original order. The lineup is held steady for that viewing session even if you toggle a favorite. Exit and reopen to apply changed filters.
+- **Official handoff:** Each entry has a clear, focusable link to its original streaming service or reception guide, opening a new tab. This app is an independent directory, **not** a player, electronic program guide, or proof that an individual channel is live.
+- **No new accounts or secrets:** The mode uses the existing static official-source directory and browser-local favorites; movie metadata, watchlists, and TMDB refresh are unchanged.
+- **Accessibility:** Dialog focus containment, restore of previous keyboard focus after closing, an accessible exit button, large targets, and a motion-reduction preference.
+
+**Important:** The `01`–`09` numbers are **ReelCommons directory slots**, not terrestrial TV channels, satellite frequencies, cable channel numbers, or broadcaster schedules. FAST services, PBS/NASA programming, and real antenna reception remain distinct.
+
+RCTV's Living Room Mode occupies the browser viewport; if opened within an external iframe such as Field Atlas, its visual space is limited by that iframe. Visitors can open ReelCommons in a standalone tab for a fuller view. The interface does not request browser fullscreen or permission to play third-party streams.
 ## v0.6: RCTV Live TV & FTA
 
 The new **Live TV & FTA** tab introduces a visually rich, original, keyboard-friendly guide to legitimate free **internet television** and **free-to-air broadcast reception**.
