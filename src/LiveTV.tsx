@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import type { KeyboardEvent } from 'react'
 import {
-  FAVORITES_STORAGE_KEY, filterLiveSources, genreFilters, isOfficialSourceUrl,
+  FAVORITES_STORAGE_KEY, filterLiveSources, genreFilters,
   kindFilters, liveSources, parseFavorites, pickSource,
 } from './liveTv'
 import type { GenreFilter, LiveSource, SourceFilter } from './liveTv'
