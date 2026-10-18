@@ -50,18 +50,63 @@ export function parsePublicSnapshot(value: unknown): PublicSnapshot {
   }
 }
 
+export type AccessFilter = 'all' | 'free' | 'ads'
+export type ProviderFilter = number | 'all'
+
+export function providersForRegion(
+  items: PublicTitle[],
+  { region, mediaType, access }: { region: string; mediaType: MediaType | 'all'; access: AccessFilter },
+): PublicProvider[] {
+  const options = new Map<number, PublicProvider>()
+  for (const item of items) {
+    if (mediaType !== 'all' && mediaType !== item.mediaType) continue
+    const report = item.availabilityByRegion[region]
+    if (!report) continue
+    const list = access === 'free' ? report.free : access === 'ads' ? report.ads : [...report.free, ...report.ads]
+    for (const provider of list) {
+      if (Number.isInteger(provider.provider_id) && typeof provider.provider_name === 'string') {
+        options.set(provider.provider_id, provider)
+      }
+    }
+  }
+  return [...options.values()].sort((a, b) => a.provider_name.localeCompare(b.provider_name))
+}
+
 export function visiblePublicTitles(
   items: PublicTitle[],
-  { query, region, mediaType }: { query: string; region: string; mediaType: MediaType | 'all' },
+  {
+    query, region, mediaType, access = 'all', provider = 'all',
+  }: {
+    query: string
+    region: string
+    mediaType: MediaType | 'all'
+    access?: AccessFilter
+    provider?: ProviderFilter
+  },
 ): PublicTitle[] {
   const q = query.trim().toLocaleLowerCase()
   return items.filter((item) => {
     if (mediaType !== 'all' && item.mediaType !== mediaType) return false
-    const available = item.availabilityByRegion[region]
-    if (!available || !(available.free?.length > 0 || available.ads?.length > 0)) return false
+    const report = item.availabilityByRegion[region]
+    if (!report) return false
+    const options = access === 'free' ? report.free : access === 'ads' ? report.ads : [...report.free, ...report.ads]
+    if (!options.length) return false
+    if (provider !== 'all' && !options.some((entry) => entry.provider_id === provider)) return false
     if (!q) return true
-    return [item.title, item.overview, item.year, ...(item.genres || []).map((g) => g.name)].join(' ').toLocaleLowerCase().includes(q)
+    return [item.title, item.overview, item.year, ...(item.genres || []).map((g) => g.name)]
+      .join(' ').toLocaleLowerCase().includes(q)
   })
+}
+
+export function shortProviderLabels(
+  report: RegionAvailability | undefined,
+  access: AccessFilter = 'all',
+  limit = 2,
+): { labels: string[]; extra: number } {
+  if (!report) return { labels: [], extra: 0 }
+  const options = access === 'free' ? report.free : access === 'ads' ? report.ads : [...report.free, ...report.ads]
+  const distinct = [...new Map(options.map((p) => [p.provider_id, p.provider_name])).values()]
+  return { labels: distinct.slice(0, limit), extra: Math.max(0, distinct.length - limit) }
 }
 
 export function ageOfSnapshot(iso: string | null, now = Date.now()): { days: number; stale: boolean } | null {
