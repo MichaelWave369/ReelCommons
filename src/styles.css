@@ -18,3 +18,14 @@
 /* Five-tab main navigation: scroll instead of clipping smaller displays. */
 @media(max-width:900px){.primary-nav{gap:18px}}
 @media(max-width:750px){.primary-nav{overflow-x:auto;overscroll-behavior-x:contain;justify-content:flex-start;gap:21px;scrollbar-width:thin}.nav-link{flex-shrink:0}}
+
+
+/* RCTV v0.8 educational satellite lab entry point, no hardware connection. */
+.fta-live-teaser{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;margin:15px 0;padding:19px 22px;border:1px solid #61846e;border-radius:9px;background:linear-gradient(110deg,#244033,#253149)}
+.fta-live-teaser strong{font-size:11px;color:#b6fc83;letter-spacing:.12em;font-weight:900}
+.fta-live-teaser p{font-size:12px;line-height:1.7;color:#c4d2db;max-width:620px;margin:6px 0}
+.fta-live-teaser button{min-height:45px;border:1px solid #b6fc83;border-radius:7px;background:#b6fc83;color:#14251a;padding:11px 16px;font-size:12px;font-weight:900}
+@media(max-width:1250px){.primary-nav{gap:17px}}
+@media(max-width:1050px){.header-label{display:none}}
+@media(max-width:900px){.primary-nav{gap:11px}}
+@media(max-width:750px){.primary-nav{gap:20px;overflow-x:auto;justify-content:flex-start}.nav-link{flex-shrink:0}}

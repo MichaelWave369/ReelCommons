@@ -15,7 +15,7 @@ function initialFavorites(): string[] {
   catch { return [] }
 }
 
-export default function LiveTV() {
+export default function LiveTV({ onOpenLab }: { onOpenLab: () => void }) {
   const [kind, setKind] = useState<SourceFilter>('all')
   const [genre, setGenre] = useState<GenreFilter>('all')
   const [search, setSearch] = useState('')
@@ -131,6 +131,10 @@ export default function LiveTV() {
       <button className="rc-room-open" type="button" onClick={() => setRoomRoster([...visible])} disabled={visible.length === 0} aria-haspopup="dialog">Open Living Room Mode ↗</button>
     </div>
 
+    <div className="fta-live-teaser">
+      <div><strong>NEW · VIRTUAL FTA RECEIVER</strong><p>Try dish size, satellite geometry and RF signal modeling using educational transponder examples or your own locally imported JSON.</p></div>
+      <button type="button" onClick={onOpenLab}>Explore FTA Simulator ↗</button>
+    </div>
     <div className="rc-live-truth"><span aria-hidden="true">ⓘ</span><p><strong>What's actually live here?</strong> These are official <em>service and reception-guide destinations</em>, not individual streams or a real-time program schedule. ReelCommons doesn't rebroadcast video, scrape IPTV playlists, remove advertisements, or claim that a channel is airing right now. Playback and availability depend on the provider or your antenna reception.</p></div>
 
     <div className="rc-live-filter-panel">
