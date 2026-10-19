@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { CAMERA_FORMAT_LABELS } from './openStreams'
 import type { OpenStream } from './openStreams'
 import {
-  EMPTY_TOUR_PASSPORT, getTourStop, markTourStop, nextTourIndex,
+  getTourStop, markTourStop, nextTourIndex,
   readTourPassport, tourPassportReceipt, tourProgress, unmarkTourStop,
   WORLD_TOUR_KEY, WORLD_TOURS,
 } from './worldTour'
@@ -67,7 +67,7 @@ export default function WorldTour({ onPreview }: { onPreview: (source: OpenStrea
       'RCTV World Tour · ' + activeTour.name,
       activeTour.description,
       'Official camera destinations (source-controlled, uptime not guaranteed):',
-      ...activeTour.stops.map((step, index) => {
+      ...activeTour.stops.map((_, index) => {
         const station = getTourStop(activeTour, index)
         return station ? (index + 1) + '. ' + station.name + '\n' + station.officialUrl : ''
       }),
