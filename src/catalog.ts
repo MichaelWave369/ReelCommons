@@ -2,7 +2,7 @@ export type ServiceKind = 'ads' | 'library' | 'public'
 export type Mood = 'all' | 'comfort' | 'curious' | 'energy' | 'nostalgia'
 export type ServiceFilter = ServiceKind | 'all'
 export type MediaKind = 'Movie' | 'Series'
-export type Tab = 'discover' | 'catalog' | 'live' | 'fta' | 'signal' | 'tuner' | 'watchlist' | 'guide'
+export type Tab = 'discover' | 'catalog' | 'live' | 'openstreams' | 'fta' | 'signal' | 'tuner' | 'watchlist' | 'guide'
 
 export interface Service {
   id: string
