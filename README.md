@@ -6,6 +6,49 @@ ReelCommons is an original, independent, open-source directory for **legitimate 
 
 > **Scope honesty:** v0.1 is a curated **service directory**, not a live title-availability search engine. Provider links go to official homepages. Verify a specific title, ad load, cost, geographic restrictions, and accessibility features on the provider's site.
 
+## v1.4: City & Nature Cameras · The World Window
+
+RCTV expands **Open Streams Commons** from **14 to 34 hand-reviewed, official destinations** with dedicated **City Cams** and **Nature Cams** wings. All 20 new entries are publisher-owned source links, not third-party re-hosts. The existing RCTV film library, FAST/live TV guides, radio, space, FTA lab, Signal Bridge and Tuner Scout are unchanged.
+
+### City cams: seven places
+
+- **New York City:** EarthCam's Times Square cameras.
+- **London:** Abbey Road Studios' famous crossing webcam.
+- **New Orleans:** EarthCam's Bourbon Street / French Quarter view.
+- **Las Vegas:** EarthCam's Las Vegas/Strip skyline and desert backdrop.
+- **Tokyo:** SkylineWebcams' streets of Shibuya.
+- **Venice:** SkylineWebcams' Grand Canal.
+- **Rome:** SkylineWebcams' Trevi Fountain.
+
+### Nature cams: thirteen places and collections
+
+- **National parks (5):** Yellowstone's Old Faithful webcam directory, Yosemite Valley/High Sierra cameras, Grand Canyon South Rim cameras, Glacier National Park, Rocky Mountain National Park.
+- **Volcano observatories (2):** USGS Kīlauea summit and Mauna Loa thermal webcam images.
+- **Wildlife (4):** Smithsonian National Zoo pandas and all-zoo cam directory, Cornell Lab's Bird Cam directory and FeederWatch camera.
+- **Aquarium/ocean (2):** Aquarium of the Pacific and Georgia Aquarium official webcam directories.
+
+Browse via **Open Streams → City Cams** or **Nature Cams**, or use the new **city/nature passport** shortcuts. The second-level filters support *City streets, Landmarks, National parks, Volcanoes, Wildlife, and Ocean life*. Search, Surprise Me, favorites, source details and existing opt-in NASA/KEXP playback continue to work. Saved IDs are recognized across all 34 items.
+
+### What counts as a live camera?
+
+The new catalog distinguishes provider-described types:
+
+- **PROVIDER-LISTED VIDEO**: A publisher lists the destination as a live video camera; neither RCTV nor CI confirms it is online or broadcasting at this instant.
+- **REFRESHED STILL IMAGES**: A park, weather or scientific webcam can publish periodically refreshed frames instead of continuous moving video. The Grand Canyon NPS page notes roughly one- or fifteen-minute refreshes depending on view; check each image timestamp.
+- **VARIABLE / SCHEDULED**: A directory mixes different camera types, a feed may be seasonal, or video might switch to a replay. The Smithsonian giant panda camera explicitly uses a replay after 7 p.m. Eastern.
+
+**Rights and source integrity:** Even publicly visible cameras can have strict terms. Yosemite National Park says that permission to *feature Yosemite Conservancy webcams* requires a usage agreement. RCTV **does not embed or copy** those images. Likewise, EarthCam, SkylineWebcams, Abbey Road, Smithsonian, Cornell and aquarium cameras stay in their **official provider players**. No new raw HLS endpoints, copied YouTube embeds, image hotlinks, scrapers, camera downloads, live-status claims or retransmissions are introduced.
+
+Every entry has a named publisher, official HTTPS destination, geographical context, rights note, view type and uptime/seasonality caveat. The underlying curated metadata is independently written for RCTV. Third-party video, images, names and trademarks remain theirs. Public camera visibility is not a license to use their media elsewhere.
+
+### Source review reference links
+
+- Cities: [EarthCam Times Square](https://www.earthcam.com/usa/newyork/timessquare/), [Abbey Road Studios Crossing](https://www.abbeyroad.com/crossing), [EarthCam Bourbon Street](https://www.earthcam.com/usa/louisiana/neworleans/bourbonstreet/), [SkylineWebcams Venice](https://www.skylinewebcams.com/en/webcam/italia/veneto/venezia/canal-grande.html), [Shibuya](https://www.skylinewebcams.com/en/webcam/japan/kanto/tokyo/streets-of-shibuya.html) and [Rome](https://www.skylinewebcams.com/en/webcam/italia/lazio/roma/fontana-di-trevi.html).
+- Parks: [Yellowstone NPS](https://www.nps.gov/yell/learn/photosmultimedia/webcams.htm), [Yosemite NPS and usage agreement note](https://www.nps.gov/yose/learn/photosmultimedia/webcams.htm), [Grand Canyon NPS](https://www.nps.gov/grca/learn/photosmultimedia/webcams.htm), [Glacier NPS](https://www.nps.gov/glac/learn/photosmultimedia/webcams.htm), and [Rocky Mountain NPS](https://www.nps.gov/romo/learn/photosmultimedia/webcams.htm).
+- Wildlife/science: [USGS HVO webcams](https://volcanoes.usgs.gov/observatories/hvo/cams/panorama.php?cam=V3cam), [Smithsonian panda camera](https://nationalzoo.si.edu/webcams/panda-cam), [Cornell Bird Cams](https://www.allaboutbirds.org/cams/all-cams/), [Aquarium of the Pacific](https://www.aquariumofpacific.org/exhibits/webcams), and [Georgia Aquarium](https://www.georgiaaquarium.org/webcam/).
+
+Tests in \`src/cameraCatalog.test.ts\` verify unique catalog IDs, safe HTTPS official domains, explicit non-embedding for all added cameras, type labels, scene categories and local favorite handling. **Provider playback is not checked automatically**; after GitHub Pages deploys, spot-check destinations in a real browser.
+
 ## v1.3: Open Streams Commons · Official internet TV, radio, nature and space
 
 RCTV adds an original **Open Streams** tab, plus a launcher from **Live TV & FTA**. This is a manually curated starting point for **legitimate free internet viewing**, distinct from the **FTA satellite simulator**, **MPEG-TS local-file inspector**, **Windows hardware diagnostics** and **radio-frequency reception**. No tuner or receiver hardware is needed to use Open Streams.
