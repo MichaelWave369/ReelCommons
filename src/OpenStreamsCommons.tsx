@@ -1,24 +1,26 @@
 import { useMemo, useState } from 'react'
 import type { ChangeEvent } from 'react'
 import {
-  COMMONS_FAVORITES_KEY, filterOpenStreams, OPEN_STREAMS, playableUrl,
-  playbackLabel, readCommonsFavorites, STREAM_CATEGORIES,
+  CAMERA_FORMAT_LABELS, CAMERA_SCENE_FILTERS, COMMONS_FAVORITES_KEY, filterCameraScene,
+  filterOpenStreams, playableUrl, playbackLabel, readCommonsFavorites, STREAM_CATEGORIES,
 } from './openStreams'
-import type { OpenStream, StreamCategory } from './openStreams'
+import type { CameraScene, OpenStream, StreamCategory } from './openStreams'
+import { ALL_OPEN_STREAMS, CAMERA_COUNTS } from './cameraCatalog'
 import { inspectLocalM3u, MAX_PLAYLIST_BYTES } from './m3uInspection'
 import type { PlaylistInspection } from './m3uInspection'
 import './open-streams.css'
 
 function initialFavorites(): string[] {
-  try { return readCommonsFavorites(window.localStorage.getItem(COMMONS_FAVORITES_KEY)) }
+  try { return readCommonsFavorites(window.localStorage.getItem(COMMONS_FAVORITES_KEY), ALL_OPEN_STREAMS) }
   catch { return [] }
 }
 const categoryNames: Record<StreamCategory, string> = {
-  tv: 'LIVE TV', radio: 'INTERNET RADIO', earth: 'LIVE EARTH', space: 'SPACE & SCIENCE',
+  tv: 'LIVE TV', radio: 'INTERNET RADIO', earth: 'LIVE EARTH', space: 'SPACE & SCIENCE', city: 'CITY CAMS', nature: 'NATURE CAMS',
 }
 export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () => void }) {
   const [category, setCategory] = useState<StreamCategory | 'all'>('all')
   const [query, setQuery] = useState('')
+  const [cameraScene, setCameraScene] = useState<CameraScene | 'all'>('all')
   const [favorites, setFavorites] = useState<string[]>(initialFavorites)
   const [favoritesOnly, setFavoritesOnly] = useState(false)
   const [selectedId, setSelectedId] = useState('nasa-iss')
@@ -30,9 +32,9 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
   const [showPlaylist, setShowPlaylist] = useState(false)
 
   const visible = useMemo(() =>
-    filterOpenStreams(OPEN_STREAMS, category, query, favorites, favoritesOnly),
-  [category, query, favorites, favoritesOnly])
-  const selected = OPEN_STREAMS.find((item) => item.id === selectedId) ?? OPEN_STREAMS[0]
+    filterCameraScene(filterOpenStreams(ALL_OPEN_STREAMS, category, query, favorites, favoritesOnly), cameraScene),
+  [category, query, favorites, favoritesOnly, cameraScene])
+  const selected = ALL_OPEN_STREAMS.find((item) => item.id === selectedId) ?? ALL_OPEN_STREAMS[0]
   const allowedMediaUrl = playableUrl(selected)
   const mediaOn = mediaLoadedFor === selected.id && allowedMediaUrl !== null
   const officialUrl = selected.officialUrl
@@ -80,27 +82,35 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
     setShowPlaylist(true)
   }
   return <section className="osc-page wrap" aria-labelledby="osc-heading">
-    <div className="eyebrow">THE COMMON SCREEN / RCTV v1.3 · OPEN STREAMS COMMONS</div>
+    <div className="eyebrow">THE COMMON SCREEN / RCTV v1.4 · OPEN STREAMS COMMONS</div>
     <div className="osc-hero">
       <div className="osc-hero-copy">
         <span className="osc-overline"><span className="osc-signal" /> LEGITIMATE CHANNELS · ENDLESS CURIOSITY</span>
         <h1 id="osc-heading">The whole world.<br/><em>One channel away.</em></h1>
-        <p>Explore official free television, independent internet radio, living nature cameras and space missions. Discover freely. Watch through supported official players. No mystery IPTV lists, copied streams or sign-up here.</p>
-        <div className="osc-stat-line"><span><strong>{OPEN_STREAMS.length}</strong> Curated destinations</span><span><strong>4</strong> Commons wings</span><span><strong>0</strong> Rebroadcast servers</span></div>
+        <p>Explore official free television, internet radio, bustling city cams, national parks, wildlife, volcanoes, ocean habitats and space missions. Discover freely. Watch through supported official players. No mystery IPTV lists, copied streams or sign-up here.</p>
+        <div className="osc-stat-line"><span><strong>{ALL_OPEN_STREAMS.length}</strong> Curated destinations</span><span><strong>6</strong> Commons wings</span><span><strong>0</strong> Rebroadcast servers</span></div>
       </div>
       <div className="osc-hero-art" aria-hidden="true">
         <div className="osc-planet"><span>◎</span></div>
         <strong>RCTV<span>OPEN</span></strong>
-        <small>TV · RADIO · NATURE · SPACE</small>
+        <small>TV · RADIO · CITIES · NATURE · SPACE</small>
       </div>
     </div>
     <div className="osc-honesty"><strong>FREE TO WATCH ≠ FREE TO REBROADCAST.</strong> Sources below link to the original owners. Media is never fetched, proxied, redistributed or recorded by RCTV. Where no reviewed embed or broadcaster-published listening link exists, the official website is the player. Live availability is not monitored and may change.</div>
 
     <div className="osc-category-bar" role="group" aria-label="Open Streams categories">
-      {STREAM_CATEGORIES.map((choice) => <button type="button" key={choice.id} className={category === choice.id ? 'active' : ''} aria-pressed={category === choice.id} onClick={() => setCategory(choice.id)}>
-        <span aria-hidden="true">{choice.icon}</span>{choice.label}<small>{choice.id === 'all' ? OPEN_STREAMS.length : OPEN_STREAMS.filter((s) => s.category === choice.id).length}</small>
+      {STREAM_CATEGORIES.map((choice) => <button type="button" key={choice.id} className={category === choice.id ? 'active' : ''} aria-pressed={category === choice.id} onClick={() => { setCategory(choice.id); setCameraScene('all') }}>
+        <span aria-hidden="true">{choice.icon}</span>{choice.label}<small>{choice.id === 'all' ? ALL_OPEN_STREAMS.length : ALL_OPEN_STREAMS.filter((s) => s.category === choice.id).length}</small>
       </button>)}
     </div>
+
+    <section className="osc-cam-discovery" aria-label="City and nature camera overview">
+      <div><span className="osc-kicker">NEW · CITY & NATURE PASSPORT</span><strong>{CAMERA_COUNTS.cities} city windows · {CAMERA_COUNTS.nature} nature stations</strong><p>Walk the cities, visit a national park, watch a volcano or drift into an aquarium. Camera types are labeled: video, refreshed stills, or mixed schedules. No claim that every feed is live right now.</p></div>
+      <div className="osc-cam-shortcuts">
+        <button type="button" onClick={() => {setCategory('city');setCameraScene('all');setFavoritesOnly(false);setQuery('')}}>▤ Explore city cams</button>
+        <button type="button" onClick={() => {setCategory('nature');setCameraScene('all');setFavoritesOnly(false);setQuery('')}}>♧ Explore nature cams</button>
+      </div>
+    </section>
 
     <div className="osc-layout">
       <div className="osc-left">
@@ -110,15 +120,23 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
             <button type="button" aria-pressed={favoritesOnly} className={favoritesOnly ? 'active' : ''} onClick={() => setFavoritesOnly((on) => !on)}>★ Saved only ({favorites.length})</button>
             <button type="button" disabled={!visible.length} onClick={choose}>✳ Surprise me</button>
           </div>
+          {(category === 'city' || category === 'nature' || cameraScene !== 'all') &&
+            <div className="osc-scene-picker" role="group" aria-label="Camera viewpoint type">
+              {CAMERA_SCENE_FILTERS.map((scene) =>
+                <button type="button" key={scene.id} aria-pressed={cameraScene === scene.id}
+                  className={cameraScene === scene.id ? 'active' : ''}
+                  onClick={() => setCameraScene(scene.id)}>{scene.label}</button>)}
+            </div>}
           <p>{visible.length} official destinations match your filters. Selecting a card does not start playback.</p>
         </section>
         <div className="osc-grid" aria-label="Open Streams official channel catalog">
           {visible.map((item) => <article key={item.id} className={'osc-channel osc-tone-' + item.color + (selected.id === item.id ? ' selected' : '')}>
             <button type="button" className="osc-channel-select" aria-pressed={selected.id === item.id} onClick={() => selectSource(item)}>
               <span className="osc-card-header"><span>{categoryNames[item.category]}</span><span>{playbackLabel(item)}</span></span>
-              <span className="osc-card-icon" aria-hidden="true">{item.icon}</span>
+               <span className="osc-card-icon" aria-hidden="true">{item.icon}</span>
+              {item.cameraFormat && <span className="osc-camera-format">{CAMERA_FORMAT_LABELS[item.cameraFormat]}</span>}
               <strong>{item.name}</strong><span className="osc-card-tagline">{item.tagline}</span>
-              <span className="osc-card-tags">{item.tags.slice(0, 3).join(' · ')}</span>
+              <span className="osc-card-tags">{item.place ? item.place + ' · ' : ''}{item.tags.slice(0, item.place ? 1 : 3).join(' · ')}</span>
             </button>
             <div className="osc-card-footer">
               <button type="button" aria-pressed={favorites.includes(item.id)} className={favorites.includes(item.id) ? 'is-favorite' : ''}
@@ -128,7 +146,7 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
             </div>
           </article>)}
         </div>
-        {!visible.length && <div className="osc-none"><h3>No channels matched.</h3><p>Try another category or turn off the saved-only filter.</p><button onClick={() => {setCategory('all');setQuery('');setFavoritesOnly(false)}}>Reset channel filters</button></div>}
+        {!visible.length && <div className="osc-none"><h3>No channels matched.</h3><p>Try another category or turn off the saved-only filter.</p><button onClick={() => {setCategory('all');setQuery('');setCameraScene('all');setFavoritesOnly(false)}}>Reset channel filters</button></div>}
       </div>
 
       <div className="osc-right">
@@ -153,7 +171,9 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
             <a className="osc-official-btn" href={officialUrl} target="_blank" rel="noopener noreferrer">Open official player ↗</a>
           </div>
           {notice && <div className="osc-notice" role="status">{notice}<button onClick={() => setNotice('')} aria-label="Dismiss status">×</button></div>}
-          <div className="osc-source-note"><strong>RIGHTS & PLAYBACK LEDGER</strong><p>{selected.playbackNote}</p><p><b>Area:</b> {selected.region}</p><p><b>Source:</b> {selected.sourceEvidence}</p><p><b>Playback policy:</b> {selected.playback === 'official' ? 'Official destination only' : selected.playback === 'youtube-embed' ? 'Opt-in, platform-supported YouTube embed' : 'Opt-in, publisher-listed audio endpoint'}.</p></div>
+          <div className="osc-source-note"><strong>RIGHTS & PLAYBACK LEDGER</strong><p>{selected.playbackNote}</p><p><b>Area:</b> {selected.region}</p>{selected.cameraFormat &&
+            <p><b>Camera format:</b> {CAMERA_FORMAT_LABELS[selected.cameraFormat]}. Source-reported type only; not real-time availability verification.</p>}
+            {selected.place && <p><b>Viewpoint:</b> {selected.place}</p>}<p><b>Source:</b> {selected.sourceEvidence}</p><p><b>Playback policy:</b> {selected.playback === 'official' ? 'Official destination only' : selected.playback === 'youtube-embed' ? 'Opt-in, platform-supported YouTube embed' : 'Opt-in, publisher-listed audio endpoint'}.</p></div>
           <p className="osc-player-footnote">RCTV cannot confirm this channel is on air right now. Some embeds may be disabled or blocked; the official player link always remains available. No autoplay occurs on channel selection.</p>
         </section>
         <section className="osc-side-note"><h3>Already have a television?</h3><p>RCTV’s existing FAST guide, Living Room Mode and FTA hardware labs are still here. Open them without mixing up internet streams and terrestrial/satellite reception.</p><button type="button" onClick={() => {setMediaLoadedFor(null);onOpenLiveTV()}}>Explore Live TV & FTA ↗</button></section>

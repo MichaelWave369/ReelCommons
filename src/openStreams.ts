@@ -5,7 +5,9 @@
  * availability scan or stream-rights license. Source types remain separate
  * from playback capabilities, which are strictly allowlisted.
  */
-export type StreamCategory = 'tv' | 'radio' | 'earth' | 'space'
+export type StreamCategory = 'tv' | 'radio' | 'earth' | 'space' | 'city' | 'nature'
+export type CameraScene = 'streets' | 'landmarks' | 'national-parks' | 'volcanoes' | 'wildlife' | 'ocean'
+export type CameraFormat = 'video' | 'refreshed-still' | 'mixed'
 export type PlaybackPolicy = 'official' | 'youtube-embed' | 'published-audio'
 export interface OpenStream {
   id: string
@@ -25,6 +27,9 @@ export interface OpenStream {
   color: 'mint' | 'blue' | 'gold' | 'violet' | 'coral' | 'rose'
   icon: string
   sourceEvidence: string
+  cameraScene?: CameraScene
+  cameraFormat?: CameraFormat
+  place?: string
 }
 export const OPEN_STREAMS: readonly OpenStream[] = [
   {
@@ -148,6 +153,8 @@ export const STREAM_CATEGORIES: { id: StreamCategory | 'all'; label: string; ico
   { id: 'radio', label: 'Radio', icon: '♫' },
   { id: 'earth', label: 'Live Earth', icon: '⌁' },
   { id: 'space', label: 'Space & Science', icon: '✦' },
+  { id: 'city', label: 'City Cams', icon: '▤' },
+  { id: 'nature', label: 'Nature Cams', icon: '♧' },
 ]
 export function filterOpenStreams(
   sources: readonly OpenStream[],
@@ -161,6 +168,17 @@ export function filterOpenStreams(
     return !q || [source.name, source.tagline, source.description, source.region, ...source.tags]
       .join(' ').toLocaleLowerCase().includes(q)
   })
+}
+export const CAMERA_SCENE_FILTERS: { id: CameraScene | 'all'; label: string }[] = [
+  { id: 'all', label: 'All scenes' }, { id: 'streets', label: 'City streets' },
+  { id: 'landmarks', label: 'Landmarks' }, { id: 'national-parks', label: 'National parks' },
+  { id: 'volcanoes', label: 'Volcanoes' }, { id: 'wildlife', label: 'Wildlife' }, { id: 'ocean', label: 'Ocean life' },
+]
+export const CAMERA_FORMAT_LABELS: Record<CameraFormat, string> = {
+  video: 'PROVIDER-LISTED VIDEO', 'refreshed-still': 'REFRESHED STILL IMAGES', mixed: 'VARIABLE / SCHEDULED',
+}
+export function filterCameraScene(sources: readonly OpenStream[], scene: CameraScene | 'all'): OpenStream[] {
+  return scene === 'all' ? [...sources] : sources.filter((source) => source.cameraScene === scene)
 }
 export const COMMONS_FAVORITES_KEY = 'rctv-open-streams-favorites-v1'
 export function readCommonsFavorites(raw: string | null, sources: readonly OpenStream[] = OPEN_STREAMS): string[] {
