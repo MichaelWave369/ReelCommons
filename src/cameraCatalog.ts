@@ -4,7 +4,7 @@
  * 'video' / 'refreshed-still' means source-described format, not a live check.
  */
 import { OPEN_STREAMS } from './openStreams'
-import type { CameraFormat, CameraScene, OpenStream, StreamCategory } from './openStreams'
+import type { CameraFormat, CameraScene, OpenStream } from './openStreams'
 
 interface CameraSeed {
   id: string
