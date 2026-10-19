@@ -1,4 +1,7 @@
 import { useState } from 'react'
+import CustomTourBuilder from './CustomTourBuilder'
+import { CUSTOM_TOURS_STORAGE_KEY,customTourToWorldTour,parseCustomTourStore } from './customTours'
+import type { CustomTourStore } from './customTours'
 import { CAMERA_FORMAT_LABELS } from './openStreams'
 import type { OpenStream } from './openStreams'
 import {
@@ -9,6 +12,10 @@ import {
 import type { TourPassport, WorldTour } from './worldTour'
 import './world-tour.css'
 
+function initialCustomTours(): CustomTourStore {
+  try { return parseCustomTourStore(window.localStorage.getItem(CUSTOM_TOURS_STORAGE_KEY)) }
+  catch { return {version:1,tours:[]} }
+}
 function initialPassport(): TourPassport {
   try { return readTourPassport(window.localStorage.getItem(WORLD_TOUR_KEY)) }
   catch { return { version: 1, stampedOn: {} } }
@@ -27,14 +34,22 @@ export default function WorldTour({ onPreview }: { onPreview: (source: OpenStrea
   const [tourId, setTourId] = useState('neon-nights')
   const [stopIndex, setStopIndex] = useState(0)
   const [passport, setPassport] = useState<TourPassport>(initialPassport)
+  const [customStore, setCustomStore] = useState<CustomTourStore>(initialCustomTours)
   const [message, setMessage] = useState('')
-  const activeTour: WorldTour = WORLD_TOURS.find((tour) => tour.id === tourId) ?? WORLD_TOURS[0]
-  const stop = activeTour.stops[stopIndex]
-  const source = getTourStop(activeTour, stopIndex)
+  const allTours:WorldTour[] = [...WORLD_TOURS,...customStore.tours.map((record)=>customTourToWorldTour(record))]
+  const activeTour: WorldTour = allTours.find((tour) => tour.id === tourId) ?? WORLD_TOURS[0]
+  const safeIndex = Math.max(0,Math.min(stopIndex,activeTour.stops.length-1))
+  const stop = activeTour.stops[safeIndex]
+  const source = getTourStop(activeTour, safeIndex)
   const progress = tourProgress(activeTour, passport)
   const stamped = !!passport.stampedOn[stop.sourceId]
   const allStamps = Object.keys(passport.stampedOn).length
 
+  function persistCustom(next:CustomTourStore){
+    setCustomStore(next)
+    try {window.localStorage.setItem(CUSTOM_TOURS_STORAGE_KEY,JSON.stringify(next))}
+    catch {setMessage('Browser storage unavailable; these custom routes last only for this visit.')}
+  }
   function persist(next: TourPassport) {
     setPassport(next)
     try { window.localStorage.setItem(WORLD_TOUR_KEY, JSON.stringify(next)) }
@@ -54,7 +69,7 @@ export default function WorldTour({ onPreview }: { onPreview: (source: OpenStrea
       'You manually marked this stop explored. This does not verify that a live feed played.')
   }
   function setStep(direction: -1 | 1) {
-    setStopIndex((current) => nextTourIndex(current, activeTour, direction))
+    setStopIndex((current) => nextTourIndex(Math.min(current,activeTour.stops.length-1), activeTour, direction))
     setMessage('')
   }
   function clearPassport() {
@@ -85,10 +100,10 @@ export default function WorldTour({ onPreview }: { onPreview: (source: OpenStrea
   return <section className="wtd-shell" aria-labelledby="wtd-title">
     <div className="wtd-top">
       <div className="wtd-intro">
-        <span className="wtd-kicker">RCTV v1.5 · THE COMMONS TRAVEL CHANNEL</span>
+        <span className="wtd-kicker">RCTV v1.8 · THE COMMONS TRAVEL CHANNEL</span>
         <h2 id="wtd-title">World Tour <em>Mode.</em></h2>
-        <p>Channel-surf across the planet without losing your place. Six handcrafted routes connect real provider destinations, each with its own story, camera type and official viewing page.</p>
-        <div className="wtd-top-stats"><span><b>{WORLD_TOURS.length}</b> curated routes</span><span><b>{allStamps}</b> manually stamped stops</span><span><b>0</b> rebroadcasts</span></div>
+        <p>Channel-surf across the planet without losing your place. Ten handcrafted routes plus your own custom adventures connect official provider destinations, each with a story, camera type and trusted viewing page.</p>
+        <div className="wtd-top-stats"><span><b>{WORLD_TOURS.length}</b> curated routes + <b>{customStore.tours.length}</b> yours</span><span><b>{allStamps}</b> manually stamped stops</span><span><b>0</b> rebroadcasts</span></div>
       </div>
       <div className="wtd-top-actions"><button type="button" aria-expanded={expanded} aria-controls="rctv-world-tour-stage" onClick={() => { setExpanded((open) => !open); setMessage('') }}>
         {expanded ? '− Close World Tour' : '✈ Start exploring'}
@@ -98,7 +113,7 @@ export default function WorldTour({ onPreview }: { onPreview: (source: OpenStrea
       <div className="wtd-route-panel">
         <h3><span>01</span> Choose a journey</h3>
         <div className="wtd-tour-grid" aria-label="Guided World Tour itineraries">
-          {WORLD_TOURS.map((tour) => {
+          {allTours.map((tour) => {
             const routeProgress = tourProgress(tour, passport)
             return <button key={tour.id} type="button" className={'wtd-tour-card ' + (tour.id === activeTour.id ? 'active' : '') + ' wtd-accent-' + tour.accent}
               aria-pressed={tour.id === activeTour.id} onClick={() => changeTour(tour)}>
@@ -109,12 +124,13 @@ export default function WorldTour({ onPreview }: { onPreview: (source: OpenStrea
             </button>
           })}
         </div>
+        <CustomTourBuilder store={customStore} onStoreChange={persistCustom} onChoose={changeTour} />
         <p className="wtd-legal">A tour changes RCTV’s selected destination only when you choose Preview. All actual camera footage stays with its operator. This travel mode never opens external tabs or plays media automatically.</p>
       </div>
       <div className="wtd-stage-panel">
         <div className="wtd-stage-heading">
           <div><span className="wtd-kicker">02 · CURRENT STOP</span><h3>{activeTour.name}</h3><p>{activeTour.description}</p></div>
-          <span className="wtd-stop-index">STOP {stopIndex + 1} OF {activeTour.stops.length}</span>
+          <span className="wtd-stop-index">STOP {safeIndex + 1} OF {activeTour.stops.length}</span>
         </div>
         {source && <div className={'wtd-current wtd-accent-' + activeTour.accent}>
           <div className="wtd-current-symbol" aria-hidden="true">{source.icon}</div>
@@ -133,15 +149,15 @@ export default function WorldTour({ onPreview }: { onPreview: (source: OpenStrea
         <div className="wtd-stop-list" aria-label="Tour route stops">
           {activeTour.stops.map((routeStop, index) => {
             const station = getTourStop(activeTour, index)
-            return <button key={routeStop.sourceId} type="button" className={'wtd-stop-dot ' + (index === stopIndex ? 'active' : '') + (passport.stampedOn[routeStop.sourceId] ? ' stamped' : '')}
-              aria-current={index === stopIndex ? 'step' : undefined} aria-label={'Stop ' + (index + 1) + ': ' + (station?.name || routeStop.sourceId) +
+            return <button key={routeStop.sourceId} type="button" className={'wtd-stop-dot ' + (index === safeIndex ? 'active' : '') + (passport.stampedOn[routeStop.sourceId] ? ' stamped' : '')}
+              aria-current={index === safeIndex ? 'step' : undefined} aria-label={'Stop ' + (index + 1) + ': ' + (station?.name || routeStop.sourceId) +
                 (passport.stampedOn[routeStop.sourceId] ? ', marked explored' : '')}
               onClick={() => {setStopIndex(index);setMessage('')}}>{passport.stampedOn[routeStop.sourceId] ? '✓' : index + 1}</button>
           })}
         </div>
         <div className="wtd-nav">
-          <button type="button" onClick={() => setStep(-1)} disabled={stopIndex === 0}>← Previous stop</button>
-          <button type="button" onClick={() => setStep(1)} disabled={stopIndex === activeTour.stops.length - 1}>Next stop →</button>
+          <button type="button" onClick={() => setStep(-1)} disabled={safeIndex === 0}>← Previous stop</button>
+          <button type="button" onClick={() => setStep(1)} disabled={safeIndex === activeTour.stops.length - 1}>Next stop →</button>
         </div>
         <div className="wtd-view-actions">
           {source && <button type="button" className="wtd-preview" onClick={() => {onPreview(source);setMessage('Selected this stop in the RCTV channel desk. No media loaded automatically.')}}>▣ Preview channel desk</button>}
