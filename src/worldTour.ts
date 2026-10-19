@@ -1,5 +1,5 @@
 /**
- * RCTV v1.5 · World Tour Mode
+ * RCTV v1.6 · World Tour Mode
  *
  * A curated, human-directed itinerary through official provider pages.
  * "Stamped" means the visitor manually marked the stop explored, not that
@@ -101,6 +101,55 @@ export const WORLD_TOURS: readonly WorldTour[] = [
       { sourceId: 'georgia-aquarium-cams', story: 'Discover the aquarium’s marine wildlife feeds.' },
       { sourceId: 'nasa-live', story: 'Check NASA’s current event and mission coverage page.' },
       { sourceId: 'nasa-iss', story: 'Rise into orbit for the final view of our planet.' },
+    ],
+  },
+
+  {
+    id: 'beach-day', name: 'Beach Day',
+    subtitle: 'Four shorelines and the California coast',
+    description: 'Waves, surf, pier walks and freshwater beaches. Each camera has its own operator and availability conditions.',
+    accent: 'blue', symbol: '≋', stops: [
+      { sourceId: 'beach-santa-monica', story: 'Start with the Pacific Ocean and Santa Monica Pier in the distance.' },
+      { sourceId: 'beach-huntington-pier', story: 'Follow the surf and horizon from the Huntington Beach Pier.' },
+      { sourceId: 'beach-clearwater', story: 'Switch coasts and enjoy Clearwater’s bright, sandy shoreline.' },
+      { sourceId: 'beach-park-point', story: 'Trade saltwater for Lake Superior’s freshwater waves.' },
+      { sourceId: 'monterey-cams', story: 'Finish by exploring the marine life of Monterey Bay.' },
+    ],
+  },
+  {
+    id: 'harbor-hopping', name: 'Harbor Hopping',
+    subtitle: 'Ships, piers, canals and maritime horizons',
+    description: 'Follow working harbors and waterways without ever copying their original webcam feeds.',
+    accent: 'mint', symbol: '⚓', stops: [
+      { sourceId: 'harbor-los-angeles', story: 'Look for cargo ships and tugboats in the Port of Los Angeles.' },
+      { sourceId: 'harbor-san-luis', story: 'Take a quiet detour to a California pier at Port San Luis.' },
+      { sourceId: 'harbor-duluth', story: 'Watch Lake Superior freighters approaching Duluth Harbor.' },
+      { sourceId: 'harbor-duluth-lighthouse', story: 'Switch to the South Pier Lighthouse view of the shipping canal.' },
+      { sourceId: 'venice-grand-canal', story: 'End with the boats and bustle of Venice’s Grand Canal.' },
+    ],
+  },
+  {
+    id: 'rails-across-america', name: 'Rails Across America',
+    subtitle: 'Free railroad cameras and mountain tracks',
+    description: 'A railway-watching sampler. Some operators offer free ad-supported cameras alongside premium subscriptions.',
+    accent: 'gold', symbol: '▣', stops: [
+      { sourceId: 'train-railstream-free', story: 'Explore the free, ad-supported railcam selection on RailStream.' },
+      { sourceId: 'train-virtualrailfan-free', story: 'Browse free public railway views at Virtual Railfan.' },
+      { sourceId: 'train-ashland-va', story: 'Watch passenger and freight trains pass Ashland’s historic station.' },
+      { sourceId: 'train-cog-washington', story: 'Look for the Cog Railway climbing Mount Washington in operating hours.' },
+      { sourceId: 'harbor-duluth', story: 'Finish with freighters and the intersection of rail and shipping country.' },
+    ],
+  },
+  {
+    id: 'above-the-clouds', name: 'Above the Clouds',
+    subtitle: 'Five high-country camera viewpoints',
+    description: 'An alpine tour where weather, snow, daylight and seasonal webcam availability always get the final word.',
+    accent: 'violet', symbol: '△', stops: [
+      { sourceId: 'mountain-washington', story: 'Begin with weather observations above New Hampshire.' },
+      { sourceId: 'mountain-whistler', story: 'Visit Whistler and Blackcomb’s mountain vantage points.' },
+      { sourceId: 'mountain-mammoth', story: 'Move to California’s high Sierra and Mammoth Mountain.' },
+      { sourceId: 'mountain-jackson-hole', story: 'Explore alpine viewpoints near Jackson Hole and the Tetons.' },
+      { sourceId: 'yosemite-valley', story: 'End with granite walls above Yosemite Valley.' },
     ],
   },
 ]
