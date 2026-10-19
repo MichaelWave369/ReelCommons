@@ -6,6 +6,39 @@ ReelCommons is an original, independent, open-source directory for **legitimate 
 
 > **Scope honesty:** v0.1 is a curated **service directory**, not a live title-availability search engine. Provider links go to official homepages. Verify a specific title, ad load, cost, geographic restrictions, and accessibility features on the provider's site.
 
+## v1.5: World Tour Mode · Camera Passport
+
+**World Tour Mode** adds a guided, user-driven camera adventure to **Open Streams Commons**. It uses the 34 pre-existing, reviewed publisher destinations. There are no new third-party embeds, stream links, scrapers, camera rights claims, servers or external network requests.
+
+### Six curated camera tours
+
+| Route | Viewpoint itinerary |
+| --- | --- |
+| **Neon Nights** | Bourbon Street → Times Square → Las Vegas → Shibuya → Abbey Road |
+| **Postcard Cities** | Abbey Road → Trevi Fountain → Venice Grand Canal → Shibuya → Times Square |
+| **Parks & Peaks** | Yosemite → Grand Canyon → Glacier → Rocky Mountain → Yellowstone |
+| **Wild Neighbors** | Cornell FeederWatch → Smithsonian pandas → Explore.org → Aquarium of the Pacific → Georgia Aquarium |
+| **Earth Alive** | Kīlauea → Mauna Loa → Yellowstone → Grand Canyon → NASA ISS |
+| **Ocean to Orbit** | Monterey Bay → Aquarium of the Pacific → Georgia Aquarium → NASA Live → NASA ISS |
+
+Each tour has five curated stops, an original narrated prompt, previous/next navigation, stop dots, source/format caveats and a visible progress bar. Click **Open official camera** to visit the publisher's destination in a separate tab, or **Preview channel desk** to select that existing RCTV source without starting media playback.
+
+**A tour does not open or autoplay any provider site or embed on its own.** NASA/KEXP pre-existing opt-in playback features work only in the existing channel desk, and only within the previously reviewed allowlist. All city, park, wildlife and aquarium cameras remain official-site-only. Source operators control live availability, ads, privacy policies and streaming permissions. A periodically refreshed National Park Service image should not be confused with continuous live video.
+
+### Your local-only viewing passport
+
+Use **Mark as explored** after choosing a stop. Its stamp means *you explicitly marked this catalog destination as explored*. The app **does not and cannot verify** whether the provider's stream loaded, played, was live, was watched or represented physical travel.
+
+Stamps are kept **only in browser localStorage** under \`rctv-world-tour-passport-v1\` as catalog source IDs with UTC dates. No login, network upload, stream payload, tracking beacon or cross-site analytics integration is added. Shared stops can be credited across multiple tour itineraries. You can remove a stamp, **Clear stamps** with confirmation or **Export passport** as a JSON metadata-only receipt with explicit self-reported provenance and limits. The exported receipt includes only stamps for the currently selected tour. The route-copy button copies the public, official destination pages, not hidden stream endpoints.
+
+Importing untrusted stored JSON is validated against known catalog IDs, ISO calendar dates and a bounded size; unexpected fields or unknown IDs are ignored. The passport is not an audit trail, certification of broadcast availability or assertion of personal location.
+
+### Testing and next goals
+
+The original \`worldTour.ts\` module and \`worldTour.test.ts\` exercise route integrity (30 curated stop references), bounds, no auto-playback claims, private stamp parsing, manual completion, cross-route stops and metadata-only exports. Existing Vitest, Python and TypeScript/build CI checks still apply.
+
+The first on-device QA after merging should confirm that tour selection, previous/next, preview, manual stamp/undo, local persistence, copy/export/clear and small-screen layout all work. Testing the *actual* footage still requires visiting the third-party provider's official player.
+
 ## v1.4: City & Nature Cameras · The World Window
 
 RCTV expands **Open Streams Commons** from **14 to 34 hand-reviewed, official destinations** with dedicated **City Cams** and **Nature Cams** wings. All 20 new entries are publisher-owned source links, not third-party re-hosts. The existing RCTV film library, FAST/live TV guides, radio, space, FTA lab, Signal Bridge and Tuner Scout are unchanged.
