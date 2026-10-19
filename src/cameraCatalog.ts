@@ -166,10 +166,12 @@ const CAMERAS: readonly CameraSeed[] = [
 const iconByScene: Record<CameraScene, string> = {
   streets: '▦', landmarks: '◈', 'national-parks': '△',
   volcanoes: '♨', wildlife: '✳', ocean: '≋',
+  beaches: '≋', harbors: '⚓', railways: '▣', mountains: '△',
 }
 const accentByScene: Record<CameraScene, OpenStream['color']> = {
   streets: 'violet', landmarks: 'gold', 'national-parks': 'mint',
   volcanoes: 'coral', wildlife: 'rose', ocean: 'blue',
+  beaches: 'blue', harbors: 'mint', railways: 'gold', mountains: 'violet',
 }
 export const CAMERA_STREAMS: readonly OpenStream[] = CAMERAS.map((camera) => ({
   id: camera.id, name: camera.name, tagline: camera.line, description: camera.detail,
