@@ -8,6 +8,7 @@ import type { CameraScene, OpenStream, StreamCategory } from './openStreams'
 import { ALL_OPEN_STREAMS, CAMERA_COUNTS } from './cameraCatalog'
 import { COAST_RAIL_COUNTS } from './coastRailCatalog'
 import WorldTour from './WorldTour'
+import WorldAtlas from './WorldAtlas'
 import { inspectLocalM3u, MAX_PLAYLIST_BYTES } from './m3uInspection'
 import type { PlaylistInspection } from './m3uInspection'
 import './open-streams.css'
@@ -84,7 +85,7 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
     setShowPlaylist(true)
   }
   return <section className="osc-page wrap" aria-labelledby="osc-heading">
-    <div className="eyebrow">THE COMMON SCREEN / RCTV v1.6 · OPEN STREAMS COMMONS</div>
+    <div className="eyebrow">THE COMMON SCREEN / RCTV v1.7 · OPEN STREAMS COMMONS</div>
     <div className="osc-hero">
       <div className="osc-hero-copy">
         <span className="osc-overline"><span className="osc-signal" /> LEGITIMATE CHANNELS · ENDLESS CURIOSITY</span>
@@ -127,6 +128,7 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
           </button>)}
       </div>
     </section>
+    <WorldAtlas onPreview={selectSource} />
     <WorldTour onPreview={selectSource} />
 
     <div className="osc-layout">

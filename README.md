@@ -6,6 +6,28 @@ ReelCommons is an original, independent, open-source directory for **legitimate 
 
 > **Scope honesty:** v0.1 is a curated **service directory**, not a live title-availability search engine. Provider links go to official homepages. Verify a specific title, ad load, cost, geographic restrictions, and accessibility features on the provider's site.
 
+## v1.7: World Atlas · A schematic map of official camera destinations
+
+**RCTV World Atlas** is an original, interactive, responsive, self-contained geographic browser built into **Open Streams Commons**. It reuses curated webcam source records from earlier releases instead of introducing new third-party streams or permissions. Visit **Open Streams → Open World Atlas** to start.
+
+### Map and region clusters
+
+- **16 broad, geographically labeled regions** connect mapped viewing destinations across the Americas, Europe, and Japan. Only camera entries with a meaningful fixed geographic association are plotted. Global radio/provider directories, venue-agnostic rail directories, and the orbital NASA ISS camera stay in the full directory but are deliberately **not assigned fake fixed positions**.
+- Original SVG land silhouettes, latitude/longitude graticule and CSS positioning run fully in the browser, with **no map tiles, external API key, account, browser geolocation, IP lookup, or location tracking**.
+- Pins are **schematic regional clusters**, not webcam-specific coordinates, and some are intentionally nudged to reduce overlap. The map is **not suitable for navigation or calculating distances**.
+- Filter by geographical continent, existing RCTV channel category, or search names. Select an approximate pin or region-list item to see the corresponding curated source cards. Click **Preview in channel desk** to select an existing RCTV channel *without starting playback*, or **Official site** to watch via the broadcaster's own player.
+
+### Regional local-time context
+
+- Local times are formatted using the browser's `Intl.DateTimeFormat` and a named IANA timezone for each representative region. While the Atlas is open, its clock refreshes approximately once per minute using the local device clock. No server request is made.
+- The **day/night** label uses a simple fixed 6 a.m.–6 p.m. civil-time window and is **not astronomical daylight** (sunrise/sunset vary with season and latitude). A regional clock isn't proof that any particular camera is live, well-lit or open.
+- Las Vegas and Grand Canyon have **separate region pins** because Nevada and Arizona can observe different local times due to daylight-saving rules.
+
+### Trust and privacy
+
+The Atlas is a metadata-only visual browser. No new video/audio, satellite links, stream player policies, HTTP listeners or background telemetry are introduced. Provider playback stays on official pages, except the pre-existing separately reviewed **opt-in NASA ISS / KEXP** routes. Opening or moving a map pin never loads third-party media automatically. Camera availability remains unverified and may change.
+
+World Tour, M3U Inspector, saved channel favorites, private tour passport, Windows hardware labs and existing source-ledger disclosures remain intact. The new `src/worldAtlas.test.ts` tests verify regional source mappings, allowed categories, geospatial bounds, nonexistent sources not pinned, time-zone interpretation and no source authorization changes. Automated CI cannot test real-world video uptime.
 ## v1.6: Coastlines & Rails · Beaches, harbors, trains and mountains
 
 RCTV expands **Open Streams Commons from 34 to 50 curated official viewing destinations**, adding four new first-class categories: **Beaches, Harbors, Train Cams and Mountain Views** (four destinations each). All new cameras are publisher-site-only; no copied webcam media, embed, HLS hotlink, external feed probe, camera download, proxy, recording or retransmission.

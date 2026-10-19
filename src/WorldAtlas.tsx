@@ -30,7 +30,7 @@ function pointSvg(lat: number, lon: number) {
 // Positions remain approximate regional indicators, never camera coordinates.
 const NUDGE: Record<string,{x:number;y:number}> = {
   'cal-coast':{x:-1.8,y:3.5},'cal-sierra':{x:2.8,y:-2.5},
-  'southwest':{x:2.8,y:2.5},'northern-rockies':{x:-1.5,y:-2},
+  'nevada':{x:-2.4,y:3},'arizona':{x:3,y:-2},'northern-rockies':{x:-1.5,y:-2},
   'east-corridor':{x:-2.5,y:3},'new-hampshire':{x:3,y:-2},
   'southeast':{x:1.8,y:3},'whistler':{x:0,y:-2},
   'colorado':{x:1.5,y:0},'great-lakes':{x:1.5,y:-1},

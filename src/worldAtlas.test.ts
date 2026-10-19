@@ -3,8 +3,8 @@ import { ALL_OPEN_STREAMS } from './cameraCatalog'
 import { ATLAS_MAPPED_COUNT, ATLAS_REGIONS, atlasCoordinates, atlasDaypart, atlasRegionsMatching, formatAtlasClock, sourcesForRegion } from './worldAtlas'
 
 describe('RCTV v1.7 World Atlas static official-source mapping', () => {
-  it('includes 15 regional clusters with source ids from original catalog only', () => {
-    expect(ATLAS_REGIONS).toHaveLength(15)
+  it('includes 16 regional clusters with source ids from original catalog only', () => {
+    expect(ATLAS_REGIONS).toHaveLength(16)
     const all=new Set(ALL_OPEN_STREAMS.map((s)=>s.id))
     const ids=ATLAS_REGIONS.flatMap((r)=>r.sourceIds)
     expect(new Set(ids).size).toBe(ids.length)
