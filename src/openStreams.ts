@@ -5,8 +5,8 @@
  * availability scan or stream-rights license. Source types remain separate
  * from playback capabilities, which are strictly allowlisted.
  */
-export type StreamCategory = 'tv' | 'radio' | 'earth' | 'space' | 'city' | 'nature'
-export type CameraScene = 'streets' | 'landmarks' | 'national-parks' | 'volcanoes' | 'wildlife' | 'ocean'
+export type StreamCategory = 'tv' | 'radio' | 'earth' | 'space' | 'city' | 'nature' | 'beach' | 'harbor' | 'train' | 'mountain'
+export type CameraScene = 'streets' | 'landmarks' | 'national-parks' | 'volcanoes' | 'wildlife' | 'ocean' | 'beaches' | 'harbors' | 'railways' | 'mountains'
 export type CameraFormat = 'video' | 'refreshed-still' | 'mixed'
 export type PlaybackPolicy = 'official' | 'youtube-embed' | 'published-audio'
 export interface OpenStream {
@@ -155,6 +155,10 @@ export const STREAM_CATEGORIES: { id: StreamCategory | 'all'; label: string; ico
   { id: 'space', label: 'Space & Science', icon: '✦' },
   { id: 'city', label: 'City Cams', icon: '▤' },
   { id: 'nature', label: 'Nature Cams', icon: '♧' },
+  { id: 'beach', label: 'Beaches', icon: '≋' },
+  { id: 'harbor', label: 'Harbors', icon: '⚓' },
+  { id: 'train', label: 'Train Cams', icon: '▣' },
+  { id: 'mountain', label: 'Mountain Views', icon: '△' },
 ]
 export function filterOpenStreams(
   sources: readonly OpenStream[],
@@ -173,6 +177,8 @@ export const CAMERA_SCENE_FILTERS: { id: CameraScene | 'all'; label: string }[] 
   { id: 'all', label: 'All scenes' }, { id: 'streets', label: 'City streets' },
   { id: 'landmarks', label: 'Landmarks' }, { id: 'national-parks', label: 'National parks' },
   { id: 'volcanoes', label: 'Volcanoes' }, { id: 'wildlife', label: 'Wildlife' }, { id: 'ocean', label: 'Ocean life' },
+  { id: 'beaches', label: 'Beaches' }, { id: 'harbors', label: 'Harbors' },
+  { id: 'railways', label: 'Railways' }, { id: 'mountains', label: 'Mountain peaks' },
 ]
 export const CAMERA_FORMAT_LABELS: Record<CameraFormat, string> = {
   video: 'PROVIDER-LISTED VIDEO', 'refreshed-still': 'REFRESHED STILL IMAGES', mixed: 'VARIABLE / SCHEDULED',

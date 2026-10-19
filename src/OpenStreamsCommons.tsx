@@ -6,6 +6,7 @@ import {
 } from './openStreams'
 import type { CameraScene, OpenStream, StreamCategory } from './openStreams'
 import { ALL_OPEN_STREAMS, CAMERA_COUNTS } from './cameraCatalog'
+import { COAST_RAIL_COUNTS } from './coastRailCatalog'
 import WorldTour from './WorldTour'
 import { inspectLocalM3u, MAX_PLAYLIST_BYTES } from './m3uInspection'
 import type { PlaylistInspection } from './m3uInspection'
@@ -16,7 +17,7 @@ function initialFavorites(): string[] {
   catch { return [] }
 }
 const categoryNames: Record<StreamCategory, string> = {
-  tv: 'LIVE TV', radio: 'INTERNET RADIO', earth: 'LIVE EARTH', space: 'SPACE & SCIENCE', city: 'CITY CAMS', nature: 'NATURE CAMS',
+  tv: 'LIVE TV', radio: 'INTERNET RADIO', earth: 'LIVE EARTH', space: 'SPACE & SCIENCE', city: 'CITY CAMS', nature: 'NATURE CAMS', beach: 'BEACH CAMS', harbor: 'HARBOR CAMS', train: 'TRAIN CAMS', mountain: 'MOUNTAIN CAMS',
 }
 export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () => void }) {
   const [category, setCategory] = useState<StreamCategory | 'all'>('all')
@@ -83,18 +84,18 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
     setShowPlaylist(true)
   }
   return <section className="osc-page wrap" aria-labelledby="osc-heading">
-    <div className="eyebrow">THE COMMON SCREEN / RCTV v1.5 · OPEN STREAMS COMMONS</div>
+    <div className="eyebrow">THE COMMON SCREEN / RCTV v1.6 · OPEN STREAMS COMMONS</div>
     <div className="osc-hero">
       <div className="osc-hero-copy">
         <span className="osc-overline"><span className="osc-signal" /> LEGITIMATE CHANNELS · ENDLESS CURIOSITY</span>
         <h1 id="osc-heading">The whole world.<br/><em>One channel away.</em></h1>
         <p>Explore official free television, internet radio, bustling city cams, national parks, wildlife, volcanoes, ocean habitats and space missions. Discover freely. Watch through supported official players. No mystery IPTV lists, copied streams or sign-up here.</p>
-        <div className="osc-stat-line"><span><strong>{ALL_OPEN_STREAMS.length}</strong> Curated destinations</span><span><strong>6</strong> Commons wings</span><span><strong>0</strong> Rebroadcast servers</span></div>
+        <div className="osc-stat-line"><span><strong>{ALL_OPEN_STREAMS.length}</strong> Curated destinations</span><span><strong>10</strong> Commons wings</span><span><strong>0</strong> Rebroadcast servers</span></div>
       </div>
       <div className="osc-hero-art" aria-hidden="true">
         <div className="osc-planet"><span>◎</span></div>
         <strong>RCTV<span>OPEN</span></strong>
-        <small>TV · RADIO · CITIES · NATURE · SPACE</small>
+        <small>TV · RADIO · CITIES · COAST · RAIL · MOUNTAINS · SPACE</small>
       </div>
     </div>
     <div className="osc-honesty"><strong>FREE TO WATCH ≠ FREE TO REBROADCAST.</strong> Sources below link to the original owners. Media is never fetched, proxied, redistributed or recorded by RCTV. Where no reviewed embed or broadcaster-published listening link exists, the official website is the player. Live availability is not monitored and may change.</div>
@@ -113,6 +114,19 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
       </div>
     </section>
 
+    <section className="osc-coast-expansion" aria-label="New coastline and railway exploration categories">
+      <div>
+        <span className="osc-kicker">NEW IN v1.6 · COASTLINES & RAILS</span>
+        <strong>{COAST_RAIL_COUNTS.beaches} beaches · {COAST_RAIL_COUNTS.harbors} harbors · {COAST_RAIL_COUNTS.trains} train views · {COAST_RAIL_COUNTS.mountains} mountain viewpoints</strong>
+        <p>Explore surf breaks, working ports, public railcams and alpine webcams. Video, still images, schedules and free-versus-premium access are labeled honestly.</p>
+      </div>
+      <div className="osc-coast-shortcuts">
+        {(['beach','harbor','train','mountain'] as const).map((kind) =>
+          <button type="button" key={kind} onClick={() => {setCategory(kind);setCameraScene('all');setFavoritesOnly(false);setQuery('')}}>
+            {kind === 'beach' ? '≋ Beaches' : kind === 'harbor' ? '⚓ Harbors' : kind === 'train' ? '▣ Trains' : '△ Mountains'}
+          </button>)}
+      </div>
+    </section>
     <WorldTour onPreview={selectSource} />
 
     <div className="osc-layout">
@@ -123,7 +137,7 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
             <button type="button" aria-pressed={favoritesOnly} className={favoritesOnly ? 'active' : ''} onClick={() => setFavoritesOnly((on) => !on)}>★ Saved only ({favorites.length})</button>
             <button type="button" disabled={!visible.length} onClick={choose}>✳ Surprise me</button>
           </div>
-          {(category === 'city' || category === 'nature' || cameraScene !== 'all') &&
+          {(['city','nature','beach','harbor','train','mountain'].includes(category) || cameraScene !== 'all') &&
             <div className="osc-scene-picker" role="group" aria-label="Camera viewpoint type">
               {CAMERA_SCENE_FILTERS.map((scene) =>
                 <button type="button" key={scene.id} aria-pressed={cameraScene === scene.id}

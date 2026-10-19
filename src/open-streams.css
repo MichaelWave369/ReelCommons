@@ -140,3 +140,17 @@
 @media(max-width:1170px){.osc-category-bar{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media(max-width:850px){.osc-category-bar{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media(max-width:600px){.osc-category-bar{grid-template-columns:repeat(2,minmax(0,1fr))}.osc-cam-discovery{padding:17px}.osc-cam-shortcuts{width:100%}.osc-cam-shortcuts button{flex:1}.osc-channel-select{min-height:220px}}
+
+
+/* v1.6 Coastlines & Rails camera source-owned viewing destinations */
+.osc-coast-expansion{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;padding:22px 24px;margin:0 0 19px;border-radius:10px;border:1px solid #648da0;background:radial-gradient(circle at 81% 22%,#355e70,transparent 52%),linear-gradient(120deg,#233747,#293147)}
+.osc-coast-expansion>div:first-child{flex:1;min-width:220px}
+.osc-coast-expansion strong{display:block;color:#e0f7e3;font-size:clamp(17px,2vw,22px);letter-spacing:-.04em;line-height:1.25;margin:8px 0}
+.osc-coast-expansion p{color:#bacfd8;font-size:11px;line-height:1.7;max-width:680px;margin:0}
+.osc-coast-shortcuts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.osc-coast-shortcuts button{background:#283f52;border:1px solid #84a9b7;color:#e0f2f1;border-radius:7px;min-height:44px;padding:11px 13px;font-size:12px;font-weight:900}
+.osc-coast-shortcuts button:hover,.osc-coast-shortcuts button:focus-visible{background:#365b56;border-color:#c8ffb4;color:#e9ffe1}
+.osc-category-bar{grid-template-columns:repeat(6,minmax(0,1fr))}
+@media(max-width:1160px){.osc-category-bar{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:720px){.osc-category-bar{grid-template-columns:repeat(3,minmax(0,1fr))}.osc-coast-shortcuts{width:100%;grid-template-columns:repeat(2,minmax(0,1fr))}.osc-coast-expansion{padding:17px}}
+@media(max-width:420px){.osc-category-bar{grid-template-columns:repeat(2,minmax(0,1fr))}}

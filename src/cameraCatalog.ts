@@ -4,6 +4,7 @@
  * 'video' / 'refreshed-still' means source-described format, not a live check.
  */
 import { OPEN_STREAMS } from './openStreams'
+import { COAST_RAIL_STREAMS } from './coastRailCatalog'
 import type { CameraFormat, CameraScene, OpenStream } from './openStreams'
 
 interface CameraSeed {
@@ -165,10 +166,12 @@ const CAMERAS: readonly CameraSeed[] = [
 const iconByScene: Record<CameraScene, string> = {
   streets: '▦', landmarks: '◈', 'national-parks': '△',
   volcanoes: '♨', wildlife: '✳', ocean: '≋',
+  beaches: '≋', harbors: '⚓', railways: '▣', mountains: '△',
 }
 const accentByScene: Record<CameraScene, OpenStream['color']> = {
   streets: 'violet', landmarks: 'gold', 'national-parks': 'mint',
   volcanoes: 'coral', wildlife: 'rose', ocean: 'blue',
+  beaches: 'blue', harbors: 'mint', railways: 'gold', mountains: 'violet',
 }
 export const CAMERA_STREAMS: readonly OpenStream[] = CAMERAS.map((camera) => ({
   id: camera.id, name: camera.name, tagline: camera.line, description: camera.detail,
@@ -181,7 +184,7 @@ export const CAMERA_STREAMS: readonly OpenStream[] = CAMERAS.map((camera) => ({
     'The camera operator owns its player and stream. RCTV opens the official website and does not embed, record or restream it.',
   sourceEvidence: camera.url, color: accentByScene[camera.scene], icon: iconByScene[camera.scene],
 }))
-export const ALL_OPEN_STREAMS: readonly OpenStream[] = [...OPEN_STREAMS, ...CAMERA_STREAMS]
+export const ALL_OPEN_STREAMS: readonly OpenStream[] = [...OPEN_STREAMS, ...CAMERA_STREAMS, ...COAST_RAIL_STREAMS]
 export const CAMERA_COUNTS = Object.freeze({
   cities: CAMERA_STREAMS.filter((cam) => cam.category === 'city').length,
   nature: CAMERA_STREAMS.filter((cam) => cam.category === 'nature').length,
