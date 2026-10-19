@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import type { ChangeEvent } from 'react'
 import {
   CAMERA_FORMAT_LABELS, CAMERA_SCENE_FILTERS, COMMONS_FAVORITES_KEY, filterCameraScene,
@@ -10,6 +10,7 @@ import { COAST_RAIL_COUNTS } from './coastRailCatalog'
 import WorldTour from './WorldTour'
 import WorldAtlas from './WorldAtlas'
 import ChannelSurfRemote from './ChannelSurfRemote'
+import CouchMode from './CouchMode'
 import {CHANNEL_SURF_STORAGE_KEY,readChannelSurfState,serializeChannelSurfState} from './channelSurf'
 import { inspectLocalM3u, MAX_PLAYLIST_BYTES } from './m3uInspection'
 import type { PlaylistInspection } from './m3uInspection'
@@ -39,6 +40,8 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
   const [playlistError, setPlaylistError] = useState('')
   const [playlistName, setPlaylistName] = useState('')
   const [showPlaylist, setShowPlaylist] = useState(false)
+  const [couchOpen, setCouchOpen] = useState(false)
+  const couchLaunchRef = useRef<HTMLButtonElement>(null)
 
   const visible = useMemo(() =>
     filterCameraScene(filterOpenStreams(ALL_OPEN_STREAMS, category, query, favorites, favoritesOnly), cameraScene),
@@ -48,13 +51,17 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
   const mediaOn = mediaLoadedFor === selected.id && allowedMediaUrl !== null
   const officialUrl = selected.officialUrl
 
-  function selectSource(source: OpenStream) {
+  function selectSource(source: OpenStream, scrollToPlayer = true) {
     setSelectedId(source.id)
     const saved = serializeChannelSurfState(source.id)
     if(saved)try {window.localStorage.setItem(CHANNEL_SURF_STORAGE_KEY,saved)} catch {/* Session selection still works */}
     setMediaLoadedFor(null) // Unmount iframes and native audio when switching channels.
     setNotice('')
-    document.getElementById('osc-player')?.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
+    if (scrollToPlayer) document.getElementById('osc-player')?.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
+  }
+  function closeCouchMode() {
+    setCouchOpen(false)
+    window.setTimeout(() => couchLaunchRef.current?.focus(), 0)
   }
   function toggleFavorite(id: string) {
     const next = favorites.includes(id) ? favorites.filter((x) => x !== id) : [...favorites, id]
@@ -93,7 +100,9 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
     setShowPlaylist(true)
   }
   return <section className="osc-page wrap" aria-labelledby="osc-heading">
-    <div className="eyebrow">THE COMMON SCREEN / RCTV v1.9 · OPEN STREAMS COMMONS</div>
+    {couchOpen && <CouchMode selected={selected} favoriteIds={favorites}
+      onSelect={(source) => selectSource(source, false)} onClose={closeCouchMode} />}
+    <div className="eyebrow">THE COMMON SCREEN / RCTV v2.0 · OPEN STREAMS COMMONS</div>
     <div className="osc-hero">
       <div className="osc-hero-copy">
         <span className="osc-overline"><span className="osc-signal" /> LEGITIMATE CHANNELS · ENDLESS CURIOSITY</span>
@@ -108,6 +117,12 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
       </div>
     </div>
     <div className="osc-honesty"><strong>FREE TO WATCH ≠ FREE TO REBROADCAST.</strong> Sources below link to the original owners. Media is never fetched, proxied, redistributed or recorded by RCTV. Where no reviewed embed or broadcaster-published listening link exists, the official website is the player. Live availability is not monitored and may change.</div>
+    <section className="couch-launch" aria-label="Launch RCTV lean-back television interface">
+      <div><span className="couch-launch-label">NEW · RCTV 2.0 · THE BIG SCREEN</span>
+        <strong>Kick back. Channel surf. Explore the world.</strong>
+        <p>Open our lean-back Couch Mode, designed for a television-size screen, large controls, and a guide to all 50 curated official destinations.</p></div>
+      <button type="button" ref={couchLaunchRef} onClick={() => {setMediaLoadedFor(null);setCouchOpen(true)}}>▣ Launch Couch Mode ↗</button>
+    </section>
 
     <div className="osc-category-bar" role="group" aria-label="Open Streams categories">
       {STREAM_CATEGORIES.map((choice) => <button type="button" key={choice.id} className={category === choice.id ? 'active' : ''} aria-pressed={category === choice.id} onClick={() => { setCategory(choice.id); setCameraScene('all') }}>
