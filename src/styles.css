@@ -45,3 +45,11 @@
 .scout-bridge-teaser p{color:#bdcfcf;font-size:12px;line-height:1.7;max-width:640px;margin:7px 0}
 .scout-bridge-teaser button{background:#b6fc83;border:1px solid #b6fc83;color:#16241b;border-radius:7px;padding:13px 16px;font-weight:900;font-size:12px}
 @media(max-width:970px){.primary-nav{overflow-x:auto;gap:16px;justify-content:flex-start}.nav-link{flex-shrink:0}}
+
+
+/* RCTV v1.3: portal into the official Open Streams Commons */
+.osc-live-teaser{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:18px;margin:15px 0;padding:21px 23px;background:linear-gradient(115deg,#285345,#233a51);border:1px solid #81b38b;border-radius:9px}
+.osc-live-teaser strong{color:#c5ffae;font-size:11px;letter-spacing:.11em}
+.osc-live-teaser p{font-size:12px;color:#cfdfd7;line-height:1.75;max-width:670px;margin:7px 0 0}
+.osc-live-teaser button{border:1px solid #c5ffae;border-radius:7px;background:#c5ffae;color:#16301e;padding:13px 15px;font-size:12px;font-weight:950}
+@media(max-width:1050px){.primary-nav{gap:15px;overflow-x:auto;justify-content:flex-start}.nav-link{flex-shrink:0}}

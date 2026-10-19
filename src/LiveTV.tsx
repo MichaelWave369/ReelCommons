@@ -15,7 +15,7 @@ function initialFavorites(): string[] {
   catch { return [] }
 }
 
-export default function LiveTV({ onOpenLab }: { onOpenLab: () => void }) {
+export default function LiveTV({ onOpenLab, onOpenStreams }: { onOpenLab: () => void; onOpenStreams: () => void }) {
   const [kind, setKind] = useState<SourceFilter>('all')
   const [genre, setGenre] = useState<GenreFilter>('all')
   const [search, setSearch] = useState('')
@@ -131,6 +131,7 @@ export default function LiveTV({ onOpenLab }: { onOpenLab: () => void }) {
       <button className="rc-room-open" type="button" onClick={() => setRoomRoster([...visible])} disabled={visible.length === 0} aria-haspopup="dialog">Open Living Room Mode ↗</button>
     </div>
 
+    <div className="osc-live-teaser"><div><strong>NEW · OPEN STREAMS COMMONS</strong><p>Browse official TV news, independent internet radio, wildlife webcams and space coverage. Try an opt-in NASA embed or KEXP radio stream, and inspect local M3U metadata without connecting to unknown URLs.</p></div><button type="button" onClick={onOpenStreams}>Explore Open Streams ↗</button></div>
     <div className="fta-live-teaser">
       <div><strong>NEW · VIRTUAL FTA RECEIVER</strong><p>Try dish size, satellite geometry and RF signal modeling using educational transponder examples or your own locally imported JSON.</p></div>
       <button type="button" onClick={onOpenLab}>Explore FTA Simulator ↗</button>

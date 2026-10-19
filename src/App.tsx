@@ -6,6 +6,7 @@ import { filterServices, formatWatchlist, pickTonight } from './logic'
 import { readWatchlist, saveWatchlist } from './storage'
 import PublicCatalog from './PublicCatalog'
 import LiveTV from './LiveTV'
+import OpenStreamsCommons from './OpenStreamsCommons'
 import FTALab from './FTALab'
 import SignalBridge from './SignalBridge'
 import TunerScout from './TunerScout'
@@ -15,6 +16,7 @@ const nav: { id: Tab; label: string }[] = [
   { id: 'discover', label: 'Free sources' },
   { id: 'catalog', label: 'Film catalog' },
   { id: 'live', label: 'Live TV & FTA' },
+  { id: 'openstreams', label: 'Open Streams' },
   { id: 'fta', label: 'FTA Simulator' },
   { id: 'signal', label: 'Signal Bridge' },
   { id: 'tuner', label: 'Tuner Scout' },
@@ -136,7 +138,8 @@ function App() {
       </header>
 
       <main id="main-content" tabIndex={-1}>
-        {tab === 'live' && <LiveTV onOpenLab={() => changeTab('fta')} />}
+        {tab === 'live' && <LiveTV onOpenLab={() => changeTab('fta')} onOpenStreams={() => changeTab('openstreams')} />}
+        {tab === 'openstreams' && <OpenStreamsCommons onOpenLiveTV={() => changeTab('live')} />}
         {tab === 'fta' && <FTALab onOpenBridge={() => changeTab('signal')} />}
         {tab === 'signal' && <SignalBridge onOpenScout={() => changeTab('tuner')} />}
         {tab === 'tuner' && <TunerScout />}

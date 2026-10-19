@@ -6,6 +6,44 @@ ReelCommons is an original, independent, open-source directory for **legitimate 
 
 > **Scope honesty:** v0.1 is a curated **service directory**, not a live title-availability search engine. Provider links go to official homepages. Verify a specific title, ad load, cost, geographic restrictions, and accessibility features on the provider's site.
 
+## v1.3: Open Streams Commons · Official internet TV, radio, nature and space
+
+RCTV adds an original **Open Streams** tab, plus a launcher from **Live TV & FTA**. This is a manually curated starting point for **legitimate free internet viewing**, distinct from the **FTA satellite simulator**, **MPEG-TS local-file inspector**, **Windows hardware diagnostics** and **radio-frequency reception**. No tuner or receiver hardware is needed to use Open Streams.
+
+### Four channel wings
+
+- **Live TV:** CBS News 24/7, ABC News Live, U.S. House FloorCast, and PBS local live access (where offered).
+- **Internet radio:** KEXP, SomaFM, Radio Garden, Radio Browser directory and Radio Paradise.
+- **Live Earth:** official Monterey Bay Aquarium cams and Explore.org wildlife cameras.
+- **Space & science:** official NASA events/NASA+, NASA's ISS official YouTube live-video destination, and ESA Web TV.
+
+Each record includes source provenance, region/scheduling caveats, explicit playback policy and a fallback official destination. This is not a live electronic program guide; **RCTV does not monitor stream availability** or certify station rights.
+
+### Playback trust ledger
+
+Each curated record has a **hardcoded, reviewed** playback route:
+
+1. **Official destination (default):** Open the broadcaster's own player in a new tab with \`noopener noreferrer\`. This covers CBS, ABC, PBS, government programs, the Aquarium, Explore.org, Radio Garden, Radio Paradise, ESA and **SomaFM**. Free to view does **not** imply a right to mirror or embed.
+2. **Optional platform embed:** NASA's official ISS video has a **click-to-load** YouTube privacy-enhanced \`youtube-nocookie.com\` iframe, subject to YouTube/player embeddability and NASA broadcast availability. If unavailable, use the official YouTube watch link. No autoplay on channel selection.
+3. **Optional publisher-listed audio:** KEXP provides an HTTPS AAC streaming URL publicly for third-party listening. The **click-to-load native HTML audio player** uses the exact published \`kexp160.aac\` URL without a proxy, recorder, restream or metadata scraper. The listener presses Play directly. If unsupported or unavailable, use KEXP's official listening page. Third-party audio is not licensed for rebroadcast.
+
+**Important SomaFM exception:** SomaFM's September 2026 terms explicitly restrict third-party client embedding or stream use without prior written permission, including noncommercial web apps. RCTV therefore **does not embed SomaFM's audio** even though its published direct listening links are publicly accessible. Its channel card always links to the official SomaFM site. This is an intentional licensing boundary.
+
+The app only loads media after an explicit user action. Changing channels or stopping unmounts the active iframe/audio element. No YouTube tracking or third-party player iframe is loaded before user action. RCTV does not host, store, proxy, decrypt, record, remix or retransmit third-party media. Real-time playback and external network availability require manual browser checks and are not guaranteed by CI.
+
+### Original local M3U inspector
+
+The **Open M3U inspector** allows **metadata-only preview** of a user-selected channel-index \`.m3u\` / \`.m3u8\` playlist (up to 96 KB and 100 entries). It parses \`#EXTINF\` labels and URLs locally in the browser, accepting only syntactically public HTTPS hosts for the *preview*. It rejects embedded credentials, localhost/private address targets and HLS **segment manifests**. It **never fetches, plays, follows, stores, exports or opens imported stream URLs**, and drops query strings, tokens and URL paths before displaying sanitized hostnames and format hints.
+
+The goal is to learn the format and reason about provenance without promoting community playlist links to broadcaster-approved streams. Inclusion in a public M3U/IPTV directory, including open-source indexes, does not independently prove ownership, authorization, embed rights, current transmission or availability.
+
+### Privacy and tests
+
+- Favorites are saved **only in the current browser** under \`rctv-open-streams-favorites-v1\`; no login or account is used. The visitor can remove favorites or clear local browser storage.
+- Searches, filters, source browsing, the demo M3U, file imports and media-panel selection require no server-side processing.
+- New tests cover exact playback allowlists, prohibited SomaFM embedding, category filtering, favorites normalization, M3U injection/private-network rejection, import limits, and non-playback guarantees.
+- Review [NASA Live](https://www.nasa.gov/live/), [Monterey Bay Aquarium Cams](https://www.montereybayaquarium.org/cams-videos/live-cams), [KEXP Streams](https://www.kexp.org/mobile/kexp-livestreams/), [SomaFM Terms](https://somafm.com/contact/tos.html), [YouTube's Embed Instructions](https://support.google.com/youtube/answer/171780?hl=en), and [ESA Web TV](https://www.esa.int/ESA_Multimedia/ESA_Web_TV) before expanding playback coverage.
+
 ## v1.2: Hardware Readiness Gate · Research before receiver commands
 
 RCTV adds an **evidence-first hardware readiness worksheet** within **Tuner Scout → Read the device ledger**, reusing the v1.1 current Windows diagnostic JSON import. No additional OS scan, USB interaction, driver install, local server, software dependency or automated connection is introduced.
