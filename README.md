@@ -6,6 +6,30 @@ ReelCommons is an original, independent, open-source directory for **legitimate 
 
 > **Scope honesty:** v0.1 is a curated **service directory**, not a live title-availability search engine. Provider links go to official homepages. Verify a specific title, ad load, cost, geographic restrictions, and accessibility features on the provider's site.
 
+## v1.2: Hardware Readiness Gate · Research before receiver commands
+
+RCTV adds an **evidence-first hardware readiness worksheet** within **Tuner Scout → Read the device ledger**, reusing the v1.1 current Windows diagnostic JSON import. No additional OS scan, USB interaction, driver install, local server, software dependency or automated connection is introduced.
+
+### How to use
+
+1. Import a current RCTV v1.1 device diagnostic JSON report, preferably from running the opt-in `py .\companion\device_diagnostics.py --scan --out .\rctv-device-diagnostics.json` on your Windows PC. The browser treats this as **user-supplied, unverified JSON** even when it claims a Windows source.
+2. Select a possible tuner/SDR device by its reported **display name and device class**. Windows `OK` and ConfigManager code 0 are operating-system reports only, not proof of a working tuner. Synthetic fixtures, absent candidates and Windows-reported issues cannot produce the adapter-review state.
+3. From independently reviewed manufacturer documentation, optionally fill a **model label**, **proposed interface** (BDA, SAT>IP, vendor SDK, SDR or other), **broadcast standard** (ATSC, DVB or SDR) and a **public documentation reference**. These are **operator-provided claims**, never automatically detected or verified by RCTV.
+4. Confirm that you can physically access the equipment and intend to test only broadcasts/media you're permitted to receive/use. Acknowledging does not independently establish rights or authorization.
+5. The gate displays a checklist distinguishing **imported OS claims**, **operator-reported details**, **missing evidence**, and **blocks**. If every planning requirement is entered, the highest attainable state is **REVIEW_PACKET_PREPARED**, meaning *ready for a human to plan an adapter*, not that hardware was validated.
+6. **Export research packet** creates a local JSON record of the selected candidate, inputs, gate decisions and explicit nonverification labels. No media, device serials, driver access, remote upload or background persistence. Review entered text for personal information before sharing.
+
+### Deliberate authority ceiling
+
+- `verifiedTuner`, `verifiedRfLock`, and `verifiedPlayback` remain **false** in every evaluation, including `REVIEW_PACKET_PREPARED`.
+- `SYNTHETIC_DEMO` cannot qualify as real Windows hardware evidence.
+- Windows device issue/ambiguous state blocks the review state even when someone fills all manual fields.
+- Importing JSON cannot authenticate the physical origin of the data; both Windows and operator fields can be edited externally.
+- Device matching is name + class only and is **not** stable identity. Never use this exported packet to authorize automatic device access.
+
+### Next gate
+
+With a genuine Windows diagnostic report and verified manufacturer documentation, design a **specific driver/API adapter** in a separate opt-in change. Real signal quality, lock, service decoding and any playback need new observation schemas and their own tests. Nothing in v1.2 operates a receiver.
 ## v1.1: Device Diagnostics · Windows PnP telemetry without tuner control
 
 RCTV v1.1 extends the **Tuner Scout** page with an optional **read-only Windows device-diagnostics report** and before/after comparison. This is **operating-system Plug-and-Play metadata only**, *not* live DVB/ATSC demodulator telemetry, signal lock or TV playback. The v1.0 candidate scanner and all earlier RCTV features remain intact.

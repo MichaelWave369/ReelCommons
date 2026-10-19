@@ -5,6 +5,7 @@ import {
   MAX_DIAGNOSTIC_BYTES, parseDiagnosticReport,
 } from './deviceDiagnostics'
 import type { DiagnosticReport, WindowsDiagnostic } from './deviceDiagnostics'
+import HardwareReadiness from './HardwareReadiness'
 import './device-diagnostics.css'
 
 type SnapshotSlot = 'baseline' | 'current'
@@ -123,6 +124,7 @@ export default function DeviceDiagnostics() {
           </div>}
       </div>
     </div>
-    <div className="diag-footer"><strong>NEXT GATE:</strong> Device-specific RF telemetry, actual tuning, or playback would require a separate opt-in hardware adapter and verification. None of that is performed by this release.</div>
+    <HardwareReadiness key={current ? current.generatedAt + ':' + current.source + ':' + current.devices.map(d => d.name).join('|') : 'empty'} report={current} />
+    <div className="diag-footer"><strong>NEXT GATE:</strong> A human-reviewed v1.2 adapter research packet comes before device-specific RF telemetry, actual tuning, or playback would require a separate opt-in hardware adapter and verification. None of that is performed by this release.</div>
   </section>
 }
