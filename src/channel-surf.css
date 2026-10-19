@@ -1,0 +1,56 @@
+/* RCTV v1.9 · Accessible channel remote for official source discovery. */
+.csr-shell{border:1px solid #648c8a;border-radius:10px;background:linear-gradient(150deg,#1d3440,#19243b);padding:17px;margin-bottom:15px;min-width:0}
+.csr-shell:focus-visible{outline:3px solid #baff95;outline-offset:3px}
+.csr-header{display:flex;justify-content:space-between;align-items:start;gap:10px;flex-wrap:wrap;margin-bottom:15px}
+.csr-header>div>span{font-size:9px;letter-spacing:.12em;font-weight:900;color:#c0ffa6}
+.csr-header h2{font-size:23px;letter-spacing:-.06em;line-height:1.2;margin:8px 0 0;color:#f1fff5}
+.csr-header h2 em{font-style:normal;color:#baff95}
+.csr-chip{font-size:9px;border:1px solid #8ea383;border-radius:5px;color:#ddf9d7;background:#2c4b44;padding:7px;font-weight:950}
+.csr-screen{background:radial-gradient(ellipse at 20% 30%,#2d685f,#122b36 74%);border:2px solid #759f86;border-radius:9px;padding:15px;box-shadow:inset 0 0 18px #071a27b5}
+.csr-screen-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:7px;font-size:9px;font-weight:900;color:#c7ffbc;letter-spacing:.1em}
+.csr-screen-main{display:flex;gap:15px;align-items:center;margin-top:13px}
+.csr-screen-main>strong{font-size:clamp(23px,3vw,36px);font-variant-numeric:tabular-nums;color:#ddffd2;letter-spacing:-.05em;white-space:nowrap}
+.csr-screen-main>div{min-width:0;flex:1}
+.csr-screen-main b{font-size:14px;color:#f0fff0;line-height:1.25;display:block;overflow-wrap:anywhere}
+.csr-screen-main small{font-size:9px;color:#c6e4ce;display:block;margin-top:6px;line-height:1.5}
+.csr-screen>p{font-size:11px;color:#b5d0d1;line-height:1.6;margin:10px 0 0}
+.csr-controls{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-top:13px}
+.csr-keypad{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.csr-keypad button{background:#30485a;border:1px solid #6a8591;border-radius:7px;min-height:44px;color:#e4f5e8;font-size:17px;font-weight:950}
+.csr-keypad button:nth-child(10),.csr-keypad button:nth-child(12){font-size:11px;background:#334b44}
+.csr-keypad button:hover,.csr-keypad button:focus-visible,.csr-transport-actions button:hover{border-color:#baff95;background:#446951}
+.csr-transport{display:flex;flex-direction:column;gap:9px;min-width:0}
+.csr-number{background:#0d2030;border:1px solid #536e75;border-radius:7px;padding:11px;display:flex;flex-direction:column;gap:6px;text-align:center}
+.csr-number span{color:#bed6d2;font-size:9px;font-weight:900;letter-spacing:.06em}
+.csr-number strong{font-size:29px;font-variant-numeric:tabular-nums;letter-spacing:.09em;color:#c9ffb3}
+.csr-tune{min-height:43px;border-radius:7px;border:1px solid #baff95;background:#baff95;color:#1b361d;font-size:11px;font-weight:950;padding:9px}
+.csr-transport-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+.csr-transport-actions button{min-height:44px;border:1px solid #65897c;background:#2a4c48;color:#e0fce5;border-radius:6px;font-size:10px;font-weight:900;padding:8px 5px}
+.csr-transport-actions button:disabled{opacity:.37;cursor:not-allowed}
+.csr-options{display:flex;align-items:end;gap:13px;flex-wrap:wrap;margin:15px 0}
+.csr-options>label:first-child{display:flex;flex-direction:column;gap:7px;flex:1;min-width:120px;font-size:9px;font-weight:900;letter-spacing:.07em;color:#c7e5d5}
+.csr-options select{min-height:43px;border:1px solid #668491;background:#14283d;color:#e0f3ea;border-radius:6px;padding:9px;font-size:11px;width:100%}
+.csr-favorite-check{display:flex;align-items:center;gap:8px;min-height:42px;border:1px solid #54716b;background:#2b3f48;border-radius:6px;padding:10px;font-size:10px;color:#e2f4e4;font-weight:900;cursor:pointer}
+.csr-favorite-check input{width:16px;height:16px;accent-color:#baff95}
+.csr-actions{display:flex;gap:8px;flex-wrap:wrap}
+.csr-actions button,.csr-actions a{display:flex;align-items:center;justify-content:center;flex:1;min-height:44px;padding:10px;text-align:center;text-decoration:none;font-size:11px;font-weight:900;border-radius:6px}
+.csr-guide-toggle{border:1px solid #86ac98;background:#305246;color:#e8ffe7}
+.csr-official{border:1px solid #7394a0;background:#293e56;color:#e1f4fa}
+.csr-guide{border:1px solid #5b7a82;background:#172a3e;border-radius:7px;padding:11px;margin-top:12px}
+.csr-guide>label{display:flex;flex-direction:column;gap:7px;color:#c8dddb;font-size:9px;letter-spacing:.06em;font-weight:900}
+.csr-guide input{width:100%;min-height:40px;border:1px solid #648490;border-radius:6px;background:#0d2030;color:#f4faf5;padding:9px;font-size:11px}
+.csr-guide-list{margin-top:11px;max-height:284px;overflow-y:auto;display:flex;flex-direction:column;gap:5px}
+.csr-guide-list>button{display:flex;align-items:center;gap:9px;text-align:left;padding:10px;border:1px solid #41596e;background:#21354a;color:#d5e9d9;border-radius:6px;min-width:0}
+.csr-guide-list>button.active{border-color:#baff95;background:#315144}
+.csr-guide-list>button>span:first-child{font-size:11px;font-weight:950;color:#baff95;white-space:nowrap;min-width:52px}
+.csr-guide-list>button>span:nth-child(2){flex:1;min-width:0}
+.csr-guide-list strong{display:block;font-size:11px;color:#edffed;line-height:1.3}
+.csr-guide-list small{display:block;font-size:9px;color:#aecfc9;margin-top:4px}
+.csr-guide-list>button>span:last-child:not(:nth-child(2)){color:#ffe29d}
+.csr-no-results{color:#b9cfd2;font-size:11px;padding:9px}
+.csr-notice{border:1px solid #789c77;border-radius:7px;background:#29453b;color:#e0f8e0;font-size:11px;padding:11px;line-height:1.7;margin-top:12px}
+.csr-note{margin-top:14px;border-top:1px solid #446978;padding-top:11px}
+.csr-note strong{font-size:9px;letter-spacing:.1em;color:#c4f9ad}
+.csr-note p{font-size:10px;line-height:1.7;color:#a8c3ce;margin:7px 0 0}
+@media(max-width:540px){.csr-shell{padding:13px}.csr-controls{gap:8px}.csr-screen-main{gap:10px}.csr-screen-main>strong{font-size:24px}.csr-transport-actions{grid-template-columns:1fr}.csr-transport-actions button{min-height:32px}}
+@media(max-width:350px){.csr-controls{grid-template-columns:1fr}.csr-transport-actions{grid-template-columns:repeat(3,minmax(0,1fr))}}
