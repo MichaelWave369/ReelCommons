@@ -39,9 +39,14 @@ export const ATLAS_REGIONS: readonly AtlasRegion[] = [
     sourceIds: ['yosemite-valley','mountain-mammoth'],
   },
   {
-    id: 'southwest', label: 'American Southwest', description: 'Desert skyline and Grand Canyon landscapes.',
-    continent: 'americas', centerLat: 35.6, centerLon: -113.4, timeZone: 'America/Phoenix',
-    sourceIds: ['vegas-skyline','grand-canyon-south-rim'],
+    id: 'nevada', label: 'Las Vegas, Nevada', description: 'Neon desert skyline and Las Vegas viewing.',
+    continent: 'americas', centerLat: 36.1, centerLon: -115.2, timeZone: 'America/Los_Angeles',
+    sourceIds: ['vegas-skyline'],
+  },
+  {
+    id: 'arizona', label: 'Grand Canyon, Arizona', description: 'Grand Canyon South Rim park webcams.',
+    continent: 'americas', centerLat: 36.05, centerLon: -112.13, timeZone: 'America/Phoenix',
+    sourceIds: ['grand-canyon-south-rim'],
   },
   {
     id: 'northern-rockies', label: 'Northern Rockies', description: 'Geysers, national parks and alpine resort views.',
