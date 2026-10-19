@@ -6,6 +6,30 @@ ReelCommons is an original, independent, open-source directory for **legitimate 
 
 > **Scope honesty:** v0.1 is a curated **service directory**, not a live title-availability search engine. Provider links go to official homepages. Verify a specific title, ad load, cost, geographic restrictions, and accessibility features on the provider's site.
 
+## v1.8: Build Your Own World Tour · A private, shareable itinerary studio
+
+RCTV adds an original **Custom Tour Builder** to the **Open Streams → World Tour Mode** panel. Browse any of the **50 known RCTV official viewing destinations**, create a personal ordered journey, and use the existing manual-passport World Tour player to explore each official source in sequence. Ten published starter tours remain unchanged.
+
+### Build, reorder and explore
+
+1. Open World Tour Mode, then **Build a Custom Tour**. Enter a short title (3–64 characters) and add **3–10 distinct** destinations from the curated catalog. Duplicate entries and unknown providers are rejected.
+2. Use ↑ and ↓ to reorder individual stops; remove individual entries with ×. **Save new local route** or edit an existing saved route (up to **12** saved tours per browser).
+3. Choose **Explore** from your saved tours to view it through the existing World Tour navigation. Use **Preview channel desk** to select a source without autoplay, or **Open official camera** to visit the broadcaster's original player. Camera owners remain in control of availability and authorization.
+4. Your existing World Tour **manual passport** counts shared sources across custom and published tours; a stamp is only a visitor declaration of explored, **never independently verified playback, live status or physical travel**.
+
+### Safe, portable itinerary files
+
+Use **Export** to download a portable, human-readable JSON itinerary. Files have schema **RCTV_CUSTOM_WORLD_TOUR_V1** and include **only the tour title and ordered IDs from our fixed curated catalog**. No raw media URLs, web embeds, provider credentials, visitor location, viewing history, passport stamps or video are exported.
+
+Import is opt-in through a local file picker. The browser checks a **24 KB** limit, exact format identifier, allowed field names, safe title length, **3–10 unique existing catalog IDs**, and a **12-tour storage cap**. Unknown URLs, remote streams, HTML fields and arbitrary playlist files are rejected, rather than promoted into available RCTV media. Imported tours receive a fresh local identifier, avoiding overwriting an existing user's tour.
+
+Tour titles and IDs remain in **browser localStorage** only under `rctv-custom-world-tours-v1`. No cloud account, API, background tasks, camera playback probes, or automatic tracking is introduced. Deleting a saved route does not remove existing manual passport stamps, and editing a tour preserves the same route ID. If browser storage is unavailable, changes persist only during that tab session.
+
+### Tests, restrictions and next steps
+
+New `src/customTours.ts`, `src/customTours.test.ts`, `src/CustomTourBuilder.tsx` and `src/custom-tours.css` contain all data validation, sharing and UI. Tests verify safe route IDs, bounds, title sanitization, local-storage normalization, import rejection, stop ordering, existing World Tour compatibility and explicit non-playback provenance.
+
+This remains a **curated-source discovery tool**. Custom tours cannot embed any unapproved video, stream, audio, or bypass paywalls. After merging, manually smoke-test create/edit/reorder/explore/export/import/delete and reload persistence in a browser. CI cannot prove external webcam availability.
 ## v1.7: World Atlas · A schematic map of official camera destinations
 
 **RCTV World Atlas** is an original, interactive, responsive, self-contained geographic browser built into **Open Streams Commons**. It reuses curated webcam source records from earlier releases instead of introducing new third-party streams or permissions. Visit **Open Streams → Open World Atlas** to start.
