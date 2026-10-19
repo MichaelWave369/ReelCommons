@@ -6,6 +6,28 @@ ReelCommons is an original, independent, open-source directory for **legitimate 
 
 > **Scope honesty:** v0.1 is a curated **service directory**, not a live title-availability search engine. Provider links go to official homepages. Verify a specific title, ad load, cost, geographic restrictions, and accessibility features on the provider's site.
 
+## v2.0: Couch Mode · Lean-back RCTV viewer
+
+ReelCommons now offers a **Couch Mode** for its Open Streams Commons catalog. This is an original full-viewport theater-style *web overlay*, not a native television app or a claim of browser fullscreen privileges. Launch it from the new **RCTV 2.0 / Launch Couch Mode** station near the top of **Open Streams**. The existing Channel Surf Remote, World Atlas, ten starter World Tours, personal itinerary studio, M3U inspector, hardware/FTA labs and all 50 curated sources remain available.
+
+### Big-screen navigation
+
+- **16:9 viewing stage**, channel-number overlay, larger source title, visible source/provider status, and prominent official-player link.
+- Dedicated **CH− / CH+** controls, numbered 0–9 keypad, Clear, Backspace, Tune, category selector, favorites-only surfing, and an optional searchable channel guide. The same fixed **CH 001–050** assignment and source metadata from v1.9 are reused. No new channel mapping.
+- Keyboard shortcuts act only when the Couch Mode dialog itself has focus: arrows for channel surfing, digits to enter a channel, Enter to choose, Backspace to edit. **Escape closes the overlay from any focused control**. The dialog traps normal Tab focus within its own visible controls, restores the launch button focus when exiting, and scroll-locks the background while open.
+- The browser-local last-channel record continues to work with all other RCTV channel selection UIs. The channel's on-page player is unloaded before entering Couch Mode and Couch Mode media unmounts when it closes or a new channel is selected.
+
+### Media rights and actual behavior
+
+**Changing a directory channel never autoplays third-party media.** For official-site-only channels (including EarthCam, SkylineWebcams, all park/beach/rail cameras, and SomaFM), the screen is a branded **standby panel**, with **Open official player** taking the visitor to the source's original website in a separate safe tab. No video files, stream URLs, externally hosted webcam images or authorization status are imported into RCTV.
+
+For only the two earlier-reviewed paths, **NASA ISS YouTube** and **KEXP broadcaster-published AAC**, Couch Mode displays a separate **Load official player/audio** button. This requires an intentional click and uses the same exact `playableUrl()` allowlist as v1.9. KEXP native audio controls start with `preload="none"`; the user still presses Play. A platform can disable a YouTube embed or restrict listening, so the official-site link is always available. Media is not recorded, downloaded, proxied, retransmitted or automatically refreshed.
+
+**Theater mode is a visual interface** and does not currently call the Fullscreen API or guarantee remote-device integration. An accessibility/real-TV QA pass still needs testing with screen readers, keyboard, touch and a gamepad or TV browser. Source owner advertising, availability and regional restrictions remain in effect.
+
+### Trust checks
+
+All browser-side channel switching uses `CHANNEL_LINEUP` and the existing vetted source IDs. `CouchMode.tsx` does not permit pasted URLs, IPTV playlist imports or runtime stream discovery. The session's loaded-media ID is local React state and resets on channel selection, exit, or component unmount. Tests check the default page markup has no automatic iframe/audio and that official-only providers always have just their own viewing links.
 ## v1.9: Channel Surf Remote · Numbered official destinations
 
 RCTV's **Open Streams Commons** now includes a **Channel Surf Remote** immediately above the existing channel desk, bringing a virtual television interface to the 50 curated sources. These numbers are fixed catalog-directory positions, **not an RF tuner channel, broadcast schedule, frequency, media license, or proof that a broadcaster is currently live**.
