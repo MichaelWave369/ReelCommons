@@ -6,6 +6,27 @@ ReelCommons is an original, independent, open-source directory for **legitimate 
 
 > **Scope honesty:** v0.1 is a curated **service directory**, not a live title-availability search engine. Provider links go to official homepages. Verify a specific title, ad load, cost, geographic restrictions, and accessibility features on the provider's site.
 
+## v1.9: Channel Surf Remote · Numbered official destinations
+
+RCTV's **Open Streams Commons** now includes a **Channel Surf Remote** immediately above the existing channel desk, bringing a virtual television interface to the 50 curated sources. These numbers are fixed catalog-directory positions, **not an RF tuner channel, broadcast schedule, frequency, media license, or proof that a broadcaster is currently live**.
+
+### Numbered guide and keypad
+
+- **CH 001–050** are explicit, stable catalog numbers in `src/channelSurf.ts`. Future additions should append slots instead of silently renumbering older destinations. Examples: CH 001 CBS News, CH 013 NASA ISS, CH 017 Bourbon Street, CH 050 Jackson Hole Mountain.
+- Use the clickable **0–9 keypad** and **Tune channel**, or open the searchable **Channel Guide**. The guide shows the official source name, number, category and whether that destination is saved to favorites. Displayed categories reuse the existing channel taxonomy.
+- Use **CH+ / CH−** for wraparound surfing among the remote's current category. Enable **Favorites only** to surf just the sources you already saved, with an explicit empty state when no channels match. **Last** switches to the previous source selected in the current tab session, including changes made through the map, cards and tours, provided it's in the selected remote lineup.
+- Keyboard shortcuts work only while the remote *panel itself* has focus: **↑ / ↓** for next/previous, digits to enter a channel, **Enter** to tune, **Backspace** to delete and **Escape** to clear. Text fields, select menus, links and focused buttons keep their normal keyboard behavior. No global keyboard listener or unexpected shortcuts are introduced.
+- The last selected known catalog source ID is saved in **browser localStorage** under `rctv-channel-surf-last-v1`. On returning to Open Streams it is restored. Unknown IDs, invalid versions and malformed storage are ignored; no history, source URLs, time-on-channel or user location is stored. Favorites continue using their existing separate storage key.
+
+### Rights, playback and integration
+
+Changing a channel via numbers, CH+/CH−, last, cards, favorites, World Atlas or World Tour **selects a source and unloads any previously loaded iframe/audio**. It never follows an arbitrary URL, starts playback, fetches media or grants broadcast permissions. For all official-site-only channels the **Official player** button opens the provider's site with `noopener noreferrer`. The only pre-existing opt-in player routes remain NASA ISS and broadcaster-listed KEXP audio in the separate channel desk.
+
+No dependencies, third-party map services, tracking, backend, premium feed, recording, proxy or tuner hardware are needed. The remote makes the existing source directory easier to use; RCTV still cannot verify whether a third-party stream is online or watchable in a particular region.
+
+### Automated coverage
+
+`src/channelSurf.test.ts` covers one-to-one stable 50-slot numbering, input parsing, invalid channels, wraparound surfing, category/favorites-only selection, trusted local persistence and unchanged official-site-only playback rules. Existing Python, Vitest and production build CI apply. After merge, manually test the remote keyboard focus, numeric entry, CH+/CH−, Last, guide, remote filters, browser refresh and optional NASA/KEXP player unloading.
 ## v1.8: Build Your Own World Tour · A private, shareable itinerary studio
 
 RCTV adds an original **Custom Tour Builder** to the **Open Streams → World Tour Mode** panel. Browse any of the **50 known RCTV official viewing destinations**, create a personal ordered journey, and use the existing manual-passport World Tour player to explore each official source in sequence. Ten published starter tours remain unchanged.
