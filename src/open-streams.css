@@ -121,3 +121,22 @@
 @media(max-width:600px){.osc-page{padding-top:42px}.osc-hero h1{font-size:clamp(45px,8vw,63px)}.osc-category-bar{grid-template-columns:repeat(2,minmax(0,1fr))}.osc-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.osc-channel-select{padding:12px;min-height:205px}.osc-channel-select>strong{font-size:16px}.osc-card-header{flex-direction:column}.osc-card-footer{padding:8px}.osc-card-footer a{font-size:9px}.osc-playlist-body{grid-template-columns:1fr}.osc-hero p{font-size:12px}}
 @media(max-width:395px){.osc-grid{grid-template-columns:1fr}.osc-category-bar button{min-height:54px}.osc-stat-line{gap:11px}.osc-channel-select{min-height:160px}.osc-control-panel{padding:14px}}
 @media(prefers-reduced-motion:reduce){.osc-page *{scroll-behavior:auto!important}}
+
+
+/* RCTV v1.4 City + Nature Commons expansion: official-provider cam portals. */
+.osc-cam-discovery{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:15px;margin:0 0 19px;padding:21px 24px;border-radius:10px;border:1px solid #608f7a;background:radial-gradient(circle at 80% 30%,#325c51,transparent 45%),linear-gradient(120deg,#233b3c,#232c49)}
+.osc-cam-discovery>div:first-child{flex:1;min-width:230px}
+.osc-cam-discovery strong{display:block;color:#e8ffdc;letter-spacing:-.03em;font-size:clamp(18px,2.2vw,23px);margin-top:8px}
+.osc-cam-discovery p{color:#c5d8d0;font-size:11px;line-height:1.75;max-width:740px;margin:7px 0 0}
+.osc-cam-shortcuts{display:flex;flex-wrap:wrap;gap:9px}
+.osc-cam-shortcuts button{border:1px solid #bbfc9a;border-radius:7px;background:#baff95;color:#183222;font-weight:900;font-size:12px;padding:13px 15px;min-height:44px}
+.osc-cam-shortcuts button+button{background:#2c4a3b;color:#ddfdd2;border-color:#9bcc9e}
+.osc-scene-picker{display:flex;flex-wrap:wrap;align-items:center;gap:6px;flex-basis:100%;padding-top:13px;margin-top:2px;border-top:1px solid #3a5063}
+.osc-scene-picker button{font-size:10px;color:#c7d4df;background:#26354d;border:1px solid #566c7c;border-radius:5px;font-weight:850;padding:9px 10px}
+.osc-scene-picker button.active{background:#3b5739;border-color:#baff95;color:#e2ffd8}
+.osc-camera-format{align-self:flex-start;border:1px solid #718e8b;background:#1e404480;color:#e1efdf;border-radius:5px;padding:5px 8px;font-size:9px;letter-spacing:.05em;font-weight:900}
+.osc-category-bar{grid-template-columns:repeat(7,minmax(0,1fr))}
+.osc-channel-select{min-height:223px}
+@media(max-width:1170px){.osc-category-bar{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:850px){.osc-category-bar{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:600px){.osc-category-bar{grid-template-columns:repeat(2,minmax(0,1fr))}.osc-cam-discovery{padding:17px}.osc-cam-shortcuts{width:100%}.osc-cam-shortcuts button{flex:1}.osc-channel-select{min-height:220px}}
