@@ -6,6 +6,51 @@ ReelCommons is an original, independent, open-source directory for **legitimate 
 
 > **Scope honesty:** v0.1 is a curated **service directory**, not a live title-availability search engine. Provider links go to official homepages. Verify a specific title, ad load, cost, geographic restrictions, and accessibility features on the provider's site.
 
+## v1.6: Coastlines & Rails · Beaches, harbors, trains and mountains
+
+RCTV expands **Open Streams Commons from 34 to 50 curated official viewing destinations**, adding four new first-class categories: **Beaches, Harbors, Train Cams and Mountain Views** (four destinations each). All new cameras are publisher-site-only; no copied webcam media, embed, HLS hotlink, external feed probe, camera download, proxy, recording or retransmission.
+
+### Beaches (4)
+
+- **Santa Monica Beach & Pier**: original Explore.org Pacific Ocean view.
+- **Huntington Beach Pier**: official Visit Huntington Beach surf camera.
+- **Clearwater Beach / Pier 60**: original St. Pete–Clearwater visitor-bureau webcam directory.
+- **Park Point Beach, Duluth**: Solglimt’s original Lake Superior beach camera hosted by Duluth Harbor Cam.
+
+### Harbors (4)
+
+- **Port of Los Angeles**: official port authority two-camera harbor viewer from San Pedro and Wilmington.
+- **Duluth Harbor**: original Duluth Harbor Cam panorama of freighters and the aerial lift bridge.
+- **Port San Luis**: original municipal Harbor District webcam links.
+- **Duluth South Pier Lighthouse**: original lighthouse shipping-canal stream.
+
+### Train cameras (4)
+
+- **RailStream Free Railcams**: the provider’s ad-supported **Fireman** camera selection, not premium cameras or DVR.
+- **Virtual Railfan Free Cameras**: public operator cameras; paid multi-view and premium PTZ cameras are excluded.
+- **Ashland, Virginia Rail Cam**: official Virtual Railfan YouTube watch page, external viewing only.
+- **Mount Washington Cog Railway**: the Observatory’s webcam directory, including Cog Waumbek Station and Up the Tracks views.
+
+Virtual Railfan specifically prohibits recording, redistribution and restreaming without prior consent. RCTV respects that by linking only to its official watch pages. Not all features at free-and-paid railcam services are free.
+
+### Mountains (4)
+
+- **Mount Washington Observatory**: original summit, tower and surrounding weather cams.
+- **Whistler Blackcomb**: Whistler Peak, Roundhouse, Blackcomb and village camera directory.
+- **Mammoth Mountain Main Lodge**: original resort live player and snapshot view.
+- **Jackson Hole Mountain Resort**: original mountain camera directory.
+
+Mountain camera formats, seasonal operation, ice, obscuring clouds, daylight limitations and still frames differ by source. None of the labels in RCTV constitutes a live uptime check.
+
+### Tours, privacy and trust
+
+The four new five-stop World Tour routes are **Beach Day, Harbor Hopping, Rails Across America, and Above the Clouds**. Ten tours now coexist, and previous passport stamps continue to work. Stamps remain manual visitor self-reports in local browser storage. Browsing does not autoplay external camera media.
+
+New category tabs, view-type scene filters and discovery shortcuts work with existing search, favorites and source information. Every new source has playback policy **official only**, so its media cannot automatically be embedded or streamed in the RCTV channel desk. NASA ISS and KEXP retain their earlier separate opt-in allowlists.
+
+Source metadata and permission notes are in [src/coastRailCatalog.ts](src/coastRailCatalog.ts). Useful source references: [Santa Monica Explore.org](https://explore.org/livecams/oceans/santa-monica-beach-cam), [Huntington Beach](https://www.surfcityusa.com/things-to-do/surfing/live-surf-cam/), [Port of Los Angeles](https://www.portoflosangeles.org/news/livestream), [RailStream](https://www.railstream.net/camera-lineup), [Virtual Railfan](https://virtualrailfan.com/free-cameras), [Mount Washington Observatory](https://mountwashington.org/webcams/), [Whistler](https://www.whistlerblackcomb.com/the-mountain/mountain-conditions/mountain-cams.aspx), [Mammoth](https://www.mammothmountain.com/on-the-mountain/mammoth-webcam/main-lodge), [Jackson Hole](https://www.jacksonhole.com/live-mountain-cams).
+
+Automated CI checks catalog integrity and source-only playback rules, but actual provider streaming, free-tier availability, embedding status and camera uptime require separate manual checking after deployment.
 ## v1.5: World Tour Mode · Camera Passport
 
 **World Tour Mode** adds a guided, user-driven camera adventure to **Open Streams Commons**. It uses the 34 pre-existing, reviewed publisher destinations. There are no new third-party embeds, stream links, scrapers, camera rights claims, servers or external network requests.
