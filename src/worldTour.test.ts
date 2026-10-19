@@ -9,7 +9,7 @@ import { playableUrl } from './openStreams'
 describe('RCTV v1.5 World Tour: curated camera itinerary and passport', () => {
   it('ten routes contain five unique existing official sources with meaningful narration', () => {
     expect(WORLD_TOURS).toHaveLength(10)
-    expect(new Set(WORLD_TOURS.map((tour) => tour.id)).size).toBe(6)
+    expect(new Set(WORLD_TOURS.map((tour) => tour.id)).size).toBe(10)
     const sourceIds = new Set(ALL_OPEN_STREAMS.map((item) => item.id))
     for (const tour of WORLD_TOURS) {
       expect(tour.stops).toHaveLength(5)

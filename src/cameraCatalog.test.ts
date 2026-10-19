@@ -4,8 +4,8 @@ import { filterCameraScene, filterOpenStreams, playableUrl, readCommonsFavorites
 describe('v1.4 original curated city and nature directory', () => {
   it('adds exactly 7 city and 13 nature stations without colliding with prior ids', () => {
     expect(CAMERA_COUNTS).toEqual({ cities: 7, nature: 13, total: 20 })
-    expect(ALL_OPEN_STREAMS.length).toBe(34)
-    expect(new Set(ALL_OPEN_STREAMS.map((c) => c.id)).size).toBe(34)
+    expect(ALL_OPEN_STREAMS.length).toBe(50)
+    expect(new Set(ALL_OPEN_STREAMS.map((c) => c.id)).size).toBe(50)
   })
   it('all added cameras point to actual official HTTPS publication destinations', () => {
     for (const item of CAMERA_STREAMS) {
