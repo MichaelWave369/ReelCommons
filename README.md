@@ -6,6 +6,42 @@ ReelCommons is an original, independent, open-source directory for **legitimate 
 
 > **Scope honesty:** v0.1 is a curated **service directory**, not a live title-availability search engine. Provider links go to official homepages. Verify a specific title, ad load, cost, geographic restrictions, and accessibility features on the provider's site.
 
+## v1.1: Device Diagnostics · Windows PnP telemetry without tuner control
+
+RCTV v1.1 extends the **Tuner Scout** page with an optional **read-only Windows device-diagnostics report** and before/after comparison. This is **operating-system Plug-and-Play metadata only**, *not* live DVB/ATSC demodulator telemetry, signal lock or TV playback. The v1.0 candidate scanner and all earlier RCTV features remain intact.
+
+### Run explicitly on Windows
+
+Use Python 3.10+ from the ReelCommons repository root:
+
+```powershell
+py .\companion\device_diagnostics.py --demo --out .\rctv-device-diagnostics-demo.json
+py .\companion\device_diagnostics.py --scan --out .\rctv-device-diagnostics.json
+```
+
+`--demo` produces two **entirely invented** diagnostic candidates, one illustrative working-Windows-code-0 state and one code-28 driver issue. `--scan` queries the `Win32_PnPEntity` Windows CIM/WMI class, requesting **only present** device entries and **only** `Name`, `PNPClass`, `Status`, `ConfigManagerErrorCode` properties. The companion matches possible TV tuners and SDRs by **display-name pattern**, emits at most **32 candidates**, and writes an **explicitly specified local JSON file**. No instance IDs, serial numbers, IP addresses, MACs, RF telemetry or stream payloads are requested or exported as separate fields. *Friendly names themselves may include identifying details; review before sharing.*
+
+Existing output is protected; pass `--force` only if you intentionally want to overwrite a previous report. No administrator privilege is requested, but device-query permissions and installed PowerShell/CIM support vary across Windows machines. No automatic background scan, scheduled polling, network connections or local HTTP service.
+
+### View and compare
+
+Open **Tuner Scout → Read the device ledger**. Load a current JSON diagnostic report, and optionally an older **baseline** from before plugging in a tuner or making a driver change. Comparison matches normalized **display name + class**, not a stable serial identity. It highlights names appearing/disappearing and classifications changing; it can miss renames, duplicate names, driver changes that do not change status, and data altered in either JSON file.
+
+Codes are interpreted narrowly: `ConfigManagerErrorCode = 0` with Windows status `OK` → `WINDOWS_REPORTS_OK`; nonzero reported error → `WINDOWS_REPORTS_DEVICE_ISSUE`; missing code or ambiguous status → `WINDOWS_STATUS_UNCERTAIN`. These classifications describe **Windows's PnP report**, not compatibility, broadcast reception or genuine hardware readiness. In particular, Windows reporting `OK` doesn't prove the DVB/ATSC standard, usable LNB, antenna, frequency, measured signal or decoded program.
+
+Import is bounded to **80 KB**, canonicalizes supported fields, rejects unsupported identifying properties or any report that claims RF lock/measurement/decoding. All imports are **user-supplied** and **not authenticated** even when their `source` field says `WINDOWS_CIM_SNAPSHOT`. Synthetic examples and unverified Windows files are always labeled as such. Exporting the diagnostics evidence receipt preserves this lack of authority.
+
+### Testing
+
+```powershell
+py -m unittest discover -s companion -p 'test_*.py'
+npm test
+npm run build
+```
+
+Python companion tests, browser schema tests and TypeScript build are included in GitHub CI. The **real Windows scan must be validated on a Windows computer**, not inferred from Linux GitHub Actions. For Microsoft-specified field semantics, see [Win32_PnPEntity](https://learn.microsoft.com/en-us/windows/win32/cimwin32prov/win32-pnpentity).
+
+**Future gate:** Any hardware-specific RF or tuning telemetry requires independently reviewed opt-in adapters and a proven trust boundary. This release neither reads nor changes a tuner.
 ## v1.0: Local Tuner Scout · Companion foundation
 
 **RCTV v1.0** introduces an explicit, opt-in Windows companion script and an RCTV **Tuner Scout** evidence screen. This is the first *local hardware inventory* rung; it is **not** a receiver driver, tuner controller, RF signal probe, satellite scan, video player, or SAT>IP server.
