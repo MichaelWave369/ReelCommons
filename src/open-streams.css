@@ -154,3 +154,7 @@
 @media(max-width:1160px){.osc-category-bar{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media(max-width:720px){.osc-category-bar{grid-template-columns:repeat(3,minmax(0,1fr))}.osc-coast-shortcuts{width:100%;grid-template-columns:repeat(2,minmax(0,1fr))}.osc-coast-expansion{padding:17px}}
 @media(max-width:420px){.osc-category-bar{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+
+/* v1.9 remote and source desk can exceed the viewport; don't sticky-trap tall controls. */
+.osc-right{position:static}

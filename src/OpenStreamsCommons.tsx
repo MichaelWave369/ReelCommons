@@ -9,10 +9,16 @@ import { ALL_OPEN_STREAMS, CAMERA_COUNTS } from './cameraCatalog'
 import { COAST_RAIL_COUNTS } from './coastRailCatalog'
 import WorldTour from './WorldTour'
 import WorldAtlas from './WorldAtlas'
+import ChannelSurfRemote from './ChannelSurfRemote'
+import {CHANNEL_SURF_STORAGE_KEY,readChannelSurfState,serializeChannelSurfState} from './channelSurf'
 import { inspectLocalM3u, MAX_PLAYLIST_BYTES } from './m3uInspection'
 import type { PlaylistInspection } from './m3uInspection'
 import './open-streams.css'
 
+function initialChannelSelection(): string {
+  try {return readChannelSurfState(window.localStorage.getItem(CHANNEL_SURF_STORAGE_KEY)).lastId ?? 'nasa-iss'}
+  catch {return 'nasa-iss'}
+}
 function initialFavorites(): string[] {
   try { return readCommonsFavorites(window.localStorage.getItem(COMMONS_FAVORITES_KEY), ALL_OPEN_STREAMS) }
   catch { return [] }
@@ -26,7 +32,7 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
   const [cameraScene, setCameraScene] = useState<CameraScene | 'all'>('all')
   const [favorites, setFavorites] = useState<string[]>(initialFavorites)
   const [favoritesOnly, setFavoritesOnly] = useState(false)
-  const [selectedId, setSelectedId] = useState('nasa-iss')
+  const [selectedId, setSelectedId] = useState(initialChannelSelection)
   const [mediaLoadedFor, setMediaLoadedFor] = useState<string | null>(null)
   const [notice, setNotice] = useState('')
   const [playlistReport, setPlaylistReport] = useState<PlaylistInspection | null>(null)
@@ -44,6 +50,8 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
 
   function selectSource(source: OpenStream) {
     setSelectedId(source.id)
+    const saved = serializeChannelSurfState(source.id)
+    if(saved)try {window.localStorage.setItem(CHANNEL_SURF_STORAGE_KEY,saved)} catch {/* Session selection still works */}
     setMediaLoadedFor(null) // Unmount iframes and native audio when switching channels.
     setNotice('')
     document.getElementById('osc-player')?.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
@@ -85,7 +93,7 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
     setShowPlaylist(true)
   }
   return <section className="osc-page wrap" aria-labelledby="osc-heading">
-    <div className="eyebrow">THE COMMON SCREEN / RCTV v1.7 · OPEN STREAMS COMMONS</div>
+    <div className="eyebrow">THE COMMON SCREEN / RCTV v1.9 · OPEN STREAMS COMMONS</div>
     <div className="osc-hero">
       <div className="osc-hero-copy">
         <span className="osc-overline"><span className="osc-signal" /> LEGITIMATE CHANNELS · ENDLESS CURIOSITY</span>
@@ -169,6 +177,7 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
       </div>
 
       <div className="osc-right">
+        <ChannelSurfRemote selected={selected} favoriteIds={favorites} onSelect={selectSource} />
         <section className="osc-player" id="osc-player" aria-labelledby="osc-player-title">
           <div className="osc-player-header"><div><span className="osc-kicker">THE COMMON SCREEN · CHANNEL DESK</span><h2 id="osc-player-title">{selected.name}</h2><p>{selected.tagline}</p></div><span className="osc-player-category">{categoryNames[selected.category]}</span></div>
           <div className="osc-screen">
