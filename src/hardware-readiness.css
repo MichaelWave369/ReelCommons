@@ -1,0 +1,58 @@
+/* RCTV v1.2: Hardware Readiness worksheet; no verified RF or tuner authority. */
+.gate-panel{margin-top:28px;padding:24px;border:1px solid #648e79;border-radius:13px;background:linear-gradient(145deg,#162d35,#1b253a 63%,#18233a)}
+.gate-head{display:flex;justify-content:space-between;align-items:start;gap:18px;flex-wrap:wrap;padding-bottom:18px;border-bottom:1px solid #3e5964}
+.gate-overline{color:#b6fc83;letter-spacing:.15em;font-weight:900;font-size:10px}
+.gate-head h2{font-size:clamp(28px,3.3vw,42px);letter-spacing:-.065em;line-height:1.13;margin:10px 0}
+.gate-head p{font-size:12px;line-height:1.8;color:#b6c7d5;max-width:710px;margin:0}
+.gate-label{display:block;font-size:10px;white-space:nowrap;letter-spacing:.09em;color:#ffddb0;background:#41372d;border:1px solid #9a8261;border-radius:6px;padding:9px 11px;font-weight:900}
+.gate-truth{background:#34302c;border-left:4px solid #d8b87b;border-top:1px solid #806f52;border-right:1px solid #806f52;border-bottom:1px solid #806f52;border-radius:8px;padding:15px 18px;margin:18px 0;font-size:12px;line-height:1.8;color:#e2d6c3}
+.gate-truth strong{color:#ffe6ae}
+.gate-layout{display:grid;grid-template-columns:1fr 1.08fr;gap:18px}
+.gate-form,.gate-readout{min-width:0;background:#1b273c;border:1px solid #435972;border-radius:9px;padding:19px}
+.gate-form h3,.gate-readout h3{font-size:19px;letter-spacing:-.035em;display:flex;align-items:center;gap:10px;margin:0 0 16px}
+.gate-form h3:not(:first-child){padding-top:17px;border-top:1px solid #3a5165;margin-top:23px}
+.gate-form h3 span,.gate-readout h3 span{display:grid;place-items:center;min-height:30px;min-width:30px;border:1px solid #688f73;background:#2b4638;border-radius:6px;color:#c3f9a8;font-size:12px}
+.gate-field{display:flex;flex-direction:column;gap:8px;font-size:11px;color:#d1e1e7;font-weight:800;margin:12px 0;min-width:0}
+.gate-field input,.gate-field select{height:45px;width:100%;min-width:0;background:#0d1a2d;border:1px solid #64768b;color:#f5f9fc;border-radius:7px;padding:10px 12px;font-size:12px;font-weight:500}
+.gate-field select:focus-visible,.gate-field input:focus-visible{outline:3px solid #b6fc83;outline-offset:2px}
+.gate-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.gate-helper{font-size:11px;line-height:1.75;color:#9bb2c2;margin:11px 0}
+.gate-check{display:flex;align-items:flex-start;gap:12px;font-size:12px;line-height:1.7;color:#c7d8dc;background:#233549;border:1px solid #435873;padding:13px;border-radius:7px;margin:10px 0;cursor:pointer}
+.gate-check input{width:18px;height:18px;accent-color:#b6fc83;flex-shrink:0;margin-top:2px}
+.gate-check:focus-within{outline:2px solid #b6fc83;outline-offset:2px}
+.gate-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:18px}
+.gate-actions button{border:1px solid #b6fc83;border-radius:7px;background:#b6fc83;color:#13251b;font-weight:900;padding:12px 14px;font-size:12px;min-height:45px}
+.gate-actions button+button{background:#283648;color:#d7e9de;border-color:#667786}
+.gate-notice{background:#273f36;border:1px solid #638775;padding:12px;color:#dcf6e2;font-size:11px;line-height:1.7;border-radius:6px}
+.gate-decision{border:1px solid #90775b;background:linear-gradient(115deg,#473b32,#282f42);border-radius:10px;padding:21px;margin-bottom:18px}
+.gate-decision.prepared{border-color:#6d956c;background:linear-gradient(115deg,#294537,#263748)}
+.gate-decision small{letter-spacing:.1em;color:#e7cfa9;font-size:9px;font-weight:900}
+.gate-decision.prepared small{color:#b6fc83}
+.gate-decision strong{display:block;font-size:clamp(20px,2.6vw,27px);letter-spacing:-.05em;line-height:1.2;color:#f4ede2;margin:9px 0}
+.gate-decision p{color:#d0c9bf;line-height:1.7;font-size:11px;margin:0}
+.gate-decision.prepared p{color:#c3d6c8}
+.gate-steps{display:flex;flex-direction:column;gap:9px}
+.gate-step{display:flex;align-items:flex-start;gap:10px;background:#223047;border:1px solid #405772;border-radius:8px;padding:12px}
+.gate-step.reported{border-color:#56816f;background:#233a3b}
+.gate-step.blocked{border-color:#946b5d;background:#3d3138}
+.gate-step.operator-claimed{border-color:#9b8c65;background:#333743}
+.gate-step-symbol{display:grid;place-items:center;border-radius:50%;height:26px;width:26px;border:1px solid #70859a;color:#d8e6ee;font-weight:900;flex-shrink:0;font-size:14px}
+.gate-step.reported .gate-step-symbol{border-color:#b6fc83;color:#b6fc83}
+.gate-step.blocked .gate-step-symbol{border-color:#f8a397;color:#f8a397}
+.gate-step.operator-claimed .gate-step-symbol{border-color:#ebd3a5;color:#ebd3a5}
+.gate-step>div{flex:1;min-width:0}
+.gate-step strong{font-size:12px;color:#f5f8f2}
+.gate-step p{font-size:10px;color:#afc2ce;line-height:1.7;margin:5px 0 0}
+.gate-step>small{font-size:8px;letter-spacing:.08em;font-weight:850;color:#a8bbcf;text-align:right;max-width:93px}
+.gate-limits{border:1px solid #9b6f66;border-radius:8px;padding:15px;background:#392f33;margin-top:18px}
+.gate-limits strong{font-size:10px;color:#ffd0b8;letter-spacing:.11em}
+.gate-limits p{font-size:11px;line-height:1.8;color:#dfc6c3;margin-bottom:0}
+.gate-limits b{color:#fff3dd}
+.gate-expand{border:1px solid #728f81;border-radius:7px;background:#29453f;color:#c5ffb7;padding:11px 14px;font-weight:900;font-size:12px;margin-top:16px}
+.gate-packet{margin-top:12px;border:1px solid #4e6971;border-radius:9px;padding:12px;background:#0b1a2c}
+.gate-packet pre{overflow:auto;max-height:340px;white-space:pre-wrap;overflow-wrap:anywhere;font-size:10px;color:#c6dec7;line-height:1.55}
+.gate-packet button{background:#314e40;border:1px solid #84a67d;border-radius:6px;color:#dafecf;font-size:11px;font-weight:900;padding:10px 12px}
+.gate-footnote{border-top:1px solid #3f5b61;font-size:12px;color:#b7cad1;line-height:1.8;padding-top:18px;margin:22px 0 0}
+.gate-footnote strong{color:#b6fc83}
+@media(max-width:1080px){.gate-layout{grid-template-columns:1fr}}
+@media(max-width:600px){.gate-panel{padding:15px}.gate-form,.gate-readout{padding:14px}.gate-fields{grid-template-columns:1fr}.gate-step{flex-wrap:wrap}.gate-step>small{max-width:none;margin-left:36px}}
