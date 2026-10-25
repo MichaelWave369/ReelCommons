@@ -6,6 +6,23 @@ ReelCommons is an original, independent, open-source directory for **legitimate 
 
 > **Scope honesty:** v0.1 is a curated **service directory**, not a live title-availability search engine. Provider links go to official homepages. Verify a specific title, ad load, cost, geographic restrictions, and accessibility features on the provider's site.
 
+## v3.1: TV Experience Polish · Mini remote, focused handoffs, optional gamepad
+
+RCTV v3.1 makes the v3.0 Unified TV Home feel like one navigation system across screens, without changing playback rights or the two existing opt-in media routes.
+
+- **Persistent mini remote** on the Open Streams page: a compact fixed-position channel indicator with optional expandable controls for CH−/CH+, numeric 001–050 tuning, official publisher link, and three screen-navigation buttons. It hides while the Couch Mode dialog is open to avoid a second active remote behind the modal, and its responsive placement respects mobile safe areas. Nothing in the dock loads an audio/video player automatically.
+- **Better cross-screen focus**: entering Couch Mode remembers the currently focused launcher and returns focus on exit when it still exists, otherwise returning to the original Couch Mode launch button. Moving to Channel Desk or Reviewed Player Desk scrolls to and focuses the corresponding heading with `tabIndex=-1`. Handoffs unload any previously loaded in-app media and reset signal observations.
+- **Optional browser Gamepad API control in Couch Mode**: an explicit user click enables polling *only while the dialog is open*. D-pad and left stick surf directory channels, A/X toggles the guide, and B closes Couch Mode. Inputs are rate-limited; disabling or closing the dialog cancels polling. These controls never invoke a Load action. This is progressive enhancement and requires a browser/controller combination exposing the standard Gamepad API. Quest controller browser mappings and other gamepads still require device testing.
+- **Visibility and accessible focus**: minimum-size touch targets, keyboard focus rings, screen reader labels, and clear interface states. Native player controls and official publisher links remain independent of controller navigation.
+- **No authority changes**: the frozen 50 numbered RCTV channels, seven reviewed station roster, NASA and KEXP exact playable URLs, v2.7 trust gate, and browser-session-only recovery receipts are unchanged. No IPTV-org, M3U, browser storage, or self-reported Source Lab packet gains access to playback.
+- **v3.2+ studio blueprint**: `docs/RCTV_BROADCAST_STUDIO_ROADMAP.md` scopes a consent-gated, local-first Broadcasting & Podcast Studio. A future release can append source-reviewed user-owned programs after CH 050 and later integrate an explicit creator-controlled publishing/streaming backend. Neither recording nor public broadcasting is implemented by this PR.
+
+### v3.1 quality checks
+
+`src/tvPolish.test.tsx` tests the fixed-channel numeric mini tuner, valid controller mappings and deadzone, no-autoplay initial Couch rendering, and compact dock markup. Existing Vitest, Python companion, source-policy gate and TypeScript/Vite build run in CI.
+
+After merge, manual browser QA should cover desktop/mobile sizes, safe-area placement, keyboard focus return from each Couch launcher, navigation to the Channel Desk and Reviewed Player Desk, CH switching while another desk is active, gamepad mapping on real devices and stop/unload behavior. CI cannot physically verify gamepad connectivity or actual video/audio playback.
+
 ## v3.0: Unified TV Home · One channel, three screens
 
 RCTV v3.0 introduces a shared, visible **Unified TV Home** at the top of Open Streams Commons. It connects the 50-channel guide, the main **Channel Desk**, lean-back **Couch Mode**, and seven-source **Reviewed Player Desk** around one currently selected, source-controlled station. No automatically loaded video, new stream sources, media proxy, account or server is needed.

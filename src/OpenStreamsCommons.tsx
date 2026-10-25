@@ -12,6 +12,7 @@ import WorldAtlas from './WorldAtlas'
 import WorldBroadcastAtlas from './WorldBroadcastAtlas'
 import ReviewedPlaybackBridge from './ReviewedPlaybackBridge'
 import UnifiedTvHub from './UnifiedTvHub'
+import MiniTvRemote from './MiniTvRemote'
 import { hubRememberPrevious } from './tvHub'
 import SignalDiagnosticPanel from './SignalDiagnosticPanel'
 import { initialSignalForSource, observeSignal, selectSignalStation } from './signalRecovery'
@@ -53,6 +54,7 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
   const [showPlaylist, setShowPlaylist] = useState(false)
   const [couchOpen, setCouchOpen] = useState(false)
   const couchLaunchRef = useRef<HTMLButtonElement>(null)
+  const focusReturnRef = useRef<HTMLElement | null>(null)
 
   const visible = useMemo(() =>
     filterCameraScene(filterOpenStreams(ALL_OPEN_STREAMS, category, query, favorites, favoritesOnly), cameraScene),
@@ -78,24 +80,41 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
     if (scrollToPlayer) document.getElementById('osc-player')?.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
   }
   function openCouchMode() {
+    focusReturnRef.current = document.activeElement instanceof HTMLElement
+      ? document.activeElement : null
     setMediaLoadedFor(null)
     setMainSignal((previous) => observeSignal(previous, 'unload', previous.sourceId, previous.attempt))
     setBridgeResetToken((token) => token + 1)
     setCouchOpen(true)
+  }
+  function focusTvSurface(id: string) {
+    window.requestAnimationFrame(() => {
+      const element=document.getElementById(id)
+      element?.scrollIntoView({block:'center',behavior:'smooth'})
+      element?.focus({preventScroll:true})
+    })
   }
   function openReviewedDesk() {
     setMediaLoadedFor(null)
     setMainSignal((previous) => observeSignal(previous, 'unload', previous.sourceId, previous.attempt))
     setBridgeResetToken((token) => token + 1)
     setBridgeOpenRequestToken((token) => token + 1)
-    document.getElementById('rpb-title')?.scrollIntoView({block:'start',behavior:'smooth'})
+    focusTvSurface('rpb-title')
   }
   function openMainDesk() {
-    document.getElementById('osc-player-title')?.scrollIntoView({block:'center',behavior:'smooth'})
+    setBridgeResetToken((token)=>token+1)
+    setMediaLoadedFor(null)
+    setMainSignal((previous)=>observeSignal(previous,'unload',previous.sourceId,previous.attempt))
+    focusTvSurface('osc-player-title')
   }
   function closeCouchMode() {
     setCouchOpen(false)
-    window.setTimeout(() => couchLaunchRef.current?.focus(), 0)
+    window.setTimeout(() => {
+      const previous = focusReturnRef.current
+      if (previous?.isConnected) previous.focus()
+      else couchLaunchRef.current?.focus()
+      focusReturnRef.current = null
+    }, 0)
   }
   function toggleFavorite(id: string) {
     const next = favorites.includes(id) ? favorites.filter((x) => x !== id) : [...favorites, id]
@@ -136,7 +155,7 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
   return <section className="osc-page wrap" aria-labelledby="osc-heading">
     {couchOpen && <CouchMode selected={selected} favoriteIds={favorites}
       onSelect={(source) => selectSource(source, false)} onClose={closeCouchMode} />}
-    <div className="eyebrow">THE COMMON SCREEN / RCTV v3.0 · OPEN STREAMS COMMONS</div>
+    <div className="eyebrow">THE COMMON SCREEN / RCTV v3.1 · OPEN STREAMS COMMONS</div>
     <div className="osc-hero">
       <div className="osc-hero-copy">
         <span className="osc-overline"><span className="osc-signal" /> LEGITIMATE CHANNELS · ENDLESS CURIOSITY</span>
@@ -162,6 +181,10 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
       onSelect={(source) => selectSource(source, false)}
       onOpenMain={openMainDesk} onOpenCouch={openCouchMode}
       onOpenReviewed={openReviewedDesk} />
+    {!couchOpen && <MiniTvRemote selected={selected}
+      onSelect={(source)=>selectSource(source,false)}
+      onOpenMain={openMainDesk} onOpenCouch={openCouchMode}
+      onOpenReviewed={openReviewedDesk}/>}
     <div className="osc-category-bar" role="group" aria-label="Open Streams categories">
       {STREAM_CATEGORIES.map((choice) => <button type="button" key={choice.id} className={category === choice.id ? 'active' : ''} aria-pressed={category === choice.id} onClick={() => { setCategory(choice.id); setCameraScene('all') }}>
         <span aria-hidden="true">{choice.icon}</span>{choice.label}<small>{choice.id === 'all' ? ALL_OPEN_STREAMS.length : ALL_OPEN_STREAMS.filter((s) => s.category === choice.id).length}</small>
@@ -238,7 +261,7 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
       <div className="osc-right">
         <ChannelSurfRemote selected={selected} favoriteIds={favorites} onSelect={selectSource} />
         <section className="osc-player" id="osc-player" aria-labelledby="osc-player-title">
-          <div className="osc-player-header"><div><span className="osc-kicker">THE COMMON SCREEN · CHANNEL DESK</span><h2 id="osc-player-title">{selected.name}</h2><p>{selected.tagline}</p></div><span className="osc-player-category">{categoryNames[selected.category]}</span></div>
+          <div className="osc-player-header"><div><span className="osc-kicker">THE COMMON SCREEN · CHANNEL DESK</span><h2 id="osc-player-title" tabIndex={-1}>{selected.name}</h2><p>{selected.tagline}</p></div><span className="osc-player-category">{categoryNames[selected.category]}</span></div>
           <div className="osc-screen">
             {mediaOn && allowedMediaUrl && selected.playback === 'youtube-embed' ? <iframe
               key={selected.id} src={allowedMediaUrl} title={'Official YouTube player: ' + selected.name}

@@ -1,0 +1,21 @@
+/* RCTV v3.1 · persistent, manually expandable TV mini remote */
+.mtr{position:fixed;right:max(12px,env(safe-area-inset-right));bottom:max(12px,env(safe-area-inset-bottom));z-index:300;background:#173440;color:#e9fff0;border:1px solid #91bfab;border-radius:11px;box-shadow:0 14px 35px #07151ccc;width:min(405px,calc(100vw - 24px));font-size:12px;isolation:isolate}
+.mtr-bar{display:flex;align-items:center;gap:10px;padding:9px 10px;min-width:0}
+.mtr-now{font-size:10px;color:#baff95;white-space:nowrap;letter-spacing:.03em;font-weight:900}
+.mtr-now strong{font-size:13px;color:#f0ffe5}
+.mtr-name{min-width:0;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#d3e4dc;font-size:11px}
+.mtr button,.mtr a{font:inherit;border:1px solid #80a9a4;background:#31545b;color:#e7fff1;border-radius:6px;min-height:42px;padding:9px 11px;text-align:center;cursor:pointer;text-decoration:none;font-weight:850}
+.mtr .mtr-toggle{background:#baff95;border-color:#baff95;color:#143023;font-size:11px;white-space:nowrap}
+.mtr button:disabled{cursor:not-allowed;opacity:.5}
+.mtr button:focus-visible,.mtr a:focus-visible,.mtr input:focus-visible,.mtr-details:focus-visible{outline:3px solid #ffe3a1;outline-offset:2px}
+.mtr-details{padding:12px;border-top:1px solid #557f79;background:linear-gradient(120deg,#183a49,#263b49);border-radius:0 0 10px 10px}
+.mtr-transport,.mtr-screens{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.mtr-details form{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:12px 0}
+.mtr-details form label{font-size:10px;color:#c3e6d5;font-weight:850;flex:1}
+.mtr-details input{width:60px;min-height:42px;background:#243b47;border:1px solid #80a9a4;border-radius:5px;color:#f1ffef;text-align:center;font-size:14px;font-weight:950}
+.mtr-details form button{background:#baff95;color:#173723}
+.mtr-screens button{font-size:10px;padding:9px 5px}
+.mtr-caveat{font-size:10px;line-height:1.5;color:#bad5d1;margin:12px 0 0}
+.mtr-message{color:#edffd9;border:1px solid #719b82;background:#2b594b;border-radius:6px;padding:9px;font-size:10px;line-height:1.5}
+@media(max-width:460px){.mtr{right:max(6px,env(safe-area-inset-right));bottom:max(6px,env(safe-area-inset-bottom));width:calc(100vw - 12px)}.mtr-bar{gap:6px;padding:7px}.mtr-name{max-width:80px}.mtr-now strong{font-size:11px}.mtr .mtr-toggle{font-size:10px;padding:7px}}
+@media(prefers-reduced-motion:reduce){.mtr{scroll-behavior:auto}}
