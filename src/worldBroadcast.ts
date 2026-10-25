@@ -169,6 +169,12 @@ export async function loadBroadcastCatalog(signal: AbortSignal): Promise<Broadca
     languages: normalizeBroadcastOptions(languagesData, 'languages'),
   }
 }
+/** Guide-source detail remains metadata only. No XMLTV documents or media retrieved. */
+export async function loadBroadcastGuideIndex(signal: AbortSignal, channels: readonly BroadcastChannel[]) {
+  const { normalizeGuideIndex } = await import('./worldBroadcastGuides')
+  return normalizeGuideIndex(await fetchIndex('guides.json', signal), channels)
+}
+
 /** Guide-source coverage is not a schedule, program listing, or verified live status. */
 export async function loadBroadcastGuideCoverage(signal: AbortSignal, channels: readonly BroadcastChannel[]): Promise<Set<string>> {
   return broadcastGuideCoverage(await fetchIndex('guides.json', signal), channels)
