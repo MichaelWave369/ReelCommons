@@ -1,0 +1,61 @@
+/* RCTV v2.1 · World Broadcast Atlas. Standalone directory, no imported media. */
+.wba{margin:30px 0;padding:25px;border-radius:14px;border:1px solid #628c82;background:linear-gradient(135deg,#142b36,#1b233a 75%);color:#e9f5ed}
+.wba-heading{display:flex;align-items:center;justify-content:space-between;gap:26px}
+.wba-heading>div:first-child{max-width:730px}
+.wba-kicker{font-size:10px;font-weight:950;color:#baff95;letter-spacing:.14em}
+.wba-heading h2{font-size:clamp(30px,4vw,47px);line-height:1.12;letter-spacing:-.065em;margin:14px 0}
+.wba-heading h2 em{font-style:normal;color:#baff95}
+.wba-heading p{font-size:12px;line-height:1.8;color:#c6d8d5}
+.wba-globe{border:1px solid #7ac5af;border-radius:50%;width:165px;height:165px;min-width:165px;display:grid;place-items:center;background:radial-gradient(circle,#375f57,#182e49 68%);position:relative;overflow:hidden}
+.wba-globe span{color:#baff9560;font-size:145px;position:absolute}
+.wba-globe strong{font-size:25px;letter-spacing:.08em;position:relative;text-align:center;line-height:1.1;text-shadow:0 2px 10px #122126}
+.wba-policy{border-left:3px solid #e8bc76;padding:12px 15px;background:#38352f;margin:20px 0;border-radius:7px}
+.wba-policy strong{font-size:10px;letter-spacing:.1em;color:#ffe4aa}
+.wba-policy p{font-size:11px;line-height:1.8;color:#f3dfc6;margin:8px 0 0}
+.wba-start{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;border:1px solid #4e7c73;padding:20px;background:#1b3b3b;border-radius:9px}
+.wba-start>div{min-width:220px;flex:1}
+.wba-start strong{font-size:16px}
+.wba-start p{font-size:11px;line-height:1.8;color:#c4e3db;max-width:740px}
+.wba-start code{color:#d7f9b6}
+.wba button{cursor:pointer}
+.wba button:disabled{opacity:.55;cursor:not-allowed}
+.wba-start>button,.wba-guide>button,.wba-more{border:1px solid #c9ffae;border-radius:7px;background:#baff95;color:#1a321f;font-size:12px;font-weight:950;padding:13px 17px;min-height:44px}
+.wba-error{width:100%;border:1px solid #ae7070;background:#432c31;color:#ffd3d3;padding:12px;border-radius:7px}
+.wba-totals{display:flex;align-items:center;flex-wrap:wrap;gap:13px;margin:19px 0;font-size:11px;color:#bad2cb}
+.wba-totals>span{border:1px solid #4e6972;border-radius:7px;background:#243749;padding:11px}
+.wba-totals strong{font-size:18px;color:#c9ffae;margin-right:7px}
+.wba-totals button{border:1px solid #70918b;border-radius:6px;background:#2a414c;color:#d9f5dd;font-size:11px;padding:10px;margin-left:auto}
+.wba-filters{display:grid;grid-template-columns:1.5fr repeat(3,minmax(130px,1fr));gap:10px;background:#17293d;border:1px solid #465f6b;border-radius:10px;padding:15px}
+.wba-filters label{display:flex;flex-direction:column;gap:8px;font-size:10px;letter-spacing:.08em;font-weight:900;color:#bce4c7;min-width:0}
+.wba-filters input,.wba-filters select{height:43px;width:100%;min-width:0;border:1px solid #668688;background:#111f30;color:#f1f9ef;border-radius:6px;padding:8px 9px;font-family:inherit;font-size:12px}
+.wba-filter-actions{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px}
+.wba-filter-actions button{border:1px solid #688b8a;background:#2c4653;color:#e8f6e9;padding:10px 14px;border-radius:6px;font-size:11px;font-weight:800}
+.wba-filter-actions button.is-active{border-color:#bbff98;background:#395642;color:#d9ffd1}
+.wba-guide{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;background:#263747;border:1px solid #577580;border-radius:8px;margin-top:15px;padding:15px}
+.wba-guide>div{flex:1;min-width:200px}
+.wba-guide strong{font-size:10px;letter-spacing:.1em;color:#c7ffa9}
+.wba-guide p{font-size:11px;line-height:1.7;color:#c1d4d8;margin:7px 0 0}
+.wba-guide>p{width:100%;font-size:11px;color:#ffd2ca}
+.wba-guide-count{font-weight:800;font-size:11px;color:#c3f3c6}
+.wba-notice{margin:12px 0;border:1px solid #887d54;background:#342f24;color:#f5e3b3;font-size:11px;padding:12px;border-radius:6px}
+.wba-notice button{background:transparent;border:0;color:#f8f0db;text-decoration:underline}
+.wba-results{font-size:11px;color:#bcd0d3;margin:18px 0 12px}
+.wba-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.wba-card{min-width:0;display:flex;flex-direction:column;gap:9px;border:1px solid #506975;background:#223148;border-radius:10px;padding:16px}
+.wba-card-top{display:flex;justify-content:space-between;align-items:center;gap:8px;color:#bad1d1;font-size:10px}
+.wba-card-top>span{min-width:0;overflow-wrap:anywhere}
+.wba-card-top button{border:1px solid #637d78;background:#2d4548;color:#d4efdb;border-radius:5px;white-space:nowrap;padding:7px;font-size:10px;font-weight:800}
+.wba-card-top button[aria-pressed=true]{background:#365541;color:#d7ffb3}
+.wba-card h3{font-size:18px;line-height:1.3;margin:7px 0 3px;overflow-wrap:anywhere}
+.wba-tags{display:flex;gap:5px;flex-wrap:wrap;margin:0 0 8px}
+.wba-tags>span{font-size:9px;border:1px solid #537377;background:#304453;padding:5px 7px;border-radius:3px;color:#d2e6df}
+.wba-card-bottom{margin-top:auto;border-top:1px solid #41596c;padding-top:12px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px}
+.wba-card-bottom span{font-size:9px;color:#aabfcb;overflow-wrap:anywhere}
+.wba-card-bottom a{font-size:11px;color:#c6ffa1;font-weight:900;line-height:1.5}
+.wba-more{display:block;margin:20px auto 0}
+.wba-empty{background:#243a48;padding:25px;border-radius:8px;font-size:12px;line-height:1.7}
+.wba-footer{font-size:11px;color:#adcad2;line-height:1.8;border-top:1px solid #48616d;margin:22px 0 0;padding-top:16px}
+.wba-footer a{color:#c6ffa1}
+@media(max-width:970px){.wba-filters{grid-template-columns:repeat(2,minmax(0,1fr))}.wba-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:630px){.wba{padding:16px}.wba-globe{display:none}.wba-filters,.wba-grid{grid-template-columns:1fr}.wba-totals button{margin-left:0}.wba-guide>button{width:100%}}
+@media(prefers-reduced-motion:reduce){.wba *{scroll-behavior:auto!important}}
