@@ -6,6 +6,28 @@ ReelCommons is an original, independent, open-source directory for **legitimate 
 
 > **Scope honesty:** v0.1 is a curated **service directory**, not a live title-availability search engine. Provider links go to official homepages. Verify a specific title, ad load, cost, geographic restrictions, and accessibility features on the provider's site.
 
+## v2.9: Shared Signal & Recovery · Channel Desk + Couch Mode
+
+RCTV v2.9 takes v2.8's honest browser-session diagnostics beyond the small Reviewed Player Desk and brings them directly into the **main Channel Desk** and **50-channel Couch Mode**. This is a usability and recovery upgrade, not a source expansion or media-rights review.
+
+### Three surfaces, one observation model
+
+- **Channel Desk** in Open Streams now presents a Signal & Recovery panel under the existing source player. If you choose NASA ISS or KEXP and explicitly load the already-reviewed media, browser events update the panel. An iframe `load` is **not** proof that NASA video is playing; native audio `canplay`, `playing`, `waiting`, `stalled`, `pause` and `error` events are described accurately, without guaranteeing audible output.
+- **Couch Mode**, designed for television screens, uses the same panel and event model. Tuning by channel arrows, numeric remote or the guide unmounts the prior media and clears the observation. Old asynchronous callbacks are rejected by monotonically advancing attempt generations, even when you tune through an official-site-only channel and return.
+- **Reviewed Player Desk** retains its v2.8 Signal & Recovery Desk. All three player desks still use the same original `playableUrl()` explicit source allowlist. None of them accepts imported station or playlist URLs.
+- For all other curated destinations, the shared panel explains that there is no approved RCTV inline player and provides a one-click **Recover on official broadcaster** link. It does not invent a media stream.
+- After manually loading NASA or KEXP, the shared panel offers **I can see video / I can hear audio** and **Not working here** self-report buttons, plus a local JSON session receipt. Reports never imply verified availability, rights or uptime. Its source-owned official link remains available independently of any media status.
+
+### Privacy, receipts, and constraints
+
+The shared panel displays **no media endpoints or viewer history** and writes no session diagnostic state to local storage. Click-to-export uses the existing `RCTV_SIGNAL_SESSION_RECEIPT_V1` with `BROWSER_OBSERVATION_AND_USER_REPORT_NOT_VERIFIED` provenance and includes only session counts/observations, the checked-in source ID/mode, current code-policy consistency and the export timestamp. Files are user-controlled and editable. No automatic health probes, retries, cross-origin iframe inspection, cookies, tracking, recording, proxying or retransmission are introduced.
+
+### Tests and manual QA
+
+`src/sharedSignalDesk.test.tsx` exercises the saved-channel initializer, tuning through website-only sources, invalidation of old callbacks, main/Couch presentation, official recovery, opt-in self-reports and receipts without stream endpoints. The existing v2.8 Signal & Recovery unit tests, v2.7 Playback Trust Gate CI policy, Python companion suite and TypeScript/Vite build remain in the release checks.
+
+After merge and deployment, test the main Channel Desk and Couch Mode on an actual browser: load KEXP manually, pause/play and force a network failure, tune away and back, inspect NASA's iframe load wording, export a receipt, use official recovery, and confirm the remote/keyboard interactions stay accessible. Browser events are not a network measurement of broadcast uptime.
+
 ## v2.8: Signal & Recovery Desk · Observe, diagnose, recover
 
 **RCTV v2.8** adds a browser-session-only **Signal & Recovery Desk** beneath the live stage of the opt-in **Reviewed Player Desk**. It reuses exactly the existing NASA ISS YouTube iframe and KEXP publisher-listed AAC audio player. It adds no new broadcasts, playback permissions, IPTV-org streams, redirects, or background requests.

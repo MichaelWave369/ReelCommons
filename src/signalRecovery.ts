@@ -41,10 +41,16 @@ export function createSignalState(id: ReviewedBridgeId): SignalState {
     lastEvent: 'none', selfReported: 'none'}
 }
 
+/** Initial state works even when a saved channel is website-only. */
+export function initialSignalForSource(id: string): SignalState {
+  const row = stations.get(id)
+  return createSignalState(row ? row.id : 'nasa-iss')
+}
+
 /** Selecting any station resets prior media observations. */
 export function selectSignalStation(state: SignalState, id: string): SignalState {
   const row = stations.get(id)
-  if (!row) return {...state, phase: 'standby', lastEvent:'unload',selfReported:'none'}
+  if (!row) return {...state, attempt:state.attempt+1, phase:'standby', lastEvent:'unload',selfReported:'none'}
   return {...createSignalState(row.id), attempt: state.attempt+1, loadCount: state.loadCount}
 }
 

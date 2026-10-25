@@ -11,6 +11,8 @@ import WorldTour from './WorldTour'
 import WorldAtlas from './WorldAtlas'
 import WorldBroadcastAtlas from './WorldBroadcastAtlas'
 import ReviewedPlaybackBridge from './ReviewedPlaybackBridge'
+import SignalDiagnosticPanel from './SignalDiagnosticPanel'
+import { initialSignalForSource, observeSignal, selectSignalStation } from './signalRecovery'
 import SourceCertificationLab from './SourceCertificationLab'
 import ChannelSurfRemote from './ChannelSurfRemote'
 import CouchMode from './CouchMode'
@@ -37,6 +39,7 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
   const [favorites, setFavorites] = useState<string[]>(initialFavorites)
   const [favoritesOnly, setFavoritesOnly] = useState(false)
   const [selectedId, setSelectedId] = useState(initialChannelSelection)
+  const [mainSignal, setMainSignal] = useState(() => initialSignalForSource(initialChannelSelection()))
   const [mediaLoadedFor, setMediaLoadedFor] = useState<string | null>(null)
   const [bridgeResetToken, setBridgeResetToken] = useState(0)
   const [notice, setNotice] = useState('')
@@ -54,9 +57,14 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
   const allowedMediaUrl = playableUrl(selected)
   const mediaOn = mediaLoadedFor === selected.id && allowedMediaUrl !== null
   const officialUrl = selected.officialUrl
+  const mainAttempt = mainSignal.attempt
+  function mainEvent(event: 'frame-load' | 'audio-canplay' | 'audio-playing' | 'audio-pause' | 'audio-waiting' | 'audio-error') {
+    setMainSignal((previous) => observeSignal(previous, event, selected.id, mainAttempt))
+  }
 
   function selectSource(source: OpenStream, scrollToPlayer = true) {
     setSelectedId(source.id)
+    setMainSignal((previous) => selectSignalStation(previous, source.id))
     const saved = serializeChannelSurfState(source.id)
     if(saved)try {window.localStorage.setItem(CHANNEL_SURF_STORAGE_KEY,saved)} catch {/* Session selection still works */}
     setMediaLoadedFor(null) // Unmount iframes and native audio when switching channels.
@@ -107,7 +115,7 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
   return <section className="osc-page wrap" aria-labelledby="osc-heading">
     {couchOpen && <CouchMode selected={selected} favoriteIds={favorites}
       onSelect={(source) => selectSource(source, false)} onClose={closeCouchMode} />}
-    <div className="eyebrow">THE COMMON SCREEN / RCTV v2.8 · OPEN STREAMS COMMONS</div>
+    <div className="eyebrow">THE COMMON SCREEN / RCTV v2.9 · OPEN STREAMS COMMONS</div>
     <div className="osc-hero">
       <div className="osc-hero-copy">
         <span className="osc-overline"><span className="osc-signal" /> LEGITIMATE CHANNELS · ENDLESS CURIOSITY</span>
@@ -126,7 +134,7 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
       <div><span className="couch-launch-label">NEW · RCTV 2.0 · THE BIG SCREEN</span>
         <strong>Kick back. Channel surf. Explore the world.</strong>
         <p>Open our lean-back Couch Mode, designed for a television-size screen, large controls, and a guide to all 50 curated official destinations.</p></div>
-      <button type="button" ref={couchLaunchRef} onClick={() => {setMediaLoadedFor(null);setBridgeResetToken((token) => token + 1);setCouchOpen(true)}}>▣ Launch Couch Mode ↗</button>
+      <button type="button" ref={couchLaunchRef} onClick={() => {setMediaLoadedFor(null);setMainSignal((previous) => observeSignal(previous,'unload',previous.sourceId,previous.attempt));setBridgeResetToken((token) => token + 1);setCouchOpen(true)}}>▣ Launch Couch Mode ↗</button>
     </section>
 
     <div className="osc-category-bar" role="group" aria-label="Open Streams categories">
@@ -158,7 +166,7 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
     </section>
     <WorldAtlas onPreview={selectSource} />
     <WorldTour onPreview={selectSource} />
-    <ReviewedPlaybackBridge resetToken={bridgeResetToken} onRequestMediaLoad={() => setMediaLoadedFor(null)} />
+    <ReviewedPlaybackBridge resetToken={bridgeResetToken} onRequestMediaLoad={() => {setMediaLoadedFor(null);setMainSignal((previous) => observeSignal(previous,'unload',previous.sourceId,previous.attempt))}} />
     <SourceCertificationLab />
     <WorldBroadcastAtlas />
 
@@ -207,27 +215,39 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
             {mediaOn && allowedMediaUrl && selected.playback === 'youtube-embed' ? <iframe
               key={selected.id} src={allowedMediaUrl} title={'Official YouTube player: ' + selected.name}
               allow="encrypted-media; picture-in-picture; fullscreen" allowFullScreen
-              referrerPolicy="strict-origin-when-cross-origin" loading="lazy" /> :
+              referrerPolicy="strict-origin-when-cross-origin" loading="lazy"
+              onLoad={() => mainEvent('frame-load')} /> :
             mediaOn && allowedMediaUrl && selected.playback === 'published-audio' ? <div className="osc-audio-screen">
               <span aria-hidden="true">♫</span><strong>Official broadcaster audio</strong>
               <p>You chose to load KEXP’s publicly listed AAC feed. Press Play below; availability and browser support vary.</p>
-              <audio key={selected.id} controls preload="none" src={allowedMediaUrl} aria-label="KEXP live broadcaster audio" onError={() => setNotice('Audio failed to load or is unsupported by your browser. Use the official KEXP player below.')} />
+              <audio key={selected.id} controls preload="none" src={allowedMediaUrl}
+                aria-label="KEXP live broadcaster audio"
+                onCanPlay={() => mainEvent('audio-canplay')}
+                onPlaying={() => mainEvent('audio-playing')}
+                onPause={() => mainEvent('audio-pause')}
+                onWaiting={() => mainEvent('audio-waiting')}
+                onStalled={() => mainEvent('audio-waiting')}
+                onError={() => {mainEvent('audio-error');setNotice('Audio failed to load or is unsupported by your browser. Use the official KEXP player below.')}} />
             </div> : <div className="osc-standby"><div className="osc-standby-symbol" aria-hidden="true">{selected.icon}</div><strong>{allowedMediaUrl ? 'PRESS TO CONNECT' : 'OFFICIAL PLAYER DESTINATION'}</strong><span>{allowedMediaUrl ? 'Media is not loaded until you activate it.' : 'Playback is available through the broadcaster’s own website.'}</span></div>}
           </div>
           <div className="osc-player-controls">
-            {allowedMediaUrl && !mediaOn && <button type="button" className="osc-play-btn" onClick={() => {setBridgeResetToken((token) => token + 1);setMediaLoadedFor(selected.id);setNotice('Loaded the reviewed external player on demand. The broadcaster controls availability and playback.')}}>
+            {allowedMediaUrl && !mediaOn && <button type="button" className="osc-play-btn" onClick={() => {setBridgeResetToken((token) => token + 1);setMediaLoadedFor(selected.id);setMainSignal((previous) => observeSignal(previous,'load',selected.id,previous.attempt));setNotice('Loaded the reviewed external player on demand. The broadcaster controls availability and playback.')}}>
               ▶ {selected.playback === 'youtube-embed' ? 'Load official YouTube embed' : 'Load published KEXP audio'}
             </button>}
-            {mediaOn && <button type="button" className="osc-stop-btn" onClick={() => {setMediaLoadedFor(null);setNotice('Player unloaded.')}}>■ Stop / unload media</button>}
+            {mediaOn && <button type="button" className="osc-stop-btn" onClick={() => {setMediaLoadedFor(null);setMainSignal((previous) => observeSignal(previous,'unload',previous.sourceId,previous.attempt));setNotice('Player unloaded.')}}>■ Stop / unload media</button>}
             <a className="osc-official-btn" href={officialUrl} target="_blank" rel="noopener noreferrer">Open official player ↗</a>
           </div>
+          <SignalDiagnosticPanel key={selected.id} source={selected}
+            signal={mainSignal} loaded={mediaOn} context="Channel Desk"
+            onReport={(event) => setMainSignal((previous) =>
+              observeSignal(previous,event,selected.id,previous.attempt))} />
           {notice && <div className="osc-notice" role="status">{notice}<button onClick={() => setNotice('')} aria-label="Dismiss status">×</button></div>}
           <div className="osc-source-note"><strong>RIGHTS & PLAYBACK LEDGER</strong><p>{selected.playbackNote}</p><p><b>Area:</b> {selected.region}</p>{selected.cameraFormat &&
             <p><b>Camera format:</b> {CAMERA_FORMAT_LABELS[selected.cameraFormat]}. Source-reported type only; not real-time availability verification.</p>}
             {selected.place && <p><b>Viewpoint:</b> {selected.place}</p>}<p><b>Source:</b> {selected.sourceEvidence}</p><p><b>Playback policy:</b> {selected.playback === 'official' ? 'Official destination only' : selected.playback === 'youtube-embed' ? 'Opt-in, platform-supported YouTube embed' : 'Opt-in, publisher-listed audio endpoint'}.</p></div>
           <p className="osc-player-footnote">RCTV cannot confirm this channel is on air right now. Some embeds may be disabled or blocked; the official player link always remains available. No autoplay occurs on channel selection.</p>
         </section>
-        <section className="osc-side-note"><h3>Already have a television?</h3><p>RCTV’s existing FAST guide, Living Room Mode and FTA hardware labs are still here. Open them without mixing up internet streams and terrestrial/satellite reception.</p><button type="button" onClick={() => {setMediaLoadedFor(null);onOpenLiveTV()}}>Explore Live TV & FTA ↗</button></section>
+        <section className="osc-side-note"><h3>Already have a television?</h3><p>RCTV’s existing FAST guide, Living Room Mode and FTA hardware labs are still here. Open them without mixing up internet streams and terrestrial/satellite reception.</p><button type="button" onClick={() => {setMediaLoadedFor(null);setMainSignal((previous) => observeSignal(previous,'unload',previous.sourceId,previous.attempt));onOpenLiveTV()}}>Explore Live TV & FTA ↗</button></section>
       </div>
     </div>
     <section className="osc-playlist-lab" aria-labelledby="osc-playlist-heading">
