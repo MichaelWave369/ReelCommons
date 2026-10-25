@@ -6,6 +6,30 @@ ReelCommons is an original, independent, open-source directory for **legitimate 
 
 > **Scope honesty:** v0.1 is a curated **service directory**, not a live title-availability search engine. Provider links go to official homepages. Verify a specific title, ad load, cost, geographic restrictions, and accessibility features on the provider's site.
 
+## v3.4 · REEL ↔ CineSwarm: first native dry-run bridge
+
+This release connects the public REEL creator-planning experience to a **separate real CineSwarm-owned local receiver** while preserving the crucial difference between *planning a show* and *generating, releasing or broadcasting media*.
+
+### The honest three-step round trip
+
+1. Open **REEL Network → Build a show pitch packet** in ReelCommons. Prepare a pitch and download its `REEL_NETWORK_PITCH_PACKET_V1` JSON. All eleven office tasks are unexecuted, and all rights/consent and publication approvals remain unverified.
+2. In a separate, locally installed [CineSwarm](https://github.com/MichaelWave369/CineSwarm) environment **after merging its companion [CineSwarm PR #4](https://github.com/MichaelWave369/CineSwarm/pull/4)**, run `python -m cineswarm.reel_intake <actual-pitch-filename>.json --out reel-preview.json`. This reads a local file, checks the exact office names/output semantics and all fail-closed authority flags, then prepares **one deterministic-test-only native `production-plan/v1` shot**, with `acceptanceEligible: false` and `publicReleaseAuthorized: false`. It **does not** contact a coordinator, execute a GPU job or create a video.
+3. In **REEL Network → CineSwarm Production Handoff**, select that local `reel-preview.json`. The browser reads no more than 64 KiB, checks the `REEL_CINESWARM_DRYRUN_PREVIEW_V1` native test schema, verifies canonical SHA-256 integrity of the embedded test plan, enforces an exact single test-only backend and release denial flags, and optionally checks that the preview's source hash and test prompt match the *current browser pitch*. It does not upload anything or issue a CineSwarm, GitHub, provider or publishing request.
+
+### Why the bridge matters
+
+The browser is an untrusted creative-intent author, **not a CineSwarm job scheduler**. The independent Python receiver is the owner of native validation and normalization. Neither a draft pitch nor a passing checksum establishes media copyright rights, actual model execution, editorial acceptance or public publishing authority. Hashes on exported editable JSON check consistency, **not the source's authenticity**. If the local source packet is unavailable the browser labels inspection **unlinked source** instead of verified.
+
+The public GitHub Pages app **does not** connect to a local CineSwarm Python coordinator, access user files without selection, install models, submit jobs, render scenes, host media or declare a new REEL TV channel. Real rendering will require a separately authorized native plan, model and hardware qualifications, local acceptance, visual QC, credit and rights checks, and an explicit publishing transport. RCTV's original 50 numbered stations and trusted playback routes remain untouched.
+
+### Tests and references
+
+- New **`src/reelNativePreview.test.tsx`** tests local-only inspector markup, canonical hashes, correct current-pitch correlation, invalid/dangerous backend substitution, false release flags, altered prompt, mismatched hashes and local file-size bounds.
+- CineSwarm companion PR #4 introduces `src/cineswarm/reel_intake.py`, `tests/test_reel_intake.py`, `docs/REEL_DRYRUN_INTAKE.md` and a browser-equivalent fixture, with independent Python CI and existing frozen source-manifest checks.
+- Full ReelCommons Vitest, Python companion, v2.7 Playback Trust Gate, TypeScript and production build remain mandatory.
+
+**Manual QA:** After both merges, export a REEL pitch in one browser session, run the native Python command on the user's own workstation or local environment, import the result in the handoff desk while the original pitch is still loaded, test a corrupted JSON file and verify that no third-party browser/player/AI network call occurs. Browser compatibility, local filesystem permissions and actual GPU production are not proven by CI.
+
 ## v3.3 · REEL Network: original programming and the CineSwarm creative floor
 
 **REEL Network** is the new public-facing original-programming identity **inside ReelCommons**. The ReelCommons discovery and RCTV channels remain available and unchanged. REEL is a separate source-controlled creative-development destination, accessible through the new **REEL Network** top navigation, the home-page shortcut, and **Open Streams → Unified TV Home → REEL Network**.
