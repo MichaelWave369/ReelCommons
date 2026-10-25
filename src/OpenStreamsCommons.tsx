@@ -10,6 +10,7 @@ import { COAST_RAIL_COUNTS } from './coastRailCatalog'
 import WorldTour from './WorldTour'
 import WorldAtlas from './WorldAtlas'
 import WorldBroadcastAtlas from './WorldBroadcastAtlas'
+import ReviewedPlaybackBridge from './ReviewedPlaybackBridge'
 import ChannelSurfRemote from './ChannelSurfRemote'
 import CouchMode from './CouchMode'
 import {CHANNEL_SURF_STORAGE_KEY,readChannelSurfState,serializeChannelSurfState} from './channelSurf'
@@ -36,6 +37,7 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
   const [favoritesOnly, setFavoritesOnly] = useState(false)
   const [selectedId, setSelectedId] = useState(initialChannelSelection)
   const [mediaLoadedFor, setMediaLoadedFor] = useState<string | null>(null)
+  const [bridgeResetToken, setBridgeResetToken] = useState(0)
   const [notice, setNotice] = useState('')
   const [playlistReport, setPlaylistReport] = useState<PlaylistInspection | null>(null)
   const [playlistError, setPlaylistError] = useState('')
@@ -57,6 +59,7 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
     const saved = serializeChannelSurfState(source.id)
     if(saved)try {window.localStorage.setItem(CHANNEL_SURF_STORAGE_KEY,saved)} catch {/* Session selection still works */}
     setMediaLoadedFor(null) // Unmount iframes and native audio when switching channels.
+    setBridgeResetToken((token) => token + 1) // Any original desk selection unloads the bridge.
     setNotice('')
     if (scrollToPlayer) document.getElementById('osc-player')?.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
   }
@@ -103,7 +106,7 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
   return <section className="osc-page wrap" aria-labelledby="osc-heading">
     {couchOpen && <CouchMode selected={selected} favoriteIds={favorites}
       onSelect={(source) => selectSource(source, false)} onClose={closeCouchMode} />}
-    <div className="eyebrow">THE COMMON SCREEN / RCTV v2.1 · OPEN STREAMS COMMONS</div>
+    <div className="eyebrow">THE COMMON SCREEN / RCTV v2.4 · OPEN STREAMS COMMONS</div>
     <div className="osc-hero">
       <div className="osc-hero-copy">
         <span className="osc-overline"><span className="osc-signal" /> LEGITIMATE CHANNELS · ENDLESS CURIOSITY</span>
@@ -122,7 +125,7 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
       <div><span className="couch-launch-label">NEW · RCTV 2.0 · THE BIG SCREEN</span>
         <strong>Kick back. Channel surf. Explore the world.</strong>
         <p>Open our lean-back Couch Mode, designed for a television-size screen, large controls, and a guide to all 50 curated official destinations.</p></div>
-      <button type="button" ref={couchLaunchRef} onClick={() => {setMediaLoadedFor(null);setCouchOpen(true)}}>▣ Launch Couch Mode ↗</button>
+      <button type="button" ref={couchLaunchRef} onClick={() => {setMediaLoadedFor(null);setBridgeResetToken((token) => token + 1);setCouchOpen(true)}}>▣ Launch Couch Mode ↗</button>
     </section>
 
     <div className="osc-category-bar" role="group" aria-label="Open Streams categories">
@@ -154,6 +157,7 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
     </section>
     <WorldAtlas onPreview={selectSource} />
     <WorldTour onPreview={selectSource} />
+    <ReviewedPlaybackBridge resetToken={bridgeResetToken} onRequestMediaLoad={() => setMediaLoadedFor(null)} />
     <WorldBroadcastAtlas />
 
     <div className="osc-layout">
@@ -209,7 +213,7 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
             </div> : <div className="osc-standby"><div className="osc-standby-symbol" aria-hidden="true">{selected.icon}</div><strong>{allowedMediaUrl ? 'PRESS TO CONNECT' : 'OFFICIAL PLAYER DESTINATION'}</strong><span>{allowedMediaUrl ? 'Media is not loaded until you activate it.' : 'Playback is available through the broadcaster’s own website.'}</span></div>}
           </div>
           <div className="osc-player-controls">
-            {allowedMediaUrl && !mediaOn && <button type="button" className="osc-play-btn" onClick={() => {setMediaLoadedFor(selected.id);setNotice('Loaded the reviewed external player on demand. The broadcaster controls availability and playback.')}}>
+            {allowedMediaUrl && !mediaOn && <button type="button" className="osc-play-btn" onClick={() => {setBridgeResetToken((token) => token + 1);setMediaLoadedFor(selected.id);setNotice('Loaded the reviewed external player on demand. The broadcaster controls availability and playback.')}}>
               ▶ {selected.playback === 'youtube-embed' ? 'Load official YouTube embed' : 'Load published KEXP audio'}
             </button>}
             {mediaOn && <button type="button" className="osc-stop-btn" onClick={() => {setMediaLoadedFor(null);setNotice('Player unloaded.')}}>■ Stop / unload media</button>}
