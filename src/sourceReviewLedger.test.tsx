@@ -9,7 +9,6 @@ import {
   importReviewLedger, latestReviewDisposition, mergeReviewLedger,
   readReviewLedger,
 } from './sourceReviewLedger'
-import type { ReviewEntry } from './sourceReviewLedger'
 
 const a = createSourceLabCandidate({
   name: 'Example Public TV', homepage: 'https://tv.example.org/',
@@ -106,7 +105,7 @@ describe('RCTV v2.6 Source Review Ledger', () => {
     expect(historyForCandidate(events,b.id)).toEqual([extra])
     expect(historyForCandidate(events,a.id)).toEqual([note,snap])
     expect(events).toHaveLength(3)
-    expect(events.every((event)=>event.disposition!=='approved')).toBe(true)
+    expect(events.map((event)=>event.disposition)).not.toContain('approved')
   })
   it('creates a manual GitHub handoff without transmission or certified claims', () => {
     const handoff=githubReviewHandoff(a,[snap,note])
