@@ -48,6 +48,7 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
   const [bridgeResetToken, setBridgeResetToken] = useState(0)
   const [bridgeOpenRequestToken, setBridgeOpenRequestToken] = useState(0)
   const [recentChannelIds, setRecentChannelIds] = useState<string[]>([])
+  const [studioOpenToken, setStudioOpenToken] = useState(0)
   const [notice, setNotice] = useState('')
   const [playlistReport, setPlaylistReport] = useState<PlaylistInspection | null>(null)
   const [playlistError, setPlaylistError] = useState('')
@@ -106,6 +107,7 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
     setMediaLoadedFor(null)
     setMainSignal((previous)=>observeSignal(previous,'unload',previous.sourceId,previous.attempt))
     setBridgeResetToken((token)=>token+1)
+    setStudioOpenToken((token)=>token+1)
     window.requestAnimationFrame(()=>{
       document.getElementById('rcs-title')?.scrollIntoView({block:'center',behavior:'smooth'})
       document.getElementById('rcs-title')?.focus({preventScroll:true})
@@ -191,7 +193,7 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
       onSelect={(source) => selectSource(source, false)}
       onOpenMain={openMainDesk} onOpenCouch={openCouchMode}
       onOpenReviewed={openReviewedDesk} onOpenStudio={openCreatorStudio} />
-    <CreatorStudio />
+    <CreatorStudio openRequestToken={studioOpenToken} />
     {!couchOpen && <MiniTvRemote selected={selected}
       onSelect={(source)=>selectSource(source,false)}
       onOpenMain={openMainDesk} onOpenCouch={openCouchMode}
