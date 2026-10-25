@@ -91,8 +91,8 @@ describe('RCTV v2.6 Source Review Ledger', () => {
   })
   it('merges by immutable ID, rejects conflicts, and never silently overwrites', () => {
     expect(mergeReviewLedger([snap],[snap,note])).toEqual([snap,note])
-    const altered={...snap,note:'Some altered value'}
-    expect(()=>mergeReviewLedger([snap],[altered])).toThrow('Conflicting')
+    const altered={...note,note:'A different but still valid review explanation for the same event ID.'}
+    expect(()=>mergeReviewLedger([note],[altered])).toThrow('Conflicting')
     expect(()=>appendReviewEntry([snap],snap)).toThrow('Duplicate')
     const many=Array.from({length:REVIEW_LEDGER_MAX_ENTRIES},(_,i)=>({
       ...snap,id:'rev-seq-'+String(i).padStart(6,'0'),
