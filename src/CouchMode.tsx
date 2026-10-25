@@ -1,5 +1,5 @@
 /**
- * RCTV v2.0 · Couch Mode.
+ * RCTV v2.9 · Couch Mode.
  * Lean-back directory viewer. Never auto-plays, captures, proxies, scrapes
  * or promotes any unapproved provider feed into in-app playback.
  */
@@ -9,6 +9,8 @@ import { CHANNEL_LINEUP, channelNumberForSource, channelNumberLabel,
   filterChannelLineup, normalizeChannelInput, resolveChannelNumber,
   surfNextChannel } from './channelSurf'
 import { playableUrl, STREAM_CATEGORIES } from './openStreams'
+import { initialSignalForSource, observeSignal, selectSignalStation } from './signalRecovery'
+import SignalDiagnosticPanel from './SignalDiagnosticPanel'
 import type { OpenStream, StreamCategory } from './openStreams'
 import './couch-mode.css'
 
@@ -27,11 +29,16 @@ export default function CouchMode({
   const [search, setSearch] = useState('')
   const [digits, setDigits] = useState('')
   const [loadedId, setLoadedId] = useState<string|null>(null)
+  const [couchSignal, setCouchSignal] = useState(() => initialSignalForSource(selected.id))
   const [message, setMessage] = useState('')
   const lineup = filterChannelLineup(CHANNEL_LINEUP,category,favoritesOnly,favoriteIds)
   const selectedNumber = channelNumberForSource(selected.id)
   const safeUrl = playableUrl(selected)
   const loaded = loadedId === selected.id && safeUrl !== null
+  const couchAttempt = couchSignal.attempt
+  function signalEvent(event: 'frame-load'|'audio-canplay'|'audio-playing'|'audio-pause'|'audio-waiting'|'audio-error') {
+    setCouchSignal((previous) => observeSignal(previous,event,selected.id,couchAttempt))
+  }
   const filteredGuide = lineup.filter((slot) => {
     const query = search.trim().toLowerCase()
     return !query || [slot.source.name,slot.source.tagline,slot.source.category,slot.source.place??'']
@@ -47,6 +54,7 @@ export default function CouchMode({
 
   function select(source: OpenStream) {
     setLoadedId(null)
+    setCouchSignal((previous) => selectSignalStation(previous,source.id))
     setDigits('')
     setMessage('Selected '+source.name+'. No media loaded.')
     onSelect(source)
@@ -114,7 +122,8 @@ export default function CouchMode({
             {loaded && safeUrl && selected.playback==='youtube-embed' ?
               <iframe key={selected.id} src={safeUrl} title={'Official YouTube player: '+selected.name}
                 allow="encrypted-media; picture-in-picture; fullscreen" allowFullScreen
-                referrerPolicy="strict-origin-when-cross-origin"/> :
+                referrerPolicy="strict-origin-when-cross-origin"
+                onLoad={() => signalEvent('frame-load')}/> :
              loaded && safeUrl && selected.playback==='published-audio' ?
               <div className="couch-audio">
                 <span aria-hidden="true">♫</span>
@@ -122,7 +131,12 @@ export default function CouchMode({
                 <p>You chose to load the publisher-listed audio URL. Press play to listen. Browser support and availability vary.</p>
                 <audio key={selected.id} src={safeUrl} controls preload="none"
                   aria-label={'Official audio: '+selected.name}
-                  onError={()=>setMessage('Audio failed to load. Try the official broadcaster site instead.')}/>
+                  onCanPlay={() => signalEvent('audio-canplay')}
+                  onPlaying={() => signalEvent('audio-playing')}
+                  onPause={() => signalEvent('audio-pause')}
+                  onWaiting={() => signalEvent('audio-waiting')}
+                  onStalled={() => signalEvent('audio-waiting')}
+                  onError={()=>{signalEvent('audio-error');setMessage('Audio failed to load. Try the official broadcaster site instead.')}}/>
               </div> :
               <div className="couch-standby">
                 <span className="couch-standby-icon" aria-hidden="true">{selected.icon}</span>
@@ -138,12 +152,16 @@ export default function CouchMode({
           </div>
           <div className="couch-player-actions">
             {safeUrl && !loaded && <button type="button" className="couch-load"
-              onClick={()=>{setLoadedId(selected.id);setMessage('External player loaded only after your action. Playback stays under provider control.')}}>
+              onClick={()=>{setLoadedId(selected.id);setCouchSignal((previous)=>observeSignal(previous,'load',selected.id,previous.attempt));setMessage('External player loaded only after your action. Playback stays under provider control.')}}>
               ▶ {selected.playback==='youtube-embed'?'Load official YouTube player':'Load KEXP broadcaster audio'}
             </button>}
-            {loaded && <button type="button" className="couch-unload" onClick={()=>{setLoadedId(null);setMessage('Media unloaded.')}}>■ Stop / unload</button>}
+            {loaded && <button type="button" className="couch-unload" onClick={()=>{setLoadedId(null);setCouchSignal((previous)=>observeSignal(previous,'unload',previous.sourceId,previous.attempt));setMessage('Media unloaded.')}}>■ Stop / unload</button>}
             <a href={selected.officialUrl} target="_blank" rel="noopener noreferrer" className="couch-provider">↗ Open official player</a>
           </div>
+          <SignalDiagnosticPanel key={selected.id} source={selected}
+            signal={couchSignal} loaded={loaded} context="Couch Mode"
+            onReport={(event)=>setCouchSignal((previous)=>
+              observeSignal(previous,event,selected.id,previous.attempt))}/>
           <div className="couch-ownership">
             <strong>PROVIDER TRUST LEDGER</strong>
             <p>{selected.playbackNote}</p>
