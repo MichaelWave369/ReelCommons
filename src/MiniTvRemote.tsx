@@ -58,7 +58,7 @@ export default function MiniTvRemote({
     if (event.key === 'Escape') {event.preventDefault();setExpanded(false)}
   }
 
-  return <aside className="mtr" aria-label="RCTV persistent mini remote" onKeyDown={onRemoteKey}>
+  return <aside className="mtr" aria-label="RCTV persistent mini remote">
     <div className="mtr-bar">
       <span className="mtr-now">RCTV <strong>CH {channelNumber===null?'---':channelNumberLabel(channelNumber)}</strong></span>
       <span className="mtr-name" title={selected.name}>{selected.name}</span>
@@ -67,7 +67,7 @@ export default function MiniTvRemote({
         {expanded?'− Collapse':'▣ Mini Remote'}
       </button>
     </div>
-    {expanded && <div className="mtr-details" id="mtr-details" tabIndex={0}
+    {expanded && <div className="mtr-details" id="mtr-details" tabIndex={0} onKeyDown={onRemoteKey}
       aria-label="Mini remote, focus here for left/right keyboard channel switching">
       <div className="mtr-transport">
         <button type="button" onClick={() => shift(-1)} aria-label="Previous channel">← CH−</button>
