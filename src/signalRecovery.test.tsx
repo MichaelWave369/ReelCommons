@@ -109,7 +109,7 @@ describe('RCTV v2.8 Signal & Recovery Desk', () => {
     const html=renderToStaticMarkup(
       <ReviewedPlaybackBridge resetToken={0} onRequestMediaLoad={() => {}}/>,
     )
-    expect(html).toContain('RCTV v2.8 · REVIEWED PLAYBACK BRIDGE')
+    expect(html).toContain('RCTV v3.0 · REVIEWED PLAYBACK BRIDGE')
     expect(html).toContain('Open Reviewed Player Desk')
     expect(html).not.toContain('<iframe')
     expect(html).not.toContain('<audio')
