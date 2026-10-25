@@ -89,7 +89,7 @@ describe('RCTV v3.0 · unified TV home',()=>{
     const html=renderToStaticMarkup(<ReviewedPlaybackBridge
       resetToken={2} selectedSourceId="kexp" openRequestToken={0}
       onSelectSource={()=>{}} onRequestMediaLoad={()=>{}}/>)
-    expect(html).toContain('RCTV v3.0 · REVIEWED PLAYBACK BRIDGE')
+    expect(html).toContain('RCTV v3.1 · REVIEWED PLAYBACK BRIDGE')
     expect(html).toContain('Open Reviewed Player Desk')
     expect(html).not.toContain('<iframe')
     expect(html).not.toContain('<audio')
