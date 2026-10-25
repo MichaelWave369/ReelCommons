@@ -6,6 +6,31 @@ ReelCommons is an original, independent, open-source directory for **legitimate 
 
 > **Scope honesty:** v0.1 is a curated **service directory**, not a live title-availability search engine. Provider links go to official homepages. Verify a specific title, ad load, cost, geographic restrictions, and accessibility features on the provider's site.
 
+## v2.2: World TV Channel Hopper · Private Explorer Passport
+
+The metadata-only **World Broadcast Atlas** adds a guided **World TV Channel Hopper** and a portable, browser-local **Explorer Passport**. Open **Open Streams → World TV Directory → Load World TV Directory**, then use the new remote beneath the search filters. The v2.1 catalog loading is still opt-in.
+
+### Channel-hop explorer (directory only)
+
+- **CH− / CH+** cycle through the *currently filtered* broadcaster index with wraparound. **World Hop** picks another listed destination at random without fetching or starting media.
+- A large TV-style standby screen shows the indexed broadcaster name, country and filtered position. Use **Open official broadcaster** to visit the listed public HTTPS publisher website in a new tab.
+- The remote's focused panel alone supports left/right arrow navigation. Searching, forms, the original numbered RCTV 50-channel remote, Couch Mode and player allowlists are unchanged.
+- **No new playlist/stream/EPG feed is fetched by this interface.** This is a discovery remote, not a channel tuner or video player.
+
+### Manually stamped, portable private passport
+
+- Choose **Mark as explored** to declare you explored that *catalog entry*. This **does not verify watching, playback, live availability, or physical travel**. Undo any stamp, or remove it from the local trail.
+- A counter reports distinct station IDs stamped and countries represented by those currently known catalog entries. The last eight stamps appear in the trail. Dates are UTC calendar days.
+- Up to 250 stamps are kept only in your browser's `localStorage` as channel IDs and date strings under `rctv-world-tv-passport-v1`. No accounts, tracking, analytics, source URLs, media, watch duration, or IP-based location are stored.
+- Export a JSON file with schema `RCTV_WORLD_TV_PASSPORT_V1` and explicit `USER_MARKED_DIRECTORY_EXPLORATION` provenance. Import a previously exported JSON file (64 KB limit), validate known current channel IDs, exact fields and calendar dates, and merge without replacing existing stamps. The import rejects untrusted URLs, unknown IDs, duplicate rows and malformed metadata.
+- If local storage is blocked, stamps work for the current visit only. Passport imports do not promote any URL or metadata to the playable RCTV source allowlist.
+
+### Checks and next steps
+
+`src/worldTvPassport.test.ts` covers UTC date validity, export minimalism, strict portable import validation, bounded local state, stamp deduplication, country counting, CH+/CH− wraparound and excluding the selected station during World Hop. Existing CI also runs TypeScript, the production build and companion checks.
+
+After merging, manually verify large/small screens, remote focus and arrow keys, filters affecting hop choices, publisher external links, offline/blocked storage, export/import and the manual stamp disclaimer. Program schedules and authorized inline playback remain separate future work.
+
 ## v2.1: World Broadcast Atlas · Global broadcaster discovery
 
 **World Broadcast Atlas** is an opt-in, metadata-only directory under **Open Streams**, powered by the community-maintained [IPTV-org API](https://github.com/iptv-org/api) and [channel database](https://github.com/iptv-org/database). It extends global discovery without importing unreviewed streams into the 50-channel RCTV remote, Couch Mode, or trusted player allowlist.

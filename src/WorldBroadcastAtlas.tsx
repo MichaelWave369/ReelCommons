@@ -4,6 +4,7 @@ import {
   loadBroadcastGuideCoverage, readBroadcastFavorites, toggleBroadcastFavorite,
 } from './worldBroadcast'
 import type { BroadcastCatalog, BroadcastChannel } from './worldBroadcast'
+import WorldTvPassport from './WorldTvPassport'
 import './world-broadcast.css'
 
 const PAGE_SIZE = 24
@@ -98,7 +99,7 @@ export default function WorldBroadcastAtlas() {
   return <section className="wba" aria-labelledby="wba-title">
     <div className="wba-heading">
       <div>
-        <span className="wba-kicker">RCTV 2.1 / WORLD BROADCAST ATLAS</span>
+        <span className="wba-kicker">RCTV 2.2 / WORLD BROADCAST ATLAS</span>
         <h2 id="wba-title">A world of channels.<br /><em>One directory.</em></h2>
         <p>Explore global broadcasters by country, language and category with metadata indexed by IPTV-org. Open each broadcaster's official site to see viewing options, restrictions and schedules.</p>
       </div>
@@ -154,6 +155,7 @@ export default function WorldBroadcastAtlas() {
           <button type="button" onClick={resetFilters}>Clear filters</button>
         </div>
       </div>
+      <WorldTvPassport channels={filtered} allChannels={catalog.channels} countries={catalog.countries} />
       <div className="wba-guide">
         <div><strong>PROGRAM GUIDE SOURCE INDEX</strong>
           <p>Optional IPTV-org EPG metadata lookup. An indexed guide source does <b>not</b> mean that current listings were downloaded, verified, or licensed for republishing.</p>
