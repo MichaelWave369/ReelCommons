@@ -6,6 +6,43 @@ ReelCommons is an original, independent, open-source directory for **legitimate 
 
 > **Scope honesty:** v0.1 is a curated **service directory**, not a live title-availability search engine. Provider links go to official homepages. Verify a specific title, ad load, cost, geographic restrictions, and accessibility features on the provider's site.
 
+## v2.4: Reviewed Playback Bridge · The World Screen
+
+**RCTV v2.4** adds a standalone **Reviewed Player Desk** in **Open Streams**, alongside (not inside) the IPTV-org World Broadcast Atlas. The World TV directory, EPG sources and M3U inspector remain metadata-only; none can promote unreviewed links into playback.
+
+### Playback method roster
+
+The desk uses a closed, source-controlled list of **seven previously reviewed RCTV destinations**:
+
+| Source | How the desk handles it | Evidence / constraint |
+| --- | --- | --- |
+| NASA ISS Live Views | Opt-in YouTube privacy-enhanced iframe; no autoplay query | Official NASA YouTube stream and YouTube's documented embed interface; channel owner/platform may disable embedding |
+| KEXP Radio | Opt-in 160K AAC audio element with `preload="none"`, manual Play | KEXP's [published third-party listening URLs](https://www.kexp.org/mobile/kexp-livestreams/); regional conditions may differ |
+| CBS News 24/7, ABC News Live, PBS Local Livestream, U.S. House FloorCast, NASA Live | **Official broadcaster website only** | No new in-app playback permission is claimed |
+
+Sources are drawn from the existing hand-curated `ALL_OPEN_STREAMS` dataset, and in-app media URLs must still pass the exact-source `playableUrl()` allowlist. The IPTV-org APIs (`streams.json`, M3U, EPG index) never feed this roster. Any future candidate must be independently documented, reviewed, explicitly approved and accompanied by failure/terms notes.
+
+### User experience
+
+- **Open Reviewed Player Desk** explicitly expands the optional stage. Merely opening the page or opening the desk mounts **no** external media.
+- Seven selectable station buttons and **CH− / CH+** controls. The stage has local left/right keyboard controls only when focused. Selecting a new channel always unloads the previous media and returns to standby.
+- **Load official YouTube embed** and **Load KEXP audio controls** appear **only** for the two reviewed routes. The user must click them. KEXP's audio also requires the user to press the browser player's Play button; playback can fail or vary by region/browser. The YouTube embed obeys YouTube controls and may be blocked.
+- **Stop / unload** immediately removes the iframe or audio element, and closing the desk removes any loaded media. Selecting a station in the original RCTV channel desk, starting its reviewed media, or opening Couch Mode resets the bridge; loading the bridge first unloads original desk media.
+- Other listed sources show a standby panel with an **Open official broadcaster** link only, without embedding, proxying, rehosting or bypassing access restrictions.
+- **Export source-review receipt** downloads a small `RCTV_REVIEWED_BRIDGE_RECEIPT_V1` JSON with reviewed source ID, mode, publisher's official page, evidence and caveats. It contains **no** direct audio/video endpoint, viewer identity, playback success or watch history.
+
+### Rights and privacy
+
+This is a review of the **supported playback mechanism**, not a blanket license to redistribute content. All publisher logos/ads/video remain under owner and platform control. No recording, DRM circumvention, stream proxy, paywall bypass, user-added URL, live status ping, playback telemetry or additional third-party metadata calls are introduced. YouTube's supported embed may use cookies/network connections after explicit load; its privacy-enhanced URL is not equivalent to zero data collection. Only the official website is offered when in-app playback isn't reviewed.
+
+Sources: [NASA official ISS feed](https://www.youtube.com/watch?v=jKHvbJe9c_Y), [YouTube embed support](https://support.google.com/youtube/answer/171780?hl=en), [KEXP third-party listening links](https://www.kexp.org/mobile/kexp-livestreams/).
+
+### QA
+
+`src/reviewedPlaybackBridge.test.tsx` tests the exact reviewed ID roster, both exact media routes, all official-site-only denials, untrusted URL denial, load/switch/stop state transitions, metadata receipt contents and zero iframe/audio in initial server markup. Existing Python companion tests, Vitest, TypeScript and production bundle checks still run.
+
+After merging, manually test NASA embed playback (which YouTube may disable), KEXP browser audio controls, Stop/Close unloading, switching to the old RCTV channel desk and Couch Mode, keyboard focus, and small-screen layout. Runtime playback, publisher policy changes, ad behavior and device compatibility cannot be verified by CI.
+
 ## v2.3: World TV Guide Desk · EPG source research
 
 RCTV now has a dedicated **World TV Guide Desk** in the existing opt-in World Broadcast Atlas. This is a metadata research station, not a commercial electronic-program-guide player. **Nothing is fetched before the visitor explicitly loads the World TV Directory**, and no EPG data is fetched unless they separately choose **Load EPG source index**.
