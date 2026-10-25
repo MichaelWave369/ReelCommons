@@ -17,6 +17,7 @@ interface Props {
   onOpenCouch: () => void
   onOpenReviewed: () => void
   onOpenStudio?: () => void
+  onOpenNetwork?: () => void
 }
 
 const picks = ['nasa-iss','kexp','cbs-news','monterey-cams','new-orleans-bourbon']
@@ -27,7 +28,7 @@ const featured = picks.flatMap((id) => {
 
 export default function UnifiedTvHub({
   selected, favoriteIds, recentIds,
-  onSelect, onOpenMain, onOpenCouch, onOpenReviewed, onOpenStudio,
+  onSelect, onOpenMain, onOpenCouch, onOpenReviewed, onOpenStudio, onOpenNetwork,
 }: Props) {
   const [query, setQuery] = useState('')
   const [number, setNumber] = useState('')
@@ -64,11 +65,11 @@ export default function UnifiedTvHub({
   return <section className="uth" aria-labelledby="uth-title">
     <div className="uth-heading">
       <div>
-        <span className="uth-kicker">RCTV v3.2 · THREE SCREENS + STUDIO</span>
+        <span className="uth-kicker">REEL NETWORK / RCTV v3.3 · THREE SCREENS + STUDIO</span>
         <h2 id="uth-title">The Unified TV Home</h2>
         <p>One selected channel across the guide, regular player, lean-back Couch Mode, and Reviewed Player Desk. All 50 virtual channels remain official, curated destinations.</p>
       </div>
-      <span className="uth-version">V3.2 / COMMON SCREEN</span>
+      <span className="uth-version">V3.3 / REEL COMMONS</span>
     </div>
     <div className="uth-hero">
       <div className="uth-now" role="status">
@@ -102,8 +103,12 @@ export default function UnifiedTvHub({
             'Choose one of the 7 reviewed stations first'}</small>
         </button>
         <button type="button" disabled={!onOpenStudio} onClick={onOpenStudio}>
-          <span>04 · CREATE</span><strong>Creator Studio</strong>
+          <span>04 · RECORD</span><strong>Creator Studio</strong>
           <small>Record an original podcast or camera episode locally</small>
+        </button>
+        <button type="button" disabled={!onOpenNetwork} onClick={onOpenNetwork}>
+          <span>05 · PRODUCE</span><strong>REEL Network</strong>
+          <small>Original programming slate and CineSwarm creative offices</small>
         </button>
       </div>
     </div>
