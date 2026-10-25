@@ -1,0 +1,70 @@
+name: "RCTV: broadcaster source evidence review"
+description: "Submit unverified broadcaster research for independent manual review. This issue does not authorize streaming."
+title: "[RCTV source review] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Research intake only
+        Use the RCTV v2.6 Source Review Ledger to gather local evidence and copy a handoff.
+        **Do not include passwords, private stream links, tokens, confidential materials or personal data.**
+        Completing this form never changes the playback allowlist. A maintainer must separately verify
+        publisher identity, supported player methods, permissions and applicable terms, then open a code PR.
+  - type: input
+    id: candidate-id
+    attributes:
+      label: Candidate intake ID
+      description: "Local identifier from Source Certification Lab (not an approval ID)."
+      placeholder: "cand-..."
+    validations:
+      required: true
+  - type: input
+    id: broadcaster
+    attributes:
+      label: Broadcaster / official service name
+      placeholder: "Public media service"
+    validations:
+      required: true
+  - type: input
+    id: homepage
+    attributes:
+      label: Publisher's public official HTTPS website
+      description: "Not a stream manifest, signed media endpoint or subscriber URL."
+      placeholder: "https://example.org/"
+    validations:
+      required: true
+  - type: dropdown
+    id: proposed-method
+    attributes:
+      label: Proposed playback route
+      options:
+        - "Official website link only"
+        - "Official YouTube embed (independent method review required)"
+        - "Publisher-listed audio link (independent method review required)"
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence notes and links to public publisher terms
+      description: "Include exact terms, territory limitations, fallback, privacy/browser behavior, manual test notes and unresolved questions."
+      placeholder: "Provide a concise public evidence summary here, NOT secrets."
+    validations:
+      required: true
+  - type: textarea
+    id: ledger
+    attributes:
+      label: Optional local ledger summary (UNVERIFIED)
+      description: "Paste reviewed excerpts from the Lab's Copy review handoff button. Records can be edited or forged and prove no approval."
+      placeholder: "Local entries, chronology, outstanding concerns."
+    validations:
+      required: false
+  - type: checkboxes
+    id: boundaries
+    attributes:
+      label: Acknowledge trust boundary
+      options:
+        - label: "I understand this intake does NOT grant streaming, copying, embedding or redistribution rights."
+          required: true
+        - label: "I understand source approval requires independent human verification and a separate code-reviewed PR."
+          required: true
