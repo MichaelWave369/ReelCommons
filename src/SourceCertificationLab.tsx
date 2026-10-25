@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import type { ChangeEvent, FormEvent } from 'react'
 import { REVIEWED_BRIDGE_ROSTER } from './reviewedPlaybackBridge'
+import SourceReviewLedger from './SourceReviewLedger'
 import {
   SOURCE_LAB_CHECKS, SOURCE_LAB_MAX_BYTES, SOURCE_LAB_MAX_DRAFTS,
   SOURCE_LAB_STORAGE_KEY, createSourceLabCandidate, exportSourceLabPacket,
@@ -105,7 +106,7 @@ export default function SourceCertificationLab() {
 
   return <section className="scl" aria-labelledby="scl-title">
     <div className="scl-header">
-      <div><span className="scl-kicker">RCTV v2.5 · SOURCE CERTIFICATION LAB</span>
+      <div><span className="scl-kicker">RCTV v2.6 · SOURCE CERTIFICATION LAB</span>
         <h2 id="scl-title">Evidence before airwaves.</h2>
         <p>Document a proposed channel for independent review. The Lab helps organize broadcaster identity, usage terms and playback evidence, but cannot certify permissions or add playable media on its own.</p>
       </div>
@@ -202,6 +203,7 @@ export default function SourceCertificationLab() {
             </fieldset>
             <p className="scl-verify">Completing the checklist produces a <b>human-review-ready intake packet only</b>. It cannot grant content rights or make an arbitrary URL playable. Keep dated permission evidence in the notes and review it independently before proposing a code change.</p>
           </div>}
+          <SourceReviewLedger selected={selected} />
           {storageWarning && <p className="scl-warning" role="status">Browser storage unavailable. Your notes may last only until you leave this page. Export your JSON.</p>}
           {error && <p className="scl-error" role="alert">{error}</p>}
           {notice && <p className="scl-notice" role="status">{notice}</p>}

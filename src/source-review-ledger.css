@@ -1,0 +1,43 @@
+/* RCTV v2.6 Source Review Ledger: local provenance, no playback promotion */
+.srl{border:1px solid #8c9f7d;border-radius:11px;background:linear-gradient(128deg,#1a3441,#293d44 63%,#2a3742);padding:22px;margin:16px 0;color:#edf9ed}
+.srl-top{display:flex;gap:15px;justify-content:space-between;align-items:center;flex-wrap:wrap}
+.srl-top>div:first-child{min-width:230px;flex:1}
+.srl h3{font-size:clamp(22px,3vw,30px);margin:9px 0;letter-spacing:-.05em}
+.srl-top p{font-size:11px;line-height:1.75;color:#c0d8d4}
+.srl-counter{background:#284d43;border:1px solid #74927d;border-radius:8px;display:flex;flex-direction:column;padding:13px;min-width:125px;text-align:center}
+.srl-counter strong{font-size:25px;color:#d2ffbc}
+.srl-counter span{font-size:10px;color:#d0ddd0}
+.srl-policy{background:#433d30;border-left:3px solid #e7c98a;border-radius:7px;padding:12px 15px;margin-top:14px}
+.srl-policy strong{color:#ffe4b0;font-size:10px;letter-spacing:.09em}
+.srl-policy p{color:#f4e5cb;font-size:11px;line-height:1.7;margin:8px 0 0}
+.srl-export,.srl-handoff>div{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:15px}
+.srl button,.srl-handoff a,.srl-export label{min-height:42px;border-radius:7px;border:1px solid #80a28c;background:#365d50;color:#ecffe5;padding:11px 14px;cursor:pointer;font-size:11px;font-weight:850;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+.srl button:disabled{cursor:not-allowed;opacity:.45}
+.srl-export label{position:relative}
+.srl-export input{position:absolute;width:1px;height:1px;opacity:0;bottom:0;left:50%}
+.srl-export label:focus-within{outline:3px solid #caffaa;outline-offset:3px}
+.srl-current,.srl-review-form,.srl-history,.srl-handoff,.srl-empty{margin-top:15px;padding:17px;border:1px solid #62877d;background:#1f3a44;border-radius:9px}
+.srl h4{font-size:17px;margin:8px 0;overflow-wrap:anywhere}
+.srl-current p,.srl-review-form p,.srl-history>p,.srl-handoff p,.srl-empty{font-size:11px;line-height:1.75;color:#c0d8d8;overflow-wrap:anywhere}
+.srl-current button,.srl-review-form>button,.srl-handoff button{background:#baff95;color:#182f20;border-color:#baff95}
+.srl-review-form{display:flex;flex-direction:column;align-items:stretch;gap:11px}
+.srl-review-form label{display:flex;flex-direction:column;gap:8px;font-size:11px;color:#d0eddc;font-weight:850}
+.srl-review-form select,.srl-review-form textarea{border:1px solid #73988d;border-radius:6px;background:#10293a;color:#f0fff3;font-family:inherit;font-size:12px;padding:11px;line-height:1.6}
+.srl-review-form textarea{resize:vertical}
+.srl-review-form>button{align-self:flex-start}
+.srl-history ol{list-style:none;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.srl-history li{padding:13px;border:1px solid #63847f;border-radius:7px;background:#304b50;min-width:0}
+.srl-history li>div{display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.srl-history li strong{font-size:12px;color:#d8ffba}
+.srl-history time{font-size:9px;color:#a5d1cd}
+.srl-history li p,.srl-history details{font-size:10px;color:#d2e3e3;line-height:1.7;overflow-wrap:anywhere}
+.srl-history summary{cursor:pointer;text-decoration:underline;color:#d6f7d5;font-size:10px}
+.srl-handoff a{background:#405872;color:#e9f7ff;border-color:#90a4b3}
+.srl-error,.srl-notice,.srl-warning{margin-top:12px;border-radius:6px;padding:10px 13px;font-size:11px;line-height:1.7}
+.srl-error{background:#4a3034;border:1px solid #b7817d;color:#ffe0d9}
+.srl-notice{background:#30513d;border:1px solid #84ae8c;color:#e8ffe3}
+.srl-warning{background:#48402e;border:1px solid #b09d64;color:#ffeac1}
+.srl-fine{font-size:10px;line-height:1.75;color:#b9d3d0;border-top:1px solid #5e7d80;margin:18px 0 0;padding-top:13px;overflow-wrap:anywhere}
+.srl-fine code{color:#d9f9b8}
+@media(max-width:850px){.srl-history ol{grid-template-columns:1fr}}
+@media(max-width:600px){.srl{padding:14px}.srl-current,.srl-review-form,.srl-history,.srl-handoff{padding:12px}.srl-export>*{flex:1}.srl-history ol{grid-template-columns:1fr}}
