@@ -137,8 +137,8 @@ export default function ReviewedPlaybackBridge({
   return <section className="rpb" aria-labelledby="rpb-title">
     <div className="rpb-intro">
       <div>
-        <span className="rpb-kicker">RCTV v3.0 · REVIEWED PLAYBACK BRIDGE</span>
-        <h2 id="rpb-title">The World Screen.</h2>
+        <span className="rpb-kicker">RCTV v3.1 · REVIEWED PLAYBACK BRIDGE</span>
+        <h2 id="rpb-title" tabIndex={-1}>The World Screen.</h2>
         <p>The reviewed viewing surface now shares the selected source with the Unified TV Home. Try NASA's existing YouTube embed, KEXP audio, or official broadcaster sites. The seven-source roster is fixed and never accepts IPTV-org or imported stream URLs.</p>
       </div>
       <button type="button" aria-expanded={opened} aria-controls="rpb-panel" onClick={() => {
