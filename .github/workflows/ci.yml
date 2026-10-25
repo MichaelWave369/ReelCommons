@@ -22,5 +22,5 @@ jobs:
         run: npm install --no-audit --no-fund
       - name: Unit tests
         run: npm test
-      - name: Type check and build
+      - name: Playback trust gate policy\n        run: npx vitest run src/playbackTrustGate.test.tsx\n      - name: Type check and build
         run: npm run build
