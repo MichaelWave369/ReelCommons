@@ -120,7 +120,7 @@ function assertCandidate(value: unknown): SourceLabCandidate {
   return {
     id: value.id, name: value.name, homepage: value.homepage,
     proposedMethod: value.proposedMethod as SourceLabMethod,
-    evidenceNotes: value.evidenceNotes, checked: CHECK_IDS.filter((id) => value.checked.includes(id)),
+    evidenceNotes: value.evidenceNotes, checked: CHECK_IDS.filter((id) => (value.checked as SourceLabCheckId[]).includes(id)),
     createdUtc: value.createdUtc,
   }
 }
