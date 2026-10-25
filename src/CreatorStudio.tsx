@@ -37,7 +37,7 @@ function saveBlob(blob:Blob,filename:string) {
 }
 
 /** Capture is isolated from RCTV channels. Only user mic/camera may be recorded. */
-export default function CreatorStudio() {
+export default function CreatorStudio({openRequestToken=0}: {openRequestToken?:number}) {
   const [opened,setOpened]=useState(false)
   const [project,setProject]=useState<CreatorProjectInput>(defaultProject)
   const [connected,setConnected]=useState(false)
@@ -57,6 +57,10 @@ export default function CreatorStudio() {
   const videoRef=useRef<HTMLVideoElement|null>(null)
   const audioPreviewRef=useRef<HTMLAudioElement|null>(null)
   const videoPreviewRef=useRef<HTMLVideoElement|null>(null)
+
+  useEffect(()=>{
+    if(openRequestToken>0)setOpened(true)
+  },[openRequestToken])
 
   useEffect(()=>{
     disposedRef.current=false
@@ -243,7 +247,7 @@ export default function CreatorStudio() {
     <div className="rcs-head">
       <div>
         <span className="rcs-kicker">RCTV v3.2 · CREATOR STUDIO / LOCAL PRODUCTION</span>
-        <h2 id="rcs-title">The Broadcasting & Podcast Studio</h2>
+        <h2 id="rcs-title" tabIndex={-1}>The Broadcasting & Podcast Studio</h2>
         <p>Start with the real thing: permission-gated microphone or camera recordings, private browser preview, download and postproduction handoff. This is a recording booth, not a public livestream server.</p>
       </div>
       <button type="button" aria-expanded={opened} aria-controls="rcs-workspace"
