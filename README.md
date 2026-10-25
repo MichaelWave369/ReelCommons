@@ -6,6 +6,32 @@ ReelCommons is an original, independent, open-source directory for **legitimate 
 
 > **Scope honesty:** v0.1 is a curated **service directory**, not a live title-availability search engine. Provider links go to official homepages. Verify a specific title, ad load, cost, geographic restrictions, and accessibility features on the provider's site.
 
+## v3.3 · REEL Network: original programming and the CineSwarm creative floor
+
+**REEL Network** is the new public-facing original-programming identity **inside ReelCommons**. The ReelCommons discovery and RCTV channels remain available and unchanged. REEL is a separate source-controlled creative-development destination, accessible through the new **REEL Network** top navigation, the home-page shortcut, and **Open Streams → Unified TV Home → REEL Network**.
+
+The naming direction avoids presenting ReelCommons as affiliated with an unrelated blockchain/Web3 platform currently calling itself “Parallax Network.” **REEL** is a working creative brand, not a verified exclusive trademark/domain. Existing `MichaelWave369/parallax-network` and `MichaelWave369/CineSwarm` remain their own repositories and historical technical lineage; no breaking schema/URL rename is performed.
+
+### REEL v3.3 user experience
+
+- A new cinematic **REEL Network** home and eight conceptual programming lanes: **REEL Originals**, **REEL Cinema**, **REEL Games**, **REEL Music**, **REEL Voices**, **REEL Docs**, **REEL Comedy**, and **REEL After Hours**. All lanes are explicitly **in development**: no episode has been invented as published, no streaming route has been added, and none of the 50 existing RCTV virtual channels changes.
+- An **Interoffice Swarm** view with eleven roles: creator-world intake, rights & provenance, development/showrunner, writers, research/claim audit, visual and audio direction, CineSwarm production, ParaCut/WaveForge postproduction, continuity/QC, REEL programming, and human release. All offices are labeled **proposed roles**, never functioning or logged-in agents.
+- An opt-in **Build a show pitch packet** desk. Choose a programming lane and content class; enter a show, project title, creator credit, source-world notes and original concept. **Prepare local office work orders** creates a `REEL_NETWORK_PITCH_PACKET_V1` plan with bounded text and eleven `not_started` work orders. Click to download the JSON. Nothing is sent to a service, stored remotely, or automatically imported by another repository.
+- Packets explicitly deny rights verification, likeness-consent verification, fact-check approval, model execution, rendered output, source promotion, network publication, human release authorization and assigned channel number. **This packet is NOT a native CineSwarm ProductionPlan**, a native ParaCut RenderPlan, a WaveForge release artifact or a signed publication receipt.
+- Quick links to the real historical `parallax-network` source, MIT-licensed `CineSwarm` Python engine, ParaCut, WaveForgeStudio and PhiBox. These are separate applications. CineSwarm's local Python coordinator is **not exposed** to the internet and cannot be controlled from public GitHub Pages without a separately engineered authenticated bridge.
+
+### Why the original plan matters
+
+The prior network architecture already separated *creator/IP ownership → intake + rights → writers and showrunner → model-qualified CineSwarm shots → ParaCut/WaveForge production → human QC + release → programming + content receipts*. REEL builds on those roles without copying unlicensed private packages or calling a mock workflow “AI-generated programming.”
+
+Further integration work: a CineSwarm-owned verified adapter for the REEL planning schema, creator video/media handoff with ParaCut, verified publication records and rights receipts, the first legitimately hosted original pilot, and new **appended** REEL program channels after original **CH 050**. Real live broadcasting also needs actual ingest/media hosting, not a static React website.
+
+See **[REEL Network and CineSwarm foundation](docs/REEL_NETWORK_CINESWARM.md)** for the source repositories, release gates, v3.4+ receiver plan and no-automatic-publishing constraints.
+
+### Quality and manual checks
+
+`src/reelNetwork.test.tsx` covers all eight programming lanes, role coverage, draft-only office state, packet schema, validation/sanitization, authority denial, immutable 50-source lineup and media-silent initial React views. Original Python companion tests, Vitest, v2.7 Playback Trust Gate, TypeScript and Vite production build remain in CI. Browser/manual testing is still required for layout, accessibility, JSON download, and the public name's legal availability.
+
 ## v3.2: Creator Studio · Original podcast and camera recording
 
 The new **RCTV Broadcasting & Podcast Studio** is a real, consent-gated **browser-local recording booth** inside Open Streams, accessible from Unified TV Home's **Creator Studio** button. It is **not** a live broadcast server, a licensed music library, an automatic content distribution platform, or a hidden cross-app integration.
