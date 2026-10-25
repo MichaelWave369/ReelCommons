@@ -6,6 +6,32 @@ ReelCommons is an original, independent, open-source directory for **legitimate 
 
 > **Scope honesty:** v0.1 is a curated **service directory**, not a live title-availability search engine. Provider links go to official homepages. Verify a specific title, ad load, cost, geographic restrictions, and accessibility features on the provider's site.
 
+## v2.3: World TV Guide Desk · EPG source research
+
+RCTV now has a dedicated **World TV Guide Desk** in the existing opt-in World Broadcast Atlas. This is a metadata research station, not a commercial electronic-program-guide player. **Nothing is fetched before the visitor explicitly loads the World TV Directory**, and no EPG data is fetched unless they separately choose **Load EPG source index**.
+
+### Features
+
+- Load the fixed IPTV-org `guides.json` *source index only*, with source-response and per-channel caps. Source data comes from [IPTV-org EPG](https://github.com/iptv-org/epg).
+- Browse and search channel-linked EPG metadata: source site name/domain (plain text only), optional feed ID, listed guide language, listed format and source-entry count. At most 12 deduplicated guide-site rows per station are retained.
+- Enable **Show only stations with indexed guide sources** to filter the World TV directory and existing Channel Hopper/Passport remote together. Disable it to restore ordinary catalog browsing.
+- Select **View guide sources** on any matching channel card to open its metadata detail panel. Visitors may still open the broadcaster's preexisting official HTTPS website, not a third-party guide crawler.
+- Export a metadata-only `RCTV_GUIDE_SOURCE_RECEIPT_V1` JSON research receipt with explicit `IPTV_ORG_INDEX_METADATA_UNVERIFIED` provenance and a warning that EPG source presence is not proof of program information, live status, availability or permissions.
+
+### Nonnegotiable boundaries
+
+The guide index contains URLs to third-party XMLTV or other collectors, but RCTV **never visits, stores, presents or exports these endpoints**, their query strings, host headers, secrets, site IDs, or their full guide contents. It does not fetch actual schedules, program titles, videos, IPTV playlists, streams or logos. Metadata site names are **not** assumed to be broadcaster-owned or authorized; they render only as plain text. Guide URLs are not made clickable. Nothing from a guide source can enter `playableUrl()`, the original 50-number RCTV channel roster, Couch Mode, or the local M3U quarantine.
+
+The Guide Desk's state is only in-memory until page exit. It uses the same already opt-in `guides.json` request and requires no account, server, stream proxy, new runtime dependencies or analytics. The v2.2 World TV Passport remains a **manual, self-reported exploration record**, not a viewing/now-playing history.
+
+### Validation
+
+New `worldBroadcastGuides.test.tsx` verifies known-channel membership, deduplication, input size and source-entry caps, missing/invalid values, that provider URLs/tokens/host headers never survive normalization or receipt exports, and that server-rendered markup contains no XMLTV/stream links or autoplay elements. Existing unit/CI checks and TypeScript build still apply.
+
+Post-merge QA: load directory, then load guide index; inspect multiple station cards; use guide-only filtering with World Hop; export a JSON receipt; verify its source-only fields; use the browser network panel to confirm no XMLTV, HLS, audio or video requests from this integration; verify responsive keyboard/screen-reader flow.
+
+Actual program schedules and inline media playback remain a **separate future workstream** requiring source authorization and a rights review.
+
 ## v2.2: World TV Channel Hopper · Private Explorer Passport
 
 The metadata-only **World Broadcast Atlas** adds a guided **World TV Channel Hopper** and a portable, browser-local **Explorer Passport**. Open **Open Streams → World TV Directory → Load World TV Directory**, then use the new remote beneath the search filters. The v2.1 catalog loading is still opt-in.
