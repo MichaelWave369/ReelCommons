@@ -12,6 +12,7 @@ import WorldAtlas from './WorldAtlas'
 import WorldBroadcastAtlas from './WorldBroadcastAtlas'
 import ReviewedPlaybackBridge from './ReviewedPlaybackBridge'
 import UnifiedTvHub from './UnifiedTvHub'
+import CreatorStudio from './CreatorStudio'
 import MiniTvRemote from './MiniTvRemote'
 import { hubRememberPrevious } from './tvHub'
 import SignalDiagnosticPanel from './SignalDiagnosticPanel'
@@ -101,6 +102,15 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
     setBridgeOpenRequestToken((token) => token + 1)
     focusTvSurface('rpb-title')
   }
+  function openCreatorStudio() {
+    setMediaLoadedFor(null)
+    setMainSignal((previous)=>observeSignal(previous,'unload',previous.sourceId,previous.attempt))
+    setBridgeResetToken((token)=>token+1)
+    window.requestAnimationFrame(()=>{
+      document.getElementById('rcs-title')?.scrollIntoView({block:'center',behavior:'smooth'})
+      document.getElementById('rcs-title')?.focus({preventScroll:true})
+    })
+  }
   function openMainDesk() {
     setBridgeResetToken((token)=>token+1)
     setMediaLoadedFor(null)
@@ -155,7 +165,7 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
   return <section className="osc-page wrap" aria-labelledby="osc-heading">
     {couchOpen && <CouchMode selected={selected} favoriteIds={favorites}
       onSelect={(source) => selectSource(source, false)} onClose={closeCouchMode} />}
-    <div className="eyebrow">THE COMMON SCREEN / RCTV v3.1 · OPEN STREAMS COMMONS</div>
+    <div className="eyebrow">THE COMMON SCREEN / RCTV v3.2 · OPEN STREAMS COMMONS</div>
     <div className="osc-hero">
       <div className="osc-hero-copy">
         <span className="osc-overline"><span className="osc-signal" /> LEGITIMATE CHANNELS · ENDLESS CURIOSITY</span>
@@ -180,7 +190,8 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
     <UnifiedTvHub selected={selected} favoriteIds={favorites} recentIds={recentChannelIds}
       onSelect={(source) => selectSource(source, false)}
       onOpenMain={openMainDesk} onOpenCouch={openCouchMode}
-      onOpenReviewed={openReviewedDesk} />
+      onOpenReviewed={openReviewedDesk} onOpenStudio={openCreatorStudio} />
+    <CreatorStudio />
     {!couchOpen && <MiniTvRemote selected={selected}
       onSelect={(source)=>selectSource(source,false)}
       onOpenMain={openMainDesk} onOpenCouch={openCouchMode}
