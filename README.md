@@ -6,6 +6,31 @@ ReelCommons is an original, independent, open-source directory for **legitimate 
 
 > **Scope honesty:** v0.1 is a curated **service directory**, not a live title-availability search engine. Provider links go to official homepages. Verify a specific title, ad load, cost, geographic restrictions, and accessibility features on the provider's site.
 
+## v2.5: TV Source Certification Lab · Independent-review intake
+
+RCTV v2.5 adds **Source Certification Lab** below the Reviewed Playback Bridge in Open Streams. The name describes a workflow to organize evidence for broadcaster playback, **not** an automatic certification service. Even a seven-of-seven checklist entry is merely *ready for independent human review*. Only an audited code change can add playback support.
+
+### Source-controlled roster and candidate intake
+
+- The workbench starts closed. Open it on demand to see the seven current source-controlled review outcomes from v2.4, clearly distinguishing NASA ISS video, KEXP published audio and five official-site-only destinations.
+- Propose a broadcaster by its **official public HTTPS homepage**, publisher name, requested method (site link, platform-supported YouTube iframe, or publisher-listed audio) and research notes.
+- The intake validator refuses localhost, private-IP and credential-bearing hosts, arbitrary ports, plain HTTP, query strings/fragments (including tokenized links), and M3U/M3U8, MP3, MP4, AAC, OGG, JSON, XML or TS media/data endpoints. **No URL supplied here is fetched, linked, probed or promoted to media playback.** It is plain-text metadata only.
+- Maintain a self-attested seven-point checklist covering official publisher identity, terms, playback-method permission evidence, geography, privacy, official-site fallback and manual browser testing.
+- The *ready-for-independent-review* indicator requires all seven self-attested boxes and substantive written evidence. This is intentionally **not** an approval, verification, license, trust escalation, or authorization to embed/rebroadcast.
+
+### Local research packets
+
+- Up to 40 drafts remain in browser `localStorage`; storage denial is handled without breaking the interface. No account, telemetry, remote processing or automatic fetch is introduced by the Lab.
+- Export/import strict, bounded JSON (64 KB) under `RCTV_SOURCE_INTAKE_PACKET_V1` with immutable provenance `USER_SUPPLIED_UNVERIFIED`. Intake records contain a name, safe homepage, proposed method, notes, date, and enumerated checklist flags, **never an approved player URL**.
+- Import rejects unknown or duplicate record IDs, extra fields (including `approved` / `playableUrl`), forged provenance, invalid dates, restricted URLs and unrecognized checkmarks. Import merges new IDs without rewriting existing drafts.
+- Export is a portable **research submission for independent audit**, not an executable playlist or authorized playback manifest. A maintainer must separately examine current broadcaster terms and corroborating permission evidence, run manual browser tests, write a reviewed static source-code change, and pass CI before expanding the v2.4 `playableUrl()` allowlist.
+
+### Regression coverage
+
+`src/sourceCertification.test.tsx` tests safe homepage validation, bounded payloads, date/method validation, checkbox gating, provenance, JSON export/import, denial of forged approvals and media URLs, and standby-only initial rendering with no media tags. Existing RCTV streaming, M3U quarantine, World Broadcast Atlas, Guide Desk, Passport and Couch Mode tests continue unchanged.
+
+After merge, smoke test browser-local persistence, the seven-point checklist, create/edit/delete flows, export/import roundtrips, invalid URLs, blocked storage, mobile layout and keyboard navigation. This feature **does not add a new live channel**, and a checklist marked complete is **not evidence of broadcaster consent**.
+
 ## v2.4: Reviewed Playback Bridge · The World Screen
 
 **RCTV v2.4** adds a standalone **Reviewed Player Desk** in **Open Streams**, alongside (not inside) the IPTV-org World Broadcast Atlas. The World TV directory, EPG sources and M3U inspector remain metadata-only; none can promote unreviewed links into playback.
