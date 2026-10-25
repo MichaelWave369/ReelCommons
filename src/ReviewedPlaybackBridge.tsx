@@ -13,6 +13,7 @@ import {
 } from './signalRecovery'
 import type { SignalEvent } from './signalRecovery'
 import './reviewed-playback-bridge.css'
+import './signal-recovery.css'
 
 interface Props {
   /** Incremented whenever the original RCTV player or Couch Mode takes control. */
@@ -184,7 +185,7 @@ export default function ReviewedPlaybackBridge({ resetToken, onRequestMediaLoad 
           </div>
           <p className="rpb-signal-detail" role="status">{signalDetail}</p>
           <div className="rpb-signal-metrics">
-            <span><b>{signal.attempt}</b> loads requested this desk session</span>
+            <span><b>{signal.loadCount}</b> loads requested this desk session</span>
             <span><b>{signal.selfReported === 'none' ? 'NOT RATED' : signal.selfReported.toUpperCase()}</b> manually reported</span>
           </div>
           {loaded && mediaUrl && <div className="rpb-signal-actions" role="group" aria-label="Self-report playback status">
