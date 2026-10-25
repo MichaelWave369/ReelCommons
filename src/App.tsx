@@ -7,6 +7,7 @@ import { readWatchlist, saveWatchlist } from './storage'
 import PublicCatalog from './PublicCatalog'
 import LiveTV from './LiveTV'
 import OpenStreamsCommons from './OpenStreamsCommons'
+import ReelNetwork from './ReelNetwork'
 import FTALab from './FTALab'
 import SignalBridge from './SignalBridge'
 import TunerScout from './TunerScout'
@@ -14,6 +15,7 @@ import type { TitleCard } from './tmdb'
 
 const nav: { id: Tab; label: string }[] = [
   { id: 'discover', label: 'Free sources' },
+  { id: 'reel', label: 'REEL Network' },
   { id: 'catalog', label: 'Film catalog' },
   { id: 'live', label: 'Live TV & FTA' },
   { id: 'openstreams', label: 'Open Streams' },
@@ -140,6 +142,7 @@ function App() {
       <main id="main-content" tabIndex={-1}>
         {tab === 'live' && <LiveTV onOpenLab={() => changeTab('fta')} onOpenStreams={() => changeTab('openstreams')} />}
         {tab === 'openstreams' && <OpenStreamsCommons onOpenLiveTV={() => changeTab('live')} />}
+        {tab === 'reel' && <div className="wrap"><ReelNetwork /></div>}
         {tab === 'fta' && <FTALab onOpenBridge={() => changeTab('signal')} />}
         {tab === 'signal' && <SignalBridge onOpenScout={() => changeTab('tuner')} />}
         {tab === 'tuner' && <TunerScout />}
@@ -149,8 +152,8 @@ function App() {
             <div className="hero-copy">
               <div className="eyebrow"><span className="eyebrow-dash" /> ENTERTAINMENT WITHOUT THE SUBSCRIPTION MAZE</div>
               <h1>Good stories.<br /><em>Open doors.</em></h1>
-              <p>Find legitimate places to watch for free, save what catches your eye, and make movie night feel easy again.</p>
-              <div className="hero-actions"><a className="btn btn-primary" href="#explore"><Icon name="search" size={18} /> Explore free sources</a><button className="btn btn-outline" onClick={() => changeTab('watchlist')}>Build a watchlist <Icon name="arrow" size={18} /></button></div>
+              <p>Find legitimate places to watch for free, save what catches your eye, and visit <strong>REEL Network</strong> to create and develop our own shows, films, game reviews, music and podcasts.</p>
+              <div className="hero-actions"><a className="btn btn-primary" href="#explore"><Icon name="search" size={18} /> Explore free sources</a><button className="btn btn-outline" onClick={() => changeTab('watchlist')}>Build a watchlist <Icon name="arrow" size={18} /></button><button className="btn btn-outline" onClick={() => changeTab('reel')}>Explore REEL Network <Icon name="arrow" size={18} /></button></div>
               <div className="hero-note"><span className="mini-star">✳</span> No subscriptions to ReelCommons. No account needed. No sketchy links.</div>
             </div>
             <div className="hero-visual" aria-hidden="true">

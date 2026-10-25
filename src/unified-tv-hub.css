@@ -14,7 +14,7 @@
 .uth-now p{color:#c7e4dc;font-size:11px;line-height:1.7;margin:5px 0 0}
 .uth-tags{display:flex;gap:6px;flex-wrap:wrap}
 .uth-tags span{font-size:9px;border:1px solid #5f8988;background:#203c42;border-radius:4px;padding:6px 7px;color:#d1e8e2}
-.uth-screen-actions{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;min-width:0}
+.uth-screen-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;min-width:0}
 .uth-screen-actions button{border:1px solid #8baa99;background:#304e55;color:#ecfff2;padding:16px 12px;text-align:left;border-radius:9px;cursor:pointer;display:flex;flex-direction:column;gap:9px;min-width:0}
 .uth-screen-actions button:disabled{opacity:.53;cursor:not-allowed}
 .uth-screen-actions button:not(:disabled):hover,.uth-featured button:hover,.uth-guide-grid button:hover{border-color:#c8ffb3;background:#3f665d}
