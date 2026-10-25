@@ -6,6 +6,28 @@ ReelCommons is an original, independent, open-source directory for **legitimate 
 
 > **Scope honesty:** v0.1 is a curated **service directory**, not a live title-availability search engine. Provider links go to official homepages. Verify a specific title, ad load, cost, geographic restrictions, and accessibility features on the provider's site.
 
+## v3.0: Unified TV Home · One channel, three screens
+
+RCTV v3.0 introduces a shared, visible **Unified TV Home** at the top of Open Streams Commons. It connects the 50-channel guide, the main **Channel Desk**, lean-back **Couch Mode**, and seven-source **Reviewed Player Desk** around one currently selected, source-controlled station. No automatically loaded video, new stream sources, media proxy, account or server is needed.
+
+### One source selection
+- **Unified TV Home** shows the selected source's virtual channel number, name, category, source access method and no-autoplay status.
+- Users can **CH− / CH+** through the existing frozen 50-slot lineup, enter a **virtual channel number**, click curated featured stations, revisit their **previously selected channels this visit**, or expand a **searchable full guide** with an optional favorites-only filter.
+- All channel choices reuse the existing `selectSource` flow. Choosing a station updates the main player, the Channel Surf Remote, the Couch Mode launch selection and the reviewed player's station (where supported), including the existing last-channel browser preference. Previous selections in the new Home are **in React memory only**, never saved.
+- A unified **View Channel Desk** action scrolls to the regular player. **Enter Couch Mode** launches the existing accessible large-screen interface with the same selected channel. **Open Reviewed Player Desk** explicitly expands the reviewed desk for any of its seven checked-in stations. For website-only destinations outside that seven-source roster, this button is disabled with an explanation; the official broadcaster site remains available.
+- The Reviewed Player Desk also reports station selection *back* to the main app, keeping the shared choice consistent. That handoff stops the main player, resets stale signal observations, and preserves opt-in playback. Unsupported destinations cannot become reviewed stations by selecting them elsewhere in RCTV.
+- Source switching, starting Couch Mode or switching to the reviewed desk always unmounts previously loaded in-app media. The browser must still explicitly receive a separate **Load** click inside the chosen player before an iframe or audio element appears.
+
+### Consistent trust boundaries
+The Unified Home is a **catalog navigation tool** over the same fixed `CHANNEL_LINEUP` and `reviewedPlaybackBridge` roster. It does not import IPTV-org playlist streams, inspect third-party media URLs, load content from imported Source Lab packets, bypass broadcaster restrictions, record, proxy, rebroadcast, autoplay or create a new source. Provider-controlled links remain the fallback for every station.
+
+The RCTV v2.7 Playback Trust Gate still provides a dedicated CI release check, and the v2.8/v2.9 Signal & Recovery panels still label browser events as observations rather than proof a broadcast is live or a license exists.
+
+### Tests and manual QA
+`src/tvHub.test.tsx` verifies all 50 frozen numbers, safe numeric lookup, favorite/search behavior, bounded **session-only** navigation history, exact seven-source handoff eligibility, no-player initial markup and a safe Reviewed Desk interface with shared selection props. Existing React, Python, policy-gate, TypeScript and Vite tests remain.
+
+After merging and deploying: choose a station in the Unified TV Home, confirm the regular player and Channel Surf Remote reflect it, launch Couch Mode, tune a new number, exit and verify selection persists. Then choose KEXP or NASA, open the reviewed desk, change stations there and verify the main selected channel follows, without autoplay. Use the official-site-only station fallback and test keyboard focus and small screens.
+
 ## v2.9: Shared Signal & Recovery · Channel Desk + Couch Mode
 
 RCTV v2.9 takes v2.8's honest browser-session diagnostics beyond the small Reviewed Player Desk and brings them directly into the **main Channel Desk** and **50-channel Couch Mode**. This is a usability and recovery upgrade, not a source expansion or media-rights review.
