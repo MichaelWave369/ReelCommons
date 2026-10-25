@@ -1,0 +1,57 @@
+/* RCTV v3.0 · Unified TV Home and shared, user-driven screen handoff */
+.uth{margin:23px 0;padding:23px;border:1px solid #729d95;border-radius:14px;background:radial-gradient(circle at 88% 8%,#345c5a 0%,transparent 32%),linear-gradient(125deg,#152e3a,#1c273d 60%,#183742);color:#edfdef}
+.uth-heading{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px}
+.uth-heading>div{min-width:230px;flex:1}
+.uth-kicker{font-size:10px;font-weight:900;letter-spacing:.12em;color:#baff95}
+.uth h2{font-size:clamp(23px,3.5vw,35px);letter-spacing:-.05em;line-height:1.2;margin:9px 0}
+.uth-heading p{font-size:12px;line-height:1.7;max-width:670px;color:#cce5df}
+.uth-version{font-size:10px;color:#d2f9c4;border:1px solid #719c7c;background:#30504d;padding:11px 13px;border-radius:8px;font-weight:900}
+.uth-hero{display:grid;grid-template-columns:minmax(220px,1fr) minmax(280px,1.3fr);gap:13px;margin-top:19px}
+.uth-now{border:1px solid #72947c;background:linear-gradient(130deg,#264c47,#214054);border-radius:9px;padding:18px;min-width:0}
+.uth-now>div:nth-child(2){display:flex;align-items:center;gap:14px;margin:14px 0}
+.uth-now strong{display:block;font-size:clamp(17px,2vw,23px);letter-spacing:-.035em;overflow-wrap:anywhere}
+.uth-symbol{font-size:45px;line-height:1;color:#d0ffad}
+.uth-now p{color:#c7e4dc;font-size:11px;line-height:1.7;margin:5px 0 0}
+.uth-tags{display:flex;gap:6px;flex-wrap:wrap}
+.uth-tags span{font-size:9px;border:1px solid #5f8988;background:#203c42;border-radius:4px;padding:6px 7px;color:#d1e8e2}
+.uth-screen-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;min-width:0}
+.uth-screen-actions button{border:1px solid #8baa99;background:#304e55;color:#ecfff2;padding:16px 12px;text-align:left;border-radius:9px;cursor:pointer;display:flex;flex-direction:column;gap:9px;min-width:0}
+.uth-screen-actions button:disabled{opacity:.53;cursor:not-allowed}
+.uth-screen-actions button:not(:disabled):hover,.uth-featured button:hover,.uth-guide-grid button:hover{border-color:#c8ffb3;background:#3f665d}
+.uth-screen-actions button span{font-size:9px;font-weight:850;letter-spacing:.08em;color:#b6f0be}
+.uth-screen-actions button strong{font-size:14px;line-height:1.25;overflow-wrap:anywhere}
+.uth-screen-actions button small{font-size:10px;color:#c7dadc;line-height:1.6}
+.uth-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:14px 0;padding:11px;background:#152f3c;border:1px solid #416774;border-radius:9px}
+.uth-controls button,.uth-controls a,.uth-guide-head button{border:1px solid #8bb1a0;border-radius:6px;background:#30544b;color:#edfbed;padding:11px 13px;min-height:40px;cursor:pointer;text-decoration:none;font-size:11px;font-weight:850}
+.uth-controls a{background:#355273;border-color:#96a4bf}
+.uth-controls form{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+.uth-controls form label{font-size:10px;font-weight:850;color:#cdebd6}
+.uth-controls input{width:62px;background:#1d3b45;color:#f4ffe7;border:1px solid #799a8a;border-radius:5px;padding:10px;font-size:13px;font-weight:900;text-align:center}
+.uth-controls button:disabled{opacity:.5;cursor:not-allowed}
+.uth h3{font-size:17px;letter-spacing:-.03em;margin:7px 0}
+.uth-featured>div:first-child p,.uth-guide-head p{font-size:11px;color:#c7dbdb;line-height:1.5}
+.uth-featured-items{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px;margin:12px 0 0}
+.uth-featured button,.uth-guide-grid button{background:#263f4c;color:#e7fff2;text-align:left;border-radius:7px;border:1px solid #59827f;padding:13px;min-width:0;cursor:pointer}
+.uth-featured button[aria-pressed="true"],.uth-guide-grid button.selected{border-color:#beff9e;background:#38614f}
+.uth-featured button span,.uth-guide-grid button span{display:block;font-size:9px;color:#c4efce;margin-bottom:7px;font-weight:900}
+.uth-featured button strong,.uth-guide-grid button strong{display:block;font-size:11px;line-height:1.5;overflow-wrap:anywhere}
+.uth-guide-grid button small{display:block;margin-top:7px;color:#b8d6d4;font-size:9px}
+.uth-recent{padding-top:13px}
+.uth-recent h3{font-size:12px;color:#c9eacc}
+.uth-recent>div{display:flex;flex-wrap:wrap;gap:7px}
+.uth-recent button{background:#2a4546;color:#e2f9e7;border-radius:30px;border:1px solid #6d9990;padding:9px 12px;font-size:10px;cursor:pointer}
+.uth-guide-head{border-top:1px solid #5a7d78;margin-top:17px;padding-top:17px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.uth-guide-head button{background:#baff95;border-color:#baff95;color:#193423}
+.uth-guide{padding:13px;background:#182f3c;border:1px solid #587878;border-radius:8px;margin-top:10px}
+.uth-filter{display:flex;align-items:center;justify-content:space-between;gap:13px;flex-wrap:wrap;margin-bottom:12px}
+.uth-filter label{font-size:10px;color:#d0ebdf;font-weight:850}
+.uth-filter label:first-child{display:flex;flex-direction:column;gap:6px;flex:1;min-width:190px}
+.uth-filter input[type="search"]{border-radius:6px;border:1px solid #6d958f;background:#274753;color:#f1ffea;padding:11px;font-size:12px}
+.uth-favorites-only{display:flex;gap:7px;align-items:center}
+.uth-guide-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;max-height:370px;overflow-y:auto}
+.uth-empty,.uth-message,.uth-boundary{line-height:1.65;font-size:11px;color:#cbe2dc}
+.uth-message{border:1px solid #80af8e;border-radius:6px;background:#305640;padding:10px 13px;color:#e2ffd9}
+.uth-boundary{margin:15px 0 0;border-top:1px solid #61817c;padding-top:11px}
+@media(max-width:1100px){.uth-hero{grid-template-columns:1fr}.uth-screen-actions button{min-height:115px}.uth-featured-items{grid-template-columns:repeat(3,minmax(0,1fr))}.uth-guide-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:640px){.uth{padding:14px}.uth-screen-actions{grid-template-columns:1fr}.uth-screen-actions button{min-height:0}.uth-featured-items,.uth-guide-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.uth-controls>*{flex:1}.uth-controls form{flex:1 1 100%}.uth-controls a{text-align:center}.uth-now{padding:14px}}
+@media(max-width:390px){.uth-featured-items,.uth-guide-grid{grid-template-columns:1fr}.uth-controls form label{width:100%}}

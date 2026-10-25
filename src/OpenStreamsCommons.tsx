@@ -11,6 +11,8 @@ import WorldTour from './WorldTour'
 import WorldAtlas from './WorldAtlas'
 import WorldBroadcastAtlas from './WorldBroadcastAtlas'
 import ReviewedPlaybackBridge from './ReviewedPlaybackBridge'
+import UnifiedTvHub from './UnifiedTvHub'
+import { hubRememberPrevious } from './tvHub'
 import SignalDiagnosticPanel from './SignalDiagnosticPanel'
 import { initialSignalForSource, observeSignal, selectSignalStation } from './signalRecovery'
 import SourceCertificationLab from './SourceCertificationLab'
@@ -42,6 +44,8 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
   const [mainSignal, setMainSignal] = useState(() => initialSignalForSource(initialChannelSelection()))
   const [mediaLoadedFor, setMediaLoadedFor] = useState<string | null>(null)
   const [bridgeResetToken, setBridgeResetToken] = useState(0)
+  const [bridgeOpenRequestToken, setBridgeOpenRequestToken] = useState(0)
+  const [recentChannelIds, setRecentChannelIds] = useState<string[]>([])
   const [notice, setNotice] = useState('')
   const [playlistReport, setPlaylistReport] = useState<PlaylistInspection | null>(null)
   const [playlistError, setPlaylistError] = useState('')
@@ -63,6 +67,7 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
   }
 
   function selectSource(source: OpenStream, scrollToPlayer = true) {
+    setRecentChannelIds((ids) => hubRememberPrevious(ids, selectedId, source.id))
     setSelectedId(source.id)
     setMainSignal((previous) => selectSignalStation(previous, source.id))
     const saved = serializeChannelSurfState(source.id)
@@ -71,6 +76,22 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
     setBridgeResetToken((token) => token + 1) // Any original desk selection unloads the bridge.
     setNotice('')
     if (scrollToPlayer) document.getElementById('osc-player')?.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
+  }
+  function openCouchMode() {
+    setMediaLoadedFor(null)
+    setMainSignal((previous) => observeSignal(previous, 'unload', previous.sourceId, previous.attempt))
+    setBridgeResetToken((token) => token + 1)
+    setCouchOpen(true)
+  }
+  function openReviewedDesk() {
+    setMediaLoadedFor(null)
+    setMainSignal((previous) => observeSignal(previous, 'unload', previous.sourceId, previous.attempt))
+    setBridgeResetToken((token) => token + 1)
+    setBridgeOpenRequestToken((token) => token + 1)
+    document.getElementById('rpb-title')?.scrollIntoView({block:'start',behavior:'smooth'})
+  }
+  function openMainDesk() {
+    document.getElementById('osc-player-title')?.scrollIntoView({block:'center',behavior:'smooth'})
   }
   function closeCouchMode() {
     setCouchOpen(false)
@@ -115,7 +136,7 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
   return <section className="osc-page wrap" aria-labelledby="osc-heading">
     {couchOpen && <CouchMode selected={selected} favoriteIds={favorites}
       onSelect={(source) => selectSource(source, false)} onClose={closeCouchMode} />}
-    <div className="eyebrow">THE COMMON SCREEN / RCTV v2.9 · OPEN STREAMS COMMONS</div>
+    <div className="eyebrow">THE COMMON SCREEN / RCTV v3.0 · OPEN STREAMS COMMONS</div>
     <div className="osc-hero">
       <div className="osc-hero-copy">
         <span className="osc-overline"><span className="osc-signal" /> LEGITIMATE CHANNELS · ENDLESS CURIOSITY</span>
@@ -134,9 +155,13 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
       <div><span className="couch-launch-label">NEW · RCTV 2.0 · THE BIG SCREEN</span>
         <strong>Kick back. Channel surf. Explore the world.</strong>
         <p>Open our lean-back Couch Mode, designed for a television-size screen, large controls, and a guide to all 50 curated official destinations.</p></div>
-      <button type="button" ref={couchLaunchRef} onClick={() => {setMediaLoadedFor(null);setMainSignal((previous) => observeSignal(previous,'unload',previous.sourceId,previous.attempt));setBridgeResetToken((token) => token + 1);setCouchOpen(true)}}>▣ Launch Couch Mode ↗</button>
+      <button type="button" ref={couchLaunchRef} onClick={openCouchMode}>▣ Launch Couch Mode ↗</button>
     </section>
 
+    <UnifiedTvHub selected={selected} favoriteIds={favorites} recentIds={recentChannelIds}
+      onSelect={(source) => selectSource(source, false)}
+      onOpenMain={openMainDesk} onOpenCouch={openCouchMode}
+      onOpenReviewed={openReviewedDesk} />
     <div className="osc-category-bar" role="group" aria-label="Open Streams categories">
       {STREAM_CATEGORIES.map((choice) => <button type="button" key={choice.id} className={category === choice.id ? 'active' : ''} aria-pressed={category === choice.id} onClick={() => { setCategory(choice.id); setCameraScene('all') }}>
         <span aria-hidden="true">{choice.icon}</span>{choice.label}<small>{choice.id === 'all' ? ALL_OPEN_STREAMS.length : ALL_OPEN_STREAMS.filter((s) => s.category === choice.id).length}</small>
@@ -166,7 +191,10 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
     </section>
     <WorldAtlas onPreview={selectSource} />
     <WorldTour onPreview={selectSource} />
-    <ReviewedPlaybackBridge resetToken={bridgeResetToken} onRequestMediaLoad={() => {setMediaLoadedFor(null);setMainSignal((previous) => observeSignal(previous,'unload',previous.sourceId,previous.attempt))}} />
+    <ReviewedPlaybackBridge resetToken={bridgeResetToken}
+      selectedSourceId={selected.id} openRequestToken={bridgeOpenRequestToken}
+      onSelectSource={(source) => selectSource(source, false)}
+      onRequestMediaLoad={() => {setMediaLoadedFor(null);setMainSignal((previous) => observeSignal(previous,'unload',previous.sourceId,previous.attempt))}} />
     <SourceCertificationLab />
     <WorldBroadcastAtlas />
 
