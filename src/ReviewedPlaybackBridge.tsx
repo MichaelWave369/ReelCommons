@@ -5,6 +5,7 @@ import {
   reviewedBridgeReceipt, reviewedMediaUrl, unloadBridgeMedia,
 } from './reviewedPlaybackBridge'
 import type { BridgeSelection, ReviewedBridgeId } from './reviewedPlaybackBridge'
+import type { OpenStream } from './openStreams'
 import PlaybackTrustGate from './PlaybackTrustGate'
 import { auditCheckedInPlayback } from './playbackTrustGate'
 import {
@@ -20,19 +21,38 @@ interface Props {
   resetToken: number
   /** Unloads the original Open Streams player before mounting any bridge media. */
   onRequestMediaLoad: () => void
+  /** Shared source-owned selection; no playback is started by this prop. */
+  selectedSourceId?: string
+  /** Incremented only by an explicit user click in the Unified TV Home. */
+  openRequestToken?: number
+  onSelectSource?: (source: OpenStream) => void
 }
 const initial: BridgeSelection = { selectedId: 'nasa-iss', loadedId: null }
 
-export default function ReviewedPlaybackBridge({ resetToken, onRequestMediaLoad }: Props) {
+export default function ReviewedPlaybackBridge({
+  resetToken, onRequestMediaLoad, selectedSourceId = 'nasa-iss',
+  openRequestToken = 0, onSelectSource,
+}: Props) {
   const [opened, setOpened] = useState(false)
   const [state, setState] = useState<BridgeSelection>(initial)
   const [message, setMessage] = useState('')
   const [signal, setSignal] = useState(() => createSignalState('nasa-iss'))
   useEffect(() => {
-    setState((current) => unloadBridgeMedia(current))
-    setSignal((previous) => observeSignal(previous, 'unload', previous.sourceId, previous.attempt))
+    const desired = REVIEWED_BRIDGE_ROSTER.find((row) => row.id === selectedSourceId)
+    setState((current) => desired
+      ? moveBridgeStation(current, desired.id)
+      : unloadBridgeMedia(current))
+    setSignal((previous) => desired
+      ? selectSignalStation(previous, desired.id)
+      : observeSignal(previous, 'unload', previous.sourceId, previous.attempt))
     setMessage('')
-  }, [resetToken])
+  }, [resetToken, selectedSourceId])
+  useEffect(() => {
+    if (openRequestToken > 0) {
+      setOpened(true)
+      setMessage('Unified TV Home opened this desk. Playback is still on standby.')
+    }
+  }, [openRequestToken])
 
   const current = REVIEWED_BRIDGE_ROSTER.find((item) => item.id === state.selectedId)
   const mediaUrl = current ? reviewedMediaUrl(current.id) : null
@@ -46,7 +66,9 @@ export default function ReviewedPlaybackBridge({ resetToken, onRequestMediaLoad 
   function selectStation(id: ReviewedBridgeId) {
     setState((currentState) => moveBridgeStation(currentState, id))
     setSignal((previous) => selectSignalStation(previous, id))
-    setMessage('Channel selected. The previous player was unloaded.')
+    const row = REVIEWED_BRIDGE_ROSTER.find((item) => item.id === id)
+    if (row) onSelectSource?.(row.source)
+    setMessage('Channel selected across RCTV. The previous player was unloaded.')
   }
   function shift(delta: -1 | 1) {
     const index = REVIEWED_BRIDGE_ROSTER.findIndex((item) => item.id === state.selectedId)
@@ -115,9 +137,9 @@ export default function ReviewedPlaybackBridge({ resetToken, onRequestMediaLoad 
   return <section className="rpb" aria-labelledby="rpb-title">
     <div className="rpb-intro">
       <div>
-        <span className="rpb-kicker">RCTV v2.8 · REVIEWED PLAYBACK BRIDGE</span>
+        <span className="rpb-kicker">RCTV v3.0 · REVIEWED PLAYBACK BRIDGE</span>
         <h2 id="rpb-title">The World Screen.</h2>
-        <p>One careful step beyond directory links. Try the existing reviewed NASA YouTube embed or KEXP published audio URL, or visit official broadcaster sites for other stations. This is a separate, fixed RCTV source roster, never an importer for IPTV-org streams.</p>
+        <p>The reviewed viewing surface now shares the selected source with the Unified TV Home. Try NASA's existing YouTube embed, KEXP audio, or official broadcaster sites. The seven-source roster is fixed and never accepts IPTV-org or imported stream URLs.</p>
       </div>
       <button type="button" aria-expanded={opened} aria-controls="rpb-panel" onClick={() => {
         if (opened) close()
