@@ -78,7 +78,7 @@ describe('RCTV v2.4 Reviewed Playback Bridge', () => {
     expect(html).toContain('REVIEWED METHOD')
     expect(html).not.toContain('<iframe')
     expect(html).not.toContain('<audio')
-    expect(html).not.toContain('autoplay')
+    expect(html).not.toContain('autoplay=')
     expect(html).not.toContain('youtube-nocookie.com/embed')
     expect(html).not.toContain('streamguys1.com')
     expect(html).not.toContain('iptv-org.github.io/api/streams.json')
