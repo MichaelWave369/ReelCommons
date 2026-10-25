@@ -1,0 +1,60 @@
+/* RCTV v2.5 Source Certification Lab · browser-local research only */
+.scl{margin:26px 0;padding:24px;border:1px solid #6b8e9b;background:radial-gradient(circle at 90% 0%,#35505b,#1c2e44 49%,#17253a);border-radius:13px;color:#eff8f2}
+.scl-header{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.scl-header>div{min-width:230px;flex:1}
+.scl-kicker{font-size:9px;letter-spacing:.13em;font-weight:950;color:#ceffa9}
+.scl h2{font-size:clamp(30px,3.5vw,42px);letter-spacing:-.06em;margin:10px 0}
+.scl-header p{color:#c1d4de;font-size:12px;line-height:1.75;max-width:790px}
+.scl-header>button,.scl-form>button{border:1px solid #c2ffa7;background:#c2ffa7;color:#213420;border-radius:7px;padding:13px 17px;font-size:12px;min-height:47px;font-weight:900;cursor:pointer}
+.scl-boundary{background:#38362f;border-left:3px solid #e1b777;border-radius:7px;padding:13px 16px;margin-top:17px}
+.scl-boundary strong{color:#ffe0ab;font-size:10px;letter-spacing:.1em}
+.scl-boundary p{font-size:11px;line-height:1.75;color:#eee1c9;margin:8px 0 0}
+.scl-workbench{margin-top:20px}
+.scl-review-roster{border:1px solid #577d83;border-radius:9px;padding:16px;background:#192e3d}
+.scl h3{font-size:20px;letter-spacing:-.035em;margin:0 0 8px}
+.scl-review-roster>p,.scl-block p{color:#b9cdd6;font-size:11px;line-height:1.7}
+.scl-existing{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:14px}
+.scl-existing article{background:#253f4c;border:1px solid #587783;border-radius:7px;padding:12px;min-width:0}
+.scl-existing strong{display:block;font-size:12px;line-height:1.35}
+.scl-existing span{display:block;color:#cef4b1;font-size:9px;letter-spacing:.04em;margin-top:8px}
+.scl-existing p{font-size:10px;line-height:1.6;color:#bfcfd4;overflow-wrap:anywhere;margin:8px 0 0}
+.scl-work{display:grid;grid-template-columns:minmax(235px,.9fr) minmax(0,1.1fr);align-items:start;gap:14px;margin-top:15px}
+.scl-block{min-width:0;border:1px solid #587a83;background:#1a3041;padding:18px;border-radius:10px}
+.scl-form{display:flex;flex-direction:column;gap:12px;margin-top:16px}
+.scl-form label,.scl-notes{display:flex;flex-direction:column;gap:8px;font-size:10px;font-weight:900;letter-spacing:.04em;color:#c8e4d5}
+.scl-form input,.scl-form select,.scl-form textarea,.scl-notes textarea{border:1px solid #6c8d8b;border-radius:6px;background:#0f2031;color:#effff5;width:100%;min-height:41px;min-width:0;padding:11px;font:inherit;font-size:12px;letter-spacing:normal;line-height:1.6}
+.scl-form textarea,.scl-notes textarea{resize:vertical}
+.scl-form>button{align-self:flex-start}
+.scl-block-head{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.scl-block-head>div:first-child{flex:1;min-width:185px}
+.scl-file-controls{display:flex;flex-wrap:wrap;gap:7px}
+.scl-file-controls button,.scl-file-controls label{position:relative;border:1px solid #78978b;border-radius:7px;background:#2e5050;color:#edffeb;padding:10px 12px;font-size:11px;font-weight:850;cursor:pointer;min-height:43px;display:flex;align-items:center;justify-content:center}
+.scl-file-controls label input{position:absolute;width:1px;height:1px;opacity:0;bottom:0;left:50%}
+.scl-file-controls label:focus-within{outline:3px solid #c6ffae;outline-offset:3px}
+.scl-candidates{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:16px 0}
+.scl-candidates button{border:1px solid #62818a;border-radius:7px;background:#2a4652;color:#f3fff4;padding:11px;text-align:left;cursor:pointer;min-width:0}
+.scl-candidates button.active{border-color:#baff95;background:#3d5a4b}
+.scl-candidates strong{font-size:11px;display:block;overflow-wrap:anywhere}
+.scl-candidates span{font-size:10px;color:#c8dbd6;display:block;margin-top:5px;line-height:1.55}
+.scl-empty{padding:20px;background:#264053;border:1px dashed #729086;border-radius:6px}
+.scl-inspector{border:1px solid #718f80;background:#213d47;border-radius:8px;padding:14px;margin-top:12px}
+.scl-selected{display:flex;gap:9px;flex-wrap:wrap;justify-content:space-between;align-items:start}
+.scl-selected>div{min-width:0;flex:1}
+.scl-selected h4{font-size:19px;margin:10px 0 5px;overflow-wrap:anywhere}
+.scl-selected p{overflow-wrap:anywhere;font-size:11px}
+.scl-selected code{font-size:10px;color:#d2eac7}
+.scl-delete{background:#573d3d;border:1px solid #ad8380;border-radius:6px;padding:10px;color:#ffe0d6;font-size:11px;cursor:pointer}
+.scl-notes{margin:14px 0}
+.scl-checks{border:1px solid #6a9381;border-radius:8px;padding:13px;margin:10px 0;min-width:0}
+.scl-checks legend{color:#c4f9b3;font-size:11px;font-weight:900;padding:0 7px}
+.scl-checks label{display:flex;gap:11px;align-items:start;padding:9px 0;color:#deefe0;font-size:11px;line-height:1.5;cursor:pointer}
+.scl-checks input{flex:none;accent-color:#c0ff99;width:17px;height:17px;margin:0}
+.scl-verify{background:#3c3b31;border:1px solid #776a4c;border-radius:7px;padding:11px;color:#f0e2bd!important}
+.scl-footnote{border-top:1px solid #516e75;padding-top:14px;margin-top:16px;overflow-wrap:anywhere}
+.scl-warning,.scl-error,.scl-notice{padding:11px;border-radius:6px;font-size:11px;line-height:1.7;margin-top:12px}
+.scl-warning{border:1px solid #ae9765;background:#3d3429;color:#ffe5b0}
+.scl-error{border:1px solid #b67e7e;background:#4a3034;color:#ffdbd6}
+.scl-notice{border:1px solid #7da887;background:#315440;color:#dfffe2}
+@media(max-width:1000px){.scl-work{grid-template-columns:1fr}.scl-existing{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:570px){.scl{padding:14px}.scl-existing,.scl-candidates{grid-template-columns:1fr}.scl-block{padding:13px}}
+@media(prefers-reduced-motion:reduce){.scl *{scroll-behavior:auto!important}}
