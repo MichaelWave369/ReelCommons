@@ -53,16 +53,16 @@ export function safeStudioFilename(title:string,ext:string):string {
   const slug=title.normalize('NFKD').replace(/[\u0300-\u036f]/g,'')
     .toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'')
     .slice(0,58).replace(/-+$/g,'') || 'rctv-episode'
-  return slug+'.'+(ext==='mp4'?'mp4':ext==='ogg'?'ogg':'webm')
+  return slug+'.'+(ext==='mp4'?'mp4':ext==='m4a'?'m4a':ext==='ogg'?'ogg':'webm')
 }
 export function supportedRecordingMime(mode:CaptureMode, supported:(mime:string)=>boolean):string|null {
   const choices=mode==='microphone'
-    ? ['audio/webm;codecs=opus','audio/webm','audio/ogg;codecs=opus','audio/ogg']
+    ? ['audio/webm;codecs=opus','audio/webm','audio/mp4','audio/ogg;codecs=opus','audio/ogg']
     : ['video/webm;codecs=vp8,opus','video/webm','video/mp4']
   return choices.find((mime)=>supported(mime))??null
 }
-export function recordingExtension(mime:string):'webm'|'ogg'|'mp4' {
-  return mime.startsWith('video/mp4')?'mp4':mime.startsWith('audio/ogg')?'ogg':'webm'
+export function recordingExtension(mime:string):'webm'|'ogg'|'mp4'|'m4a' {
+  return mime.startsWith('video/mp4')?'mp4':mime.startsWith('audio/mp4')?'m4a':mime.startsWith('audio/ogg')?'ogg':'webm'
 }
 export function creatorEpisodeManifest(
   draft: CreatorProjectInput, output:{mediaFilename:string,mimeType:string,byteLength:number},
