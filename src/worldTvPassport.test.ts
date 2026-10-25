@@ -43,7 +43,7 @@ describe('RCTV v2.2 World TV passport', () => {
       exportWorldTvPassport([{ id: 'NotInIndex.us', date: '2026-10-25' }]),
       exportWorldTvPassport([{ id: 'KEXP.us', date: '2026-02-30' }]),
       exportWorldTvPassport([stamps[0], stamps[0]]),
-      exportWorldTvPassport([{ ...stamps[0], stream: 'https://evil.example/' }]),
+      JSON.stringify({ ...JSON.parse(exportWorldTvPassport(stamps)), stamps: [{ ...stamps[0], stream: 'https://evil.example/' }] }),
       '{bad',
       'x'.repeat(WORLD_TV_PASSPORT_MAX_IMPORT_BYTES + 1),
     ]) {
