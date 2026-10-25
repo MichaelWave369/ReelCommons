@@ -6,6 +6,28 @@ ReelCommons is an original, independent, open-source directory for **legitimate 
 
 > **Scope honesty:** v0.1 is a curated **service directory**, not a live title-availability search engine. Provider links go to official homepages. Verify a specific title, ad load, cost, geographic restrictions, and accessibility features on the provider's site.
 
+## v2.7: Playback Trust Gate · Source-controlled release guard
+
+**RCTV v2.7** introduces a transparent **Playback Trust Gate** inside the Reviewed Playback Bridge. This is a deterministic **code configuration audit**, **not** proof of publisher consent, a licensing service, an uptime check or a legal opinion. No broadcaster websites or media endpoints are contacted when viewing this report.
+
+### What the gate checks
+
+- Builds an inventory of the checked-in RCTV catalog and compares *every* in-app media route to a separate, human-authored policy manifest (`src/playbackTrustGate.ts`). There are currently **two** configured inline methods: NASA ISS through a supported YouTube embed and KEXP's publisher-listed AAC listening link.
+- Confirms that the seven-source Reviewed Playback Bridge roster, exact `playableUrl()` output, source type, public official host and evidence/boundary notes match the declared policy. The other curated sources must remain website-only unless a new code-reviewed exception is added.
+- Flags unreviewed inline modes, undeclared media routes, changed media endpoints, missing/duplicate policy entries, roster drift, unsupported official homepages and missing source notes as **engineering-review-required**.
+- Offers an opt-in, browser-local policy dashboard, with counts, per-source rationale, mismatch detail and a small `RCTV_PLAYBACK_TRUST_GATE_V1` JSON export. It does not include direct media URLs, browser storage, viewer identity, streams, EPG information, playlist URLs or credentials.
+- The policy is checked into source code. Browser-supplied candidate packets, Source Lab checklists and imported Source Review Ledger entries **never participate** in the actual routing decision.
+
+### Explicit CI release gate
+
+The existing GitHub CI suite still runs all Vitest tests and the Python companion. A newly named **Playback trust gate policy** step re-runs the focused trust audit regression suite before `npm run build` so failures are visible independently. Tests intentionally mutate catalog IDs, NASA/KEXP routes and methods, duplicates, official hosts, evidence strings and policy/roster membership to prove that unreviewed changes are caught.
+
+Changing the approved allowlist or policy requires a deliberate code edit reviewed in a normal GitHub PR. Passing the policy checks means **configuration agrees with the review manifest**, not that a media source is currently live, free of restrictions, embeddable on every browser or authorized for rebroadcast. CI cannot verify broadcaster rights, and real-world publisher terms can change between reviews.
+
+### Manual QA
+
+After merge and deployment, open **Open Streams → Reviewed Player Desk → Open Playback Trust Gate**. Check source counts, inspect both reviewed media routes and five official-site-only declarations, export the report, verify no media or guide requests from the dashboard, and confirm keyboard navigation. Test the existing NASA/KEXP Load/Stop controls separately; they remain manual and governed by external providers.
+
 ## v2.6: Source Review Ledger · Evidence snapshots and manual GitHub handoff
 
 RCTV v2.6 extends the browser-local **Source Certification Lab** with a **Source Review Ledger**. This preserves evidence revisions and review recommendations as an append-only history *inside the app*, not an authenticated or tamper-proof ledger. Completing review steps does not change `playableUrl()`, the hardcoded broadcaster roster, IPTV-org index, M3U quarantine, or media permissions.
