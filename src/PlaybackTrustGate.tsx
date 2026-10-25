@@ -8,7 +8,9 @@ import { REVIEWED_BRIDGE_ROSTER } from './reviewedPlaybackBridge'
 import './playback-trust-gate.css'
 
 const reportFilename = 'rctv-playback-trust-gate-v1.json'
-const reviewedById = new Map(REVIEWED_BRIDGE_ROSTER.map((row) => [row.id, row]))
+const reviewedById = new Map<string, (typeof REVIEWED_BRIDGE_ROSTER)[number]>(
+  REVIEWED_BRIDGE_ROSTER.map((row) => [row.id, row]),
+)
 
 /**
  * Visibility does not affect playback; no broadcaster or media URL is fetched.
