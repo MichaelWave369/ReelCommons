@@ -66,7 +66,7 @@ describe('RCTV v3.0 · unified TV home',()=>{
   it('renders unified navigation without loading a single player or media URL',()=>{
     const html=hubHTML('nasa-iss',['kexp'],['kexp'])
     expect(html).toContain('The Unified TV Home')
-    expect(html).toContain('ONE TV, THREE SCREENS')
+    expect(html).toContain('THREE SCREENS + STUDIO')
     expect(html).toContain('CH 013')
     expect(html).toContain('Enter Couch Mode')
     expect(html).toContain('Open Reviewed Player Desk')

@@ -12,6 +12,7 @@ import WorldAtlas from './WorldAtlas'
 import WorldBroadcastAtlas from './WorldBroadcastAtlas'
 import ReviewedPlaybackBridge from './ReviewedPlaybackBridge'
 import UnifiedTvHub from './UnifiedTvHub'
+import CreatorStudio from './CreatorStudio'
 import MiniTvRemote from './MiniTvRemote'
 import { hubRememberPrevious } from './tvHub'
 import SignalDiagnosticPanel from './SignalDiagnosticPanel'
@@ -47,6 +48,7 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
   const [bridgeResetToken, setBridgeResetToken] = useState(0)
   const [bridgeOpenRequestToken, setBridgeOpenRequestToken] = useState(0)
   const [recentChannelIds, setRecentChannelIds] = useState<string[]>([])
+  const [studioOpenToken, setStudioOpenToken] = useState(0)
   const [notice, setNotice] = useState('')
   const [playlistReport, setPlaylistReport] = useState<PlaylistInspection | null>(null)
   const [playlistError, setPlaylistError] = useState('')
@@ -100,6 +102,16 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
     setBridgeResetToken((token) => token + 1)
     setBridgeOpenRequestToken((token) => token + 1)
     focusTvSurface('rpb-title')
+  }
+  function openCreatorStudio() {
+    setMediaLoadedFor(null)
+    setMainSignal((previous)=>observeSignal(previous,'unload',previous.sourceId,previous.attempt))
+    setBridgeResetToken((token)=>token+1)
+    setStudioOpenToken((token)=>token+1)
+    window.requestAnimationFrame(()=>{
+      document.getElementById('rcs-title')?.scrollIntoView({block:'center',behavior:'smooth'})
+      document.getElementById('rcs-title')?.focus({preventScroll:true})
+    })
   }
   function openMainDesk() {
     setBridgeResetToken((token)=>token+1)
@@ -155,7 +167,7 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
   return <section className="osc-page wrap" aria-labelledby="osc-heading">
     {couchOpen && <CouchMode selected={selected} favoriteIds={favorites}
       onSelect={(source) => selectSource(source, false)} onClose={closeCouchMode} />}
-    <div className="eyebrow">THE COMMON SCREEN / RCTV v3.1 · OPEN STREAMS COMMONS</div>
+    <div className="eyebrow">THE COMMON SCREEN / RCTV v3.2 · OPEN STREAMS COMMONS</div>
     <div className="osc-hero">
       <div className="osc-hero-copy">
         <span className="osc-overline"><span className="osc-signal" /> LEGITIMATE CHANNELS · ENDLESS CURIOSITY</span>
@@ -180,7 +192,8 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
     <UnifiedTvHub selected={selected} favoriteIds={favorites} recentIds={recentChannelIds}
       onSelect={(source) => selectSource(source, false)}
       onOpenMain={openMainDesk} onOpenCouch={openCouchMode}
-      onOpenReviewed={openReviewedDesk} />
+      onOpenReviewed={openReviewedDesk} onOpenStudio={openCreatorStudio} />
+    <CreatorStudio openRequestToken={studioOpenToken} />
     {!couchOpen && <MiniTvRemote selected={selected}
       onSelect={(source)=>selectSource(source,false)}
       onOpenMain={openMainDesk} onOpenCouch={openCouchMode}

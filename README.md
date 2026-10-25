@@ -6,6 +6,24 @@ ReelCommons is an original, independent, open-source directory for **legitimate 
 
 > **Scope honesty:** v0.1 is a curated **service directory**, not a live title-availability search engine. Provider links go to official homepages. Verify a specific title, ad load, cost, geographic restrictions, and accessibility features on the provider's site.
 
+## v3.2: Creator Studio · Original podcast and camera recording
+
+The new **RCTV Broadcasting & Podcast Studio** is a real, consent-gated **browser-local recording booth** inside Open Streams, accessible from Unified TV Home's **Creator Studio** button. It is **not** a live broadcast server, a licensed music library, an automatic content distribution platform, or a hidden cross-app integration.
+
+- **Original sources only.** Choose mic-only podcast or video podcast (camera + mic), then explicitly **Connect mic/camera** using the browser permission dialog, followed by **Record locally** and **Stop recording**. Nothing starts until a direct click. A muted camera preview is shown when camera capture is enabled; the mic is never routed to speakers by default.
+- **Capture and export.** Browser `MediaRecorder` encodes a supported audio/webm, audio/mp4, audio/ogg, video/webm or video/mp4 format depending on user browser and hardware. Preview locally and click to download the file. A separate **Export episode metadata** action creates a small `RCTV_CREATOR_LOCAL_EPISODE_V1` JSON sidecar with title, show, notes, recording mode and explicit provenance/permission denials. The manifest **never contains the media file's bytes**. The recording must be separately downloaded before the page is closed.
+- **Bounded and private.** Takes are capped at 250 MiB of collected recording chunks, otherwise discarded. Closing the studio, disconnecting, or unmounting the page releases all microphone and camera tracks; even permissions arriving after cancellation are immediately released. Nothing is automatically uploaded, persisted to localStorage, synced with another repo or published. Browser failures (insecure origin, unsupported codec, lack of permission, device errors) are surfaced.
+- **Reuse the creative ecosystem honestly.** RCTV exposes links to [ParaCut](https://github.com/MichaelWave369/paracut), [PhiBox](https://github.com/MichaelWave369/PhiBox), [PHIAudio](https://github.com/MichaelWave369/PHIAudio) and [WaveForgeStudio](https://github.com/MichaelWave369/WaveForgeStudio). ParaCut provides postproduction/titles/render plans; PhiBox supplies original grooves/FX and real Web Audio recording patterns; PHIAudio is an emerging typed runtime; WaveForge checks release/intake references. **No native bridge is claimed yet.** The exported JSON is explicitly `REFERENCE_ONLY_NOT_NATIVE_PARACUT_DRAFT`. Never interpret it as a valid ParaCut draft/RenderPlan, PHIAudio receipt or WaveForgeStudio release.
+- **Future own-channel pipeline.** Add a separately verified ParaCut media+manifest importer, then source-controlled *owned* program destinations in CH 051+ without changing any of the original 50 curated slots. Real live broadcasts require an actual user-owned transport/host and explicit credentials kept off GitHub Pages.
+
+Read [the source-project interoperability audit](docs/CREATOR_STUDIO_INTEROP.md) for concrete source repo capabilities, verified boundary decisions and next phases. The earlier [Broadcasting & Podcast Studio roadmap](docs/RCTV_BROADCAST_STUDIO_ROADMAP.md) remains a conceptual overview.
+
+### Tests and manual QA
+
+`src/creatorStudio.test.tsx` tests a closed, media-silent initial studio, supported/unsupported MIME fallback, safe bounded filenames, legitimate audio/video manifest fields, and rejection of malicious or invalid metadata and forged publishing authority. Existing source-policy gate, Python companion, React unit tests, TypeScript and Vite build remain in CI.
+
+After merge, **manual browser hardware testing** is still required to validate microphone/camera permission prompts, actual sound/video, recorder codecs, preview and download behavior, close/disconnect resource cleanup and the 250 MiB capture bound. CI cannot access the user's physical microphone or camera. This release does **not** ship multi-track FX mixing, podcast RSS, public live streaming or new RCTV playback channels.
+
 ## v3.1: TV Experience Polish · Mini remote, focused handoffs, optional gamepad
 
 RCTV v3.1 makes the v3.0 Unified TV Home feel like one navigation system across screens, without changing playback rights or the two existing opt-in media routes.

@@ -1,0 +1,43 @@
+/* RCTV v3.2 · locally recorded creator-owned media only */
+.rcs{margin:24px 0;border:1px solid #719f98;border-radius:13px;padding:22px;background:radial-gradient(circle at 92% 8%,#4b4757,transparent 45%),linear-gradient(127deg,#172b42,#1d3743 70%,#1f3845);color:#ecfff0}
+.rcs-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px}
+.rcs-head>div{min-width:220px;flex:1}
+.rcs-kicker{font-size:10px;font-weight:900;letter-spacing:.11em;color:#baff95}
+.rcs-head h2{font-size:clamp(23px,3vw,34px);line-height:1.25;letter-spacing:-.045em;margin:7px 0}
+.rcs-head p{font-size:12px;line-height:1.6;color:#cbdedf;max-width:740px}
+.rcs-head button{background:#baff95;color:#1b3324;border:1px solid #baff95;border-radius:7px;min-height:45px;padding:12px 17px;font-size:12px;font-weight:900;cursor:pointer}
+.rcs-banner{background:#40382c;border:1px solid #a79368;border-radius:7px;padding:13px;font-size:11px;line-height:1.7;color:#f3e3c8;margin-top:14px}
+.rcs-workspace{margin-top:17px}
+.rcs-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.rcs-block{background:#203744;border:1px solid #5b8a86;border-radius:9px;padding:16px;min-width:0}
+.rcs h3{font-size:17px;margin:0 0 15px;color:#f0fff1}
+.rcs-block label{display:flex;flex-direction:column;gap:6px;margin:11px 0;font-size:10px;font-weight:850;letter-spacing:.06em;color:#bdeac8}
+.rcs-block input,.rcs-block select,.rcs-block textarea{border:1px solid #739c97;background:#162e3c;color:#f2fff4;border-radius:6px;padding:11px;font-size:12px;font-weight:500;letter-spacing:normal;width:100%;box-sizing:border-box;font-family:inherit}
+.rcs-block textarea{line-height:1.5;resize:vertical}
+.rcs-block input:disabled,.rcs-block select:disabled{opacity:.6;cursor:not-allowed}
+.rcs-block>p,.rcs-hint{color:#bfd7d9;font-size:10px;line-height:1.65}
+.rcs-monitor{border:1px solid #6c9694;border-radius:9px;background:radial-gradient(circle at 50% 40%,#285363,#0d1b2b 75%);min-height:225px;display:flex;position:relative;align-items:center;justify-content:center;overflow:hidden}
+.rcs-monitor video{display:block;width:100%;max-height:280px;object-fit:contain}
+.rcs-standby{text-align:center;padding:30px;color:#e5f8e6}
+.rcs-standby strong{font-size:20px;letter-spacing:.04em}
+.rcs-standby p{font-size:12px;line-height:1.6;color:#c9e0d9}
+.rcs-monitor>span{position:absolute;top:10px;left:10px;background:#152c32;border:1px solid #699b8b;border-radius:5px;padding:7px 10px;color:#d0ffae;font-size:9px;font-weight:900}
+.rcs-transport,.rcs-export-actions{display:flex;gap:9px;flex-wrap:wrap;margin:14px 0}
+.rcs-transport button,.rcs-export-actions button{border-radius:6px;border:1px solid #a2baa0;background:#baff95;color:#1b3626;padding:11px 13px;min-height:43px;font-size:11px;font-weight:900;cursor:pointer}
+.rcs-transport button:disabled{opacity:.55;cursor:not-allowed}
+.rcs-transport .rcs-rec{background:#9d3436;border-color:#df8e8b;color:#fff3ee}
+.rcs-transport .rcs-stop{background:#e5c3a0;border-color:#eedbc0;color:#3f2422}
+.rcs-status{background:#1f4850;border-left:3px solid #baff95;border-radius:5px;padding:11px;margin-top:12px;font-size:11px;line-height:1.6;color:#e7fff1}
+.rcs-take{background:#1b3341;border:1px solid #709d89;border-radius:8px;padding:12px;margin-top:14px}
+.rcs-take h4{margin:0 0 8px;font-size:16px}
+.rcs-take>p{font-size:11px;color:#d0e3de;line-height:1.6;overflow-wrap:anywhere}
+.rcs-take audio,.rcs-take video{width:100%;max-height:320px}
+.rcs-bridges{margin-top:14px;background:#1b3742;border:1px solid #56877d;border-radius:9px;padding:15px}
+.rcs-bridges>div{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
+.rcs-bridges a{display:flex;flex-direction:column;gap:7px;padding:12px;border:1px solid #799d8b;background:#274953;border-radius:7px;color:#ecffee;text-decoration:none;min-height:92px}
+.rcs-bridges a strong{font-size:13px}
+.rcs-bridges a span{font-size:10px;color:#c8dfe0;line-height:1.5}
+.rcs-bridges>p{font-size:11px;line-height:1.7;color:#c9dce0;margin:14px 0 0}
+.rcs button:focus-visible,.rcs a:focus-visible,.rcs input:focus-visible,.rcs textarea:focus-visible,.rcs select:focus-visible{outline:3px solid #ffe3a1;outline-offset:3px}
+@media(max-width:920px){.rcs-grid{grid-template-columns:1fr}.rcs-bridges>div{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.rcs{padding:13px}.rcs-bridges>div{grid-template-columns:1fr}.rcs-head button{width:100%}.rcs-transport button,.rcs-export-actions button{width:100%}}
