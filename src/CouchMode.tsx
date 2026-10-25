@@ -1,5 +1,5 @@
 /**
- * RCTV v2.9 · Couch Mode.
+ * RCTV v3.1 · Couch Mode.
  * Lean-back directory viewer. Never auto-plays, captures, proxies, scrapes
  * or promotes any unapproved provider feed into in-app playback.
  */
@@ -11,6 +11,8 @@ import { CHANNEL_LINEUP, channelNumberForSource, channelNumberLabel,
 import { playableUrl, STREAM_CATEGORIES } from './openStreams'
 import { initialSignalForSource, observeSignal, selectSignalStation } from './signalRecovery'
 import SignalDiagnosticPanel from './SignalDiagnosticPanel'
+import { readTvGamepadAction, GAMEPAD_REPEAT_MS } from './tvGamepad'
+import type { TvGamepadAction } from './tvGamepad'
 import type { OpenStream, StreamCategory } from './openStreams'
 import './couch-mode.css'
 
@@ -31,6 +33,9 @@ export default function CouchMode({
   const [loadedId, setLoadedId] = useState<string|null>(null)
   const [couchSignal, setCouchSignal] = useState(() => initialSignalForSource(selected.id))
   const [message, setMessage] = useState('')
+  const [gamepadEnabled, setGamepadEnabled] = useState(false)
+  const gamepadCommandRef = useRef<(action: TvGamepadAction) => void>(()=>{})
+  const gamepadSupported = typeof navigator !== 'undefined' && typeof navigator.getGamepads === 'function'
   const lineup = filterChannelLineup(CHANNEL_LINEUP,category,favoritesOnly,favoriteIds)
   const selectedNumber = channelNumberForSource(selected.id)
   const safeUrl = playableUrl(selected)
@@ -77,6 +82,33 @@ export default function CouchMode({
     }
     select(candidate.source)
   }
+  gamepadCommandRef.current = (action) => {
+    if (action === 'next') surf(1)
+    else if (action === 'previous') surf(-1)
+    else if (action === 'guide') setGuideOpen((current) => !current)
+    else if (action === 'close') onClose()
+  }
+  useEffect(() => {
+    if (!gamepadEnabled || typeof navigator.getGamepads !== 'function') return
+    let frame=0
+    let previous: TvGamepadAction=null
+    let lastTime=0
+    const tick = (time: number) => {
+      const gamepad=Array.from(navigator.getGamepads()).find((pad) => pad?.connected)
+      const action=gamepad ? readTvGamepadAction(
+        gamepad.buttons.map((button)=>button.pressed), gamepad.axes,
+      ) : null
+      if (action && (action !== previous || time-lastTime >= GAMEPAD_REPEAT_MS)) {
+        gamepadCommandRef.current(action)
+        lastTime=time
+      }
+      previous=action
+      frame=window.requestAnimationFrame(tick)
+    }
+    frame=window.requestAnimationFrame(tick)
+    return () => window.cancelAnimationFrame(frame)
+  }, [gamepadEnabled])
+
   function handleKey(event:KeyboardEvent<HTMLElement>) {
     // Escape always closes the dialog even from focused buttons or form fields.
     if(event.key==='Escape' && !event.altKey && !event.ctrlKey && !event.metaKey) {
@@ -200,6 +232,17 @@ export default function CouchMode({
             <label className="couch-favorites"><input type="checkbox" checked={favoritesOnly}
               onChange={(event)=>setFavoritesOnly(event.target.checked)}/> ★ Favorites only ({favoriteIds.length})</label>
           </div>
+          <div className="couch-gamepad">
+            <button type="button" disabled={!gamepadSupported} aria-pressed={gamepadEnabled}
+              onClick={()=>setGamepadEnabled((active)=>!active)}>
+              {gamepadEnabled ? '■ Disable gamepad control' : '◉ Enable gamepad control'}
+            </button>
+            <p>{gamepadEnabled
+              ? 'Controller enabled for this Couch Mode session. D-pad/stick = channels, A/X = guide, B = exit. No gameplay or media autoplay.'
+              : gamepadSupported
+                ? 'Optional controller support. Click to enable while Couch Mode is open. D-pad/stick channels; A/X guide; B exit.'
+                : 'Gamepad API unavailable in this browser. Keyboard, touch, and remote buttons still work.'}</p>
+          </div>
           <button type="button" className="couch-guide-toggle" aria-expanded={guideOpen}
             aria-controls="couch-channel-guide" onClick={()=>setGuideOpen((v)=>!v)}>
             {guideOpen?'− Hide Guide':'+ View Channel Guide'} ({lineup.length})
@@ -225,7 +268,7 @@ export default function CouchMode({
       </div>}
       {message && <div className="couch-message" role="status">{message}</div>}
       <footer className="couch-footer">
-        <span>REMOTE: CH+/CH− · NUMBERS · GUIDE · FAVORITES · OFFICIAL PROVIDER</span>
+        <span>REMOTE: CH+/CH− · NUMBERS · GUIDE · FAVORITES · OPTIONAL GAMEPAD · OFFICIAL PROVIDER</span>
         <span>Focus empty screen area for keyboard arrows/numbers. Escape closes. No automatic third-party playback.</span>
       </footer>
     </div>
