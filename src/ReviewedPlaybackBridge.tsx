@@ -6,7 +6,14 @@ import {
 } from './reviewedPlaybackBridge'
 import type { BridgeSelection, ReviewedBridgeId } from './reviewedPlaybackBridge'
 import PlaybackTrustGate from './PlaybackTrustGate'
+import { auditCheckedInPlayback } from './playbackTrustGate'
+import {
+  createSignalState, observeSignal, selectSignalStation,
+  signalMessage, signalSessionReceipt,
+} from './signalRecovery'
+import type { SignalEvent } from './signalRecovery'
 import './reviewed-playback-bridge.css'
+import './signal-recovery.css'
 
 interface Props {
   /** Incremented whenever the original RCTV player or Couch Mode takes control. */
@@ -20,17 +27,25 @@ export default function ReviewedPlaybackBridge({ resetToken, onRequestMediaLoad 
   const [opened, setOpened] = useState(false)
   const [state, setState] = useState<BridgeSelection>(initial)
   const [message, setMessage] = useState('')
+  const [signal, setSignal] = useState(() => createSignalState('nasa-iss'))
   useEffect(() => {
     setState((current) => unloadBridgeMedia(current))
+    setSignal((previous) => observeSignal(previous, 'unload', previous.sourceId, previous.attempt))
     setMessage('')
   }, [resetToken])
 
   const current = REVIEWED_BRIDGE_ROSTER.find((item) => item.id === state.selectedId)
   const mediaUrl = current ? reviewedMediaUrl(current.id) : null
   const loaded = opened && state.loadedId === current?.id && mediaUrl !== null
+  const playbackAttempt = signal.attempt
+  const signalDetail = signalMessage(signal)
+  function receiveMediaEvent(event: SignalEvent, id: string, attempt: number) {
+    setSignal((previous) => observeSignal(previous, event, id, attempt))
+  }
 
   function selectStation(id: ReviewedBridgeId) {
     setState((currentState) => moveBridgeStation(currentState, id))
+    setSignal((previous) => selectSignalStation(previous, id))
     setMessage('Channel selected. The previous player was unloaded.')
   }
   function shift(delta: -1 | 1) {
@@ -43,12 +58,14 @@ export default function ReviewedPlaybackBridge({ resetToken, onRequestMediaLoad 
     if (!mediaUrl) return
     onRequestMediaLoad()
     setState((currentState) => loadBridgeMedia(currentState))
+    setSignal((previous) => observeSignal(previous, 'load', previous.sourceId, previous.attempt))
     setMessage(current?.mode === 'published-audio'
       ? 'Broadcaster audio controls loaded. Press Play to start listening.'
       : 'YouTube embedded player loaded on demand. Live status is controlled by the provider.')
   }
   function stop() {
     setState((currentState) => unloadBridgeMedia(currentState))
+    setSignal((previous) => observeSignal(previous, 'unload', previous.sourceId, previous.attempt))
     setMessage('Media element unloaded. No background playback remains in this desk.')
   }
   function close() {
@@ -69,6 +86,25 @@ export default function ReviewedPlaybackBridge({ resetToken, onRequestMediaLoad 
     window.setTimeout(() => URL.revokeObjectURL(url), 0)
     setMessage('Source-review metadata exported. It does not establish that playback succeeded.')
   }
+  function exportSignal() {
+    const payload = signalSessionReceipt(signal, new Date().toISOString(),
+      auditCheckedInPlayback().status)
+    const url = URL.createObjectURL(new Blob([payload], {type:'application/json'}))
+    const link = document.createElement('a')
+    link.href = url
+    link.download = 'rctv-signal-session-' + signal.sourceId + '.json'
+    document.body.appendChild(link)
+    link.click()
+    link.remove()
+    window.setTimeout(() => URL.revokeObjectURL(url), 0)
+    setMessage('Exported a session-only observation receipt. No viewing history or media URLs were saved.')
+  }
+  function reportSignal(result: 'report-working' | 'report-failed') {
+    receiveMediaEvent(result, signal.sourceId, signal.attempt)
+    setMessage(result === 'report-working'
+      ? 'Self-reported as working. This does not independently verify broadcaster playback.'
+      : 'Self-reported as unavailable. Use Stop / unload or the official publisher link.')
+  }
   function handleKey(event: KeyboardEvent<HTMLElement>) {
     if (event.target !== event.currentTarget || event.altKey || event.metaKey ||
         event.ctrlKey || event.shiftKey) return
@@ -79,7 +115,7 @@ export default function ReviewedPlaybackBridge({ resetToken, onRequestMediaLoad 
   return <section className="rpb" aria-labelledby="rpb-title">
     <div className="rpb-intro">
       <div>
-        <span className="rpb-kicker">RCTV v2.7 · REVIEWED PLAYBACK BRIDGE</span>
+        <span className="rpb-kicker">RCTV v2.8 · REVIEWED PLAYBACK BRIDGE</span>
         <h2 id="rpb-title">The World Screen.</h2>
         <p>One careful step beyond directory links. Try the existing reviewed NASA YouTube embed or KEXP published audio URL, or visit official broadcaster sites for other stations. This is a separate, fixed RCTV source roster, never an importer for IPTV-org streams.</p>
       </div>
@@ -108,13 +144,19 @@ export default function ReviewedPlaybackBridge({ resetToken, onRequestMediaLoad 
           {current && loaded && mediaUrl && current.mode === 'youtube-video' ? <iframe
             key={current.id} title={'Reviewed official YouTube player for ' + current.source.name}
             src={mediaUrl} referrerPolicy="strict-origin-when-cross-origin"
+            onLoad={() => receiveMediaEvent('frame-load', current.id, playbackAttempt)}
             allow="encrypted-media; picture-in-picture; fullscreen" allowFullScreen /> :
           current && loaded && mediaUrl && current.mode === 'published-audio' ? <div className="rpb-audio">
             <span aria-hidden="true">♫</span><strong>{current.source.name}</strong>
             <p>KEXP's published AAC URL. Press Play yourself to listen; listening restrictions may apply.</p>
             <audio key={current.id} src={mediaUrl} controls preload="none"
+              onCanPlay={() => receiveMediaEvent('audio-canplay', current.id, playbackAttempt)}
+              onPlaying={() => receiveMediaEvent('audio-playing', current.id, playbackAttempt)}
+              onPause={() => receiveMediaEvent('audio-pause', current.id, playbackAttempt)}
+              onWaiting={() => receiveMediaEvent('audio-waiting', current.id, playbackAttempt)}
+              onStalled={() => receiveMediaEvent('audio-waiting', current.id, playbackAttempt)}
               aria-label={'Broadcaster audio player: ' + current.source.name}
-              onError={() => setMessage('Audio could not load here. Use the broadcaster’s official listening page.')}/>
+              onError={() => {receiveMediaEvent('audio-error', current.id, playbackAttempt); setMessage('Audio could not load here. Use the broadcaster’s official listening page.')}}/>
           </div> :
           <div className="rpb-standby">
             <span aria-hidden="true">{current?.source.icon ?? '◉'}</span>
@@ -134,6 +176,28 @@ export default function ReviewedPlaybackBridge({ resetToken, onRequestMediaLoad 
           {loaded && <button type="button" className="rpb-stop" onClick={stop}>■ Stop / unload</button>}
           {current && <a href={current.source.officialUrl} target="_blank" rel="noopener noreferrer">↗ Open official broadcaster</a>}
         </div>
+        {current && <section className="rpb-signal" aria-labelledby="rpb-signal-title">
+          <div className="rpb-signal-header">
+            <div><span className="rpb-kicker">NEW · RCTV v2.8 / SIGNAL & RECOVERY</span>
+              <h3 id="rpb-signal-title">Signal & Recovery Desk</h3>
+              <p>Private, temporary observations. No stream checks or hidden connection attempts are made.</p></div>
+            <strong>{signal.phase.replaceAll('-', ' ').toUpperCase()}</strong>
+          </div>
+          <p className="rpb-signal-detail" role="status">{signalDetail}</p>
+          <div className="rpb-signal-metrics">
+            <span><b>{signal.loadCount}</b> loads requested this desk session</span>
+            <span><b>{signal.selfReported === 'none' ? 'NOT RATED' : signal.selfReported.toUpperCase()}</b> manually reported</span>
+          </div>
+          {loaded && mediaUrl && <div className="rpb-signal-actions" role="group" aria-label="Self-report playback status">
+            <button type="button" onClick={() => reportSignal('report-working')}>✓ I can {current.mode === 'youtube-video' ? 'see the video' : 'hear the audio'}</button>
+            <button type="button" onClick={() => reportSignal('report-failed')}>! Not working here</button>
+          </div>}
+          <div className="rpb-signal-recovery">
+            <a href={current.source.officialUrl} rel="noopener noreferrer" target="_blank">↗ Recover on official broadcaster website</a>
+            <button type="button" onClick={exportSignal}>↓ Export this session's diagnostic receipt</button>
+          </div>
+          <p className="rpb-signal-caveat">YouTube iframe-load confirms only that a document loaded, NOT that video played. Browser audio events do not prove sound was audible. All reports are self-reported. Nothing is auto-submitted, timed, tracked, or saved to local storage. Changing source or unloading resets the status.</p>
+        </section>}
         {current && <div className="rpb-ledger">
           <strong>PLAYBACK EVIDENCE / TRUST LEDGER</strong>
           <p>{current.review}</p>

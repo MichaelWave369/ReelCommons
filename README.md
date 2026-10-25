@@ -6,6 +6,28 @@ ReelCommons is an original, independent, open-source directory for **legitimate 
 
 > **Scope honesty:** v0.1 is a curated **service directory**, not a live title-availability search engine. Provider links go to official homepages. Verify a specific title, ad load, cost, geographic restrictions, and accessibility features on the provider's site.
 
+## v2.8: Signal & Recovery Desk · Observe, diagnose, recover
+
+**RCTV v2.8** adds a browser-session-only **Signal & Recovery Desk** beneath the live stage of the opt-in **Reviewed Player Desk**. It reuses exactly the existing NASA ISS YouTube iframe and KEXP publisher-listed AAC audio player. It adds no new broadcasts, playback permissions, IPTV-org streams, redirects, or background requests.
+
+### What the user sees
+
+- **Standby** until they explicitly open the reviewed desk and press **Load** for a source. No background pings, probes, auto playback or periodic timers.
+- On NASA ISS, the player reports **iframe document loaded**, never "video playing" just because an iframe fired its `load` event. YouTube playback can still be unavailable, age/region/embedding restricted, or interrupted.
+- On KEXP, the native audio element reports meaningful local browser states: controls loaded, `canplay`, `playing`, `pause`, `waiting`, `stalled`, and `error`. A browser "playing" event does **not** prove the speakers are audible.
+- Optional **I can see the video / I can hear the audio** and **Not working here** buttons are transparently **self-reported**. They are never presented as verified or broadcast-owner approvals.
+- A direct **Recover on official broadcaster website** link works for all seven reviewed stations, including the five official-site-only destinations. **Stop / unload** removes the existing media element. A subsequent Load is explicitly user-triggered.
+- Switching source, closing the desk, opening Couch Mode, or taking over with the original RCTV player unloads media and resets signal status. Old callbacks from a previous iframe/audio attempt cannot override newer state. A separate generation counter prevents stale events from regaining authority if the same station is reselected.
+- A deliberate **Export this session's diagnostic receipt** saves a JSON summary of the selected reviewed station ID, player mode, session-only load count, current observation status, optional manual report, timestamp of export, and source-controlled trust-policy status. It includes no media endpoint, user identity, IP, watch duration, cookies, listening history or secret. **Nothing is saved to `localStorage` or sent anywhere by the diagnostic desk.**
+
+### Honest limitations
+
+The receipt carries `RCTV_SIGNAL_SESSION_RECEIPT_V1` and provenance `BROWSER_OBSERVATION_AND_USER_REPORT_NOT_VERIFIED`. Neither the iframe document-load event nor any self-report demonstrates rights, source uptime, stream authenticity, copyright ownership or continuous playback. An exported receipt is a user-controlled file and can be edited. The RCTV v2.7 Playback Trust Gate continues to validate source-code policy separately and cannot infer availability or permission.
+
+### QA
+
+New `src/signalRecovery.test.tsx` covers explicit loading only, NASA iframe/load limits, KEXP audio states, stalled/error fallback messages, stale-event isolation after switching back to the same source, denial of unknown/unreviewed sources, untrusted self-reports, standby rendering and privacy-safe receipts. Existing `npm test`, policy gate tests and TypeScript/Vite CI remain unchanged. Manual QA is required for actual NASA/KEXP playback, browser-specific events, network failures, link fallback, phone layouts and accessibility.
+
 ## v2.7: Playback Trust Gate · Source-controlled release guard
 
 **RCTV v2.7** introduces a transparent **Playback Trust Gate** inside the Reviewed Playback Bridge. This is a deterministic **code configuration audit**, **not** proof of publisher consent, a licensing service, an uptime check or a legal opinion. No broadcaster websites or media endpoints are contacted when viewing this report.

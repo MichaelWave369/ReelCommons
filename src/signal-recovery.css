@@ -1,0 +1,18 @@
+/* RCTV v2.8 Signal & Recovery Desk · browser-session-only observations */
+.rpb-signal{border:1px solid #8baeb5;background:linear-gradient(132deg,#17313e,#233e45 65%,#213b4d);border-radius:9px;margin-top:14px;padding:16px}
+.rpb-signal-header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.rpb-signal-header>div{min-width:180px;flex:1}
+.rpb-signal-header h3{font-size:clamp(17px,2.2vw,24px);margin:8px 0;letter-spacing:-.045em;color:#f0fff6}
+.rpb-signal-header p{font-size:11px;line-height:1.6;color:#c6dddc;max-width:580px}
+.rpb-signal-header>strong{border:1px solid #88b28c;border-radius:6px;background:#2a5146;color:#dcffc7;padding:11px;font-size:10px;letter-spacing:.06em;text-align:center}
+.rpb-signal-detail{border-left:3px solid #baff95;border-radius:4px;background:#233c4c;padding:11px 13px;font-size:12px;color:#e2f5e3;line-height:1.6;margin:12px 0}
+.rpb-signal-metrics{display:flex;flex-wrap:wrap;gap:9px;margin:12px 0}
+.rpb-signal-metrics span{font-size:10px;border:1px solid #507a79;border-radius:5px;padding:8px 11px;background:#1c3441;color:#cce5dc}
+.rpb-signal-metrics b{color:#d0ffb0}
+.rpb-signal-actions,.rpb-signal-recovery{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin:12px 0}
+.rpb-signal-actions button,.rpb-signal-recovery button,.rpb-signal-recovery a{border:1px solid #95b9a0;border-radius:7px;min-height:42px;background:#355844;color:#f1ffeb;padding:11px 13px;font-size:11px;font-weight:850;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;text-decoration:none}
+.rpb-signal-actions button:last-child{border-color:#c49a8b;background:#513f42;color:#ffece1}
+.rpb-signal-recovery a{border-color:#87a4bb;background:#304b66;color:#e0f4ff}
+.rpb-signal-recovery button{background:#baff95;border-color:#baff95;color:#1c3826}
+.rpb-signal-caveat{border-top:1px solid #5f8584;padding-top:11px;font-size:10px;color:#bad4d4;line-height:1.7}
+@media(max-width:560px){.rpb-signal{padding:12px}.rpb-signal-header>strong{width:100%}.rpb-signal-actions button,.rpb-signal-recovery button,.rpb-signal-recovery a{width:100%}}
