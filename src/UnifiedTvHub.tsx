@@ -64,7 +64,7 @@ export default function UnifiedTvHub({
   return <section className="uth" aria-labelledby="uth-title">
     <div className="uth-heading">
       <div>
-        <span className="uth-kicker">RCTV v3.2 · ONE TV, THREE SCREENS</span>
+        <span className="uth-kicker">RCTV v3.2 · THREE SCREENS + STUDIO</span>
         <h2 id="uth-title">The Unified TV Home</h2>
         <p>One selected channel across the guide, regular player, lean-back Couch Mode, and Reviewed Player Desk. All 50 virtual channels remain official, curated destinations.</p>
       </div>
