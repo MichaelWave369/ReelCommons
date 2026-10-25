@@ -23,6 +23,7 @@ export interface SignalState {
   mode: ReviewedBridgeMode
   phase: SignalPhase
   attempt: number
+  loadCount: number
   lastEvent: SignalEvent | 'none'
   selfReported: 'working' | 'failed' | 'none'
 }
@@ -36,7 +37,7 @@ const audioEvents: readonly SignalEvent[] =
 export function createSignalState(id: ReviewedBridgeId): SignalState {
   const row = stations.get(id)
   if (!row) throw new Error('Unknown reviewed source. The session must not accept imported stations.')
-  return {sourceId: id, mode: row.mode, phase: 'standby', attempt: 0,
+  return {sourceId: id, mode: row.mode, phase: 'standby', attempt: 0, loadCount: 0,
     lastEvent: 'none', selfReported: 'none'}
 }
 
@@ -44,7 +45,7 @@ export function createSignalState(id: ReviewedBridgeId): SignalState {
 export function selectSignalStation(state: SignalState, id: string): SignalState {
   const row = stations.get(id)
   if (!row) return {...state, phase: 'standby', lastEvent:'unload',selfReported:'none'}
-  return {...createSignalState(row.id), attempt: state.attempt}
+  return {...createSignalState(row.id), attempt: state.attempt+1, loadCount: state.loadCount}
 }
 
 /**
@@ -58,7 +59,7 @@ export function observeSignal(
   if (event === 'unload') return {...state, phase:'standby',lastEvent:'unload',selfReported:'none'}
   if (event === 'load') {
     if (state.phase !== 'standby' || !reviewedMediaUrl(state.sourceId)) return state
-    return {...state, attempt: state.attempt+1, phase:'controls-loaded',
+    return {...state, attempt: state.attempt+1, loadCount: state.loadCount+1, phase:'controls-loaded',
       lastEvent:'load',selfReported:'none'}
   }
   if (state.phase === 'standby' || state.mode === 'official-website') return state
@@ -110,8 +111,8 @@ export function signalSessionReceipt(
     provenance: SIGNAL_RECEIPT_PROVENANCE,
     sourceId: state.sourceId,
     mode: state.mode,
-    attempted: state.attempt>0,
-    attemptsThisSession: state.attempt,
+    attemptedCurrentSelection: state.phase !== 'standby',
+    loadsRequestedThisDeskSession: state.loadCount,
     observedPhase: state.phase,
     lastEvent: state.lastEvent,
     selfReported: state.selfReported,
