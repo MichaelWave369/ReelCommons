@@ -6,6 +6,30 @@ ReelCommons is an original, independent, open-source directory for **legitimate 
 
 > **Scope honesty:** v0.1 is a curated **service directory**, not a live title-availability search engine. Provider links go to official homepages. Verify a specific title, ad load, cost, geographic restrictions, and accessibility features on the provider's site.
 
+## v2.1: World Broadcast Atlas · Global broadcaster discovery
+
+**World Broadcast Atlas** is an opt-in, metadata-only directory under **Open Streams**, powered by the community-maintained [IPTV-org API](https://github.com/iptv-org/api) and [channel database](https://github.com/iptv-org/database). It extends global discovery without importing unreviewed streams into the 50-channel RCTV remote, Couch Mode, or trusted player allowlist.
+
+### Explore worldwide official broadcaster websites
+
+- Click **Load World TV Directory** to request `channels.json`, `countries.json`, `categories.json`, `feeds.json` and `languages.json` from `https://iptv-org.github.io/api/`. **No third-party request occurs on initial page load.**
+- Browse active, non-adult channel records with valid public HTTPS broadcaster website URLs. Filter by country, category, language or text search, and expand the paginated results in groups of 24.
+- Each card links **only to the broadcaster's indexed official website**. Links open in a separate tab; metadata may be out of date, and the broadcaster determines costs, geographic access, availability and viewing terms.
+- Save up to 80 channel IDs in browser-local favorites. Storage is schema-checked against loaded catalog IDs; no tracking or server-side favorites are introduced.
+- Click **Check EPG coverage** separately to load `guides.json`. This reports only whether guide *sources* are indexed for a channel, **not** what's on now, actual XMLTV schedule contents, current broadcasts, or permissions to republish schedules. The guide lookup can fail without blocking the main directory.
+
+### Guardrails
+
+The World Broadcast Atlas intentionally has **no media playback path**: it never retrieves `streams.json`, M3U/HLS playlists, audio/video, channel logos, or embedded players; it does not scrape publisher websites or cache program schedules. Country, language, and guide metadata come from the third-party directory, not a broadcast verification service. Source endpoints are fixed in code, payloads have size limits, and all browser links are HTTPS public hostnames with no credentials, local IPs or arbitrary ports. React text rendering escapes source-supplied names. Source metadata is memory-only per tab until the user leaves the page, with favorites stored locally as channel IDs.
+
+The existing 50 curated RCTV station numbers, `playableUrl()` allowlist, Couch Mode, manual M3U inspector and camera/world-tour modules are unchanged. **Free to discover does not equal free to watch or free to rebroadcast.** IPTV-org's source-data license does not grant rights in the linked broadcasters' underlying videos or trademarks.
+
+### Validation and follow-up
+
+`src/worldBroadcast.test.ts` covers HTTPS and local-network rejection, adult/closed exclusion, duplicate and invalid metadata, language linking, search/filter/favorites, and guide-source provenance. Existing Vitest, TypeScript, build, and CI checks continue to apply. Post-merge manual QA should test browser CORS/network availability, responsive layout, keyboard navigation, search and dropdown filtering, favorites reload, channel website links, retry behavior, and optional guide-coverage lookup. Third-party site restrictions and geographic access cannot be proven by unit tests.
+
+Future phases could add a carefully reviewed, per-broadcaster EPG *schedule* integration or explicitly authorized inline playback. Neither is implied or included in v2.1.
+
 ## v2.0: Couch Mode · Lean-back RCTV viewer
 
 ReelCommons now offers a **Couch Mode** for its Open Streams Commons catalog. This is an original full-viewport theater-style *web overlay*, not a native television app or a claim of browser fullscreen privileges. Launch it from the new **RCTV 2.0 / Launch Couch Mode** station near the top of **Open Streams**. The existing Channel Surf Remote, World Atlas, ten starter World Tours, personal itinerary studio, M3U inspector, hardware/FTA labs and all 50 curated sources remain available.
