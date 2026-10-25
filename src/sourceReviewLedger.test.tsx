@@ -119,7 +119,7 @@ describe('RCTV v2.6 Source Review Ledger', () => {
   it('renders a closed, offline-only ledger with no player or GitHub API requests', () => {
     const html=renderToStaticMarkup(<SourceReviewLedger selected={a}/>)
     expect(html).toContain('Receipts before promotions.')
-    expect(html).toContain('NOT authenticated approvals')
+    expect(html).toContain('not authenticated approvals')
     expect(html).toContain('Copy review handoff')
     expect(html).toContain('https://github.com/MichaelWave369/ReelCommons/issues/new/choose')
     expect(html).not.toContain('<iframe')
