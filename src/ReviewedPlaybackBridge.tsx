@@ -5,6 +5,7 @@ import {
   reviewedBridgeReceipt, reviewedMediaUrl, unloadBridgeMedia,
 } from './reviewedPlaybackBridge'
 import type { BridgeSelection, ReviewedBridgeId } from './reviewedPlaybackBridge'
+import PlaybackTrustGate from './PlaybackTrustGate'
 import './reviewed-playback-bridge.css'
 
 interface Props {
@@ -78,7 +79,7 @@ export default function ReviewedPlaybackBridge({ resetToken, onRequestMediaLoad 
   return <section className="rpb" aria-labelledby="rpb-title">
     <div className="rpb-intro">
       <div>
-        <span className="rpb-kicker">RCTV v2.4 · REVIEWED PLAYBACK BRIDGE</span>
+        <span className="rpb-kicker">RCTV v2.7 · REVIEWED PLAYBACK BRIDGE</span>
         <h2 id="rpb-title">The World Screen.</h2>
         <p>One careful step beyond directory links. Try the existing reviewed NASA YouTube embed or KEXP published audio URL, or visit official broadcaster sites for other stations. This is a separate, fixed RCTV source roster, never an importer for IPTV-org streams.</p>
       </div>
@@ -90,6 +91,7 @@ export default function ReviewedPlaybackBridge({ resetToken, onRequestMediaLoad 
     <div className="rpb-boundary"><strong>REVIEWED METHOD ≠ BROADCAST LICENSE</strong>
       <p>No autoplay, no viewer tracking, no DRM bypass, no proxy and no HLS/M3U import. The original 50 numbered channels, World TV Passport, and IPTV-org catalog are unchanged. Provider controls availability, embed policy, audio access and geographic restrictions.</p>
     </div>
+    <PlaybackTrustGate />
     {opened && <div id="rpb-panel" className="rpb-panel">
       <div className="rpb-roster" role="group" aria-label="Reviewed source selection">
         {REVIEWED_BRIDGE_ROSTER.map((item) => <button type="button" key={item.id}
