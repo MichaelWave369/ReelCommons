@@ -50,7 +50,7 @@ export function officialBroadcastUrl(value: unknown): string | null {
         url.hostname === 'localhost' || url.hostname.endsWith('.localhost') ||
         url.hostname.endsWith('.local') || url.hostname.endsWith('.internal') ||
         url.hostname.endsWith('.test') || url.hostname.endsWith('.invalid') ||
-        url.hostname.includes(':') || /^\\d+(?:\\.\\d+){3}$/.test(url.hostname)) return null
+        url.hostname.includes(':') || /^\d+(?:\.\d+){3}$/.test(url.hostname)) return null
     return url.href
   } catch { return null }
 }
