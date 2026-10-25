@@ -16,6 +16,7 @@ interface Props {
   onOpenMain: () => void
   onOpenCouch: () => void
   onOpenReviewed: () => void
+  onOpenStudio?: () => void
 }
 
 const picks = ['nasa-iss','kexp','cbs-news','monterey-cams','new-orleans-bourbon']
@@ -26,7 +27,7 @@ const featured = picks.flatMap((id) => {
 
 export default function UnifiedTvHub({
   selected, favoriteIds, recentIds,
-  onSelect, onOpenMain, onOpenCouch, onOpenReviewed,
+  onSelect, onOpenMain, onOpenCouch, onOpenReviewed, onOpenStudio,
 }: Props) {
   const [query, setQuery] = useState('')
   const [number, setNumber] = useState('')
@@ -63,11 +64,11 @@ export default function UnifiedTvHub({
   return <section className="uth" aria-labelledby="uth-title">
     <div className="uth-heading">
       <div>
-        <span className="uth-kicker">RCTV v3.1 · ONE TV, THREE SCREENS</span>
+        <span className="uth-kicker">RCTV v3.2 · ONE TV, THREE SCREENS</span>
         <h2 id="uth-title">The Unified TV Home</h2>
         <p>One selected channel across the guide, regular player, lean-back Couch Mode, and Reviewed Player Desk. All 50 virtual channels remain official, curated destinations.</p>
       </div>
-      <span className="uth-version">V3.1 / COMMON SCREEN</span>
+      <span className="uth-version">V3.2 / COMMON SCREEN</span>
     </div>
     <div className="uth-hero">
       <div className="uth-now" role="status">
@@ -99,6 +100,10 @@ export default function UnifiedTvHub({
           <span>03 · REVIEWED</span><strong>Open Reviewed Player Desk</strong>
           <small>{reviewed ? 'Same reviewed channel, on standby' :
             'Choose one of the 7 reviewed stations first'}</small>
+        </button>
+        <button type="button" disabled={!onOpenStudio} onClick={onOpenStudio}>
+          <span>04 · CREATE</span><strong>Creator Studio</strong>
+          <small>Record an original podcast or camera episode locally</small>
         </button>
       </div>
     </div>
