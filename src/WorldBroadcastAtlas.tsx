@@ -1,10 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import {
   WORLD_BROADCAST_FAVORITES_KEY, filterBroadcastChannels, loadBroadcastCatalog,
-  loadBroadcastGuideCoverage, readBroadcastFavorites, toggleBroadcastFavorite,
+  loadBroadcastGuideIndex, readBroadcastFavorites, toggleBroadcastFavorite,
 } from './worldBroadcast'
 import type { BroadcastCatalog, BroadcastChannel } from './worldBroadcast'
 import WorldTvPassport from './WorldTvPassport'
+import WorldGuideDesk from './WorldGuideDesk'
+import type { BroadcastGuideIndex } from './worldBroadcastGuides'
 import './world-broadcast.css'
 
 const PAGE_SIZE = 24
@@ -28,7 +30,9 @@ export default function WorldBroadcastAtlas() {
   const [savedOnly, setSavedOnly] = useState(false)
   const [limit, setLimit] = useState(PAGE_SIZE)
   const [guideStatus, setGuideStatus] = useState<'idle' | 'loading' | 'ready' | 'error'>('idle')
-  const [guideCoverage, setGuideCoverage] = useState<Set<string>>(new Set())
+  const [guideIndex, setGuideIndex] = useState<BroadcastGuideIndex | null>(null)
+  const [guideOnly, setGuideOnly] = useState(false)
+  const [selectedGuideId, setSelectedGuideId] = useState<string | null>(null)
   const [notice, setNotice] = useState('')
   const catalogAbort = useRef<AbortController | null>(null)
   const guideAbort = useRef<AbortController | null>(null)
@@ -38,9 +42,13 @@ export default function WorldBroadcastAtlas() {
     guideAbort.current?.abort()
   }, [])
 
-  const filtered = useMemo(() => filterBroadcastChannels(
-    catalog?.channels ?? [], query, country, category, language, saved, savedOnly,
-  ), [catalog, query, country, category, language, saved, savedOnly])
+  const filtered = useMemo(() => {
+    const matches = filterBroadcastChannels(
+      catalog?.channels ?? [], query, country, category, language, saved, savedOnly,
+    )
+    return guideOnly && guideIndex
+      ? matches.filter((channel) => guideIndex.indexedChannels.has(channel.id)) : matches
+  }, [catalog, query, country, category, language, saved, savedOnly, guideOnly, guideIndex])
   const shown = filtered.slice(0, limit)
 
   function resetFilters() {
@@ -53,7 +61,7 @@ export default function WorldBroadcastAtlas() {
     const controller = new AbortController()
     catalogAbort.current = controller
     setStatus('loading'); setError(''); setNotice('')
-    setGuideStatus('idle'); setGuideCoverage(new Set())
+    setGuideStatus('idle'); setGuideIndex(null); setGuideOnly(false); setSelectedGuideId(null)
     try {
       const data = await loadBroadcastCatalog(controller.signal)
       if (controller.signal.aborted) return
@@ -75,11 +83,11 @@ export default function WorldBroadcastAtlas() {
     guideAbort.current?.abort()
     const controller = new AbortController()
     guideAbort.current = controller
-    setGuideStatus('loading')
+    setGuideStatus('loading'); setGuideIndex(null); setGuideOnly(false)
     try {
-      const indexed = await loadBroadcastGuideCoverage(controller.signal, catalog.channels)
+      const indexed = await loadBroadcastGuideIndex(controller.signal, catalog.channels)
       if (controller.signal.aborted) return
-      setGuideCoverage(indexed)
+      setGuideIndex(indexed)
       setGuideStatus('ready')
     } catch {
       if (!controller.signal.aborted) setGuideStatus('error')
@@ -99,7 +107,7 @@ export default function WorldBroadcastAtlas() {
   return <section className="wba" aria-labelledby="wba-title">
     <div className="wba-heading">
       <div>
-        <span className="wba-kicker">RCTV 2.2 / WORLD BROADCAST ATLAS</span>
+        <span className="wba-kicker">RCTV 2.3 / WORLD BROADCAST ATLAS</span>
         <h2 id="wba-title">A world of channels.<br /><em>One directory.</em></h2>
         <p>Explore global broadcasters by country, language and category with metadata indexed by IPTV-org. Open each broadcaster's official site to see viewing options, restrictions and schedules.</p>
       </div>
@@ -156,16 +164,9 @@ export default function WorldBroadcastAtlas() {
         </div>
       </div>
       <WorldTvPassport channels={filtered} allChannels={catalog.channels} countries={catalog.countries} />
-      <div className="wba-guide">
-        <div><strong>PROGRAM GUIDE SOURCE INDEX</strong>
-          <p>Optional IPTV-org EPG metadata lookup. An indexed guide source does <b>not</b> mean that current listings were downloaded, verified, or licensed for republishing.</p>
-        </div>
-        {guideStatus !== 'ready' && <button type="button" disabled={guideStatus === 'loading'} onClick={loadGuideIndex}>
-          {guideStatus === 'loading' ? 'Checking guide index…' : guideStatus === 'error' ? 'Retry guide index' : 'Check EPG coverage'}
-        </button>}
-        {guideStatus === 'ready' && <span className="wba-guide-count">{fmt(guideCoverage.size)} channels have listed guide sources</span>}
-        {guideStatus === 'error' && <p role="alert">Guide index unavailable. Directory browsing still works.</p>}
-      </div>
+      <WorldGuideDesk index={guideIndex} channels={catalog.channels} selectedId={selectedGuideId}
+        onSelect={setSelectedGuideId} onlyWithGuides={guideOnly} onOnlyWithGuides={(value) => {setGuideOnly(value);setLimit(PAGE_SIZE)}}
+        status={guideStatus} onLoad={loadGuideIndex} />
       {notice && <p className="wba-notice" role="status">{notice} <button type="button" onClick={() => setNotice('')}>Dismiss</button></p>}
       <p className="wba-results" aria-live="polite">{fmt(filtered.length)} matching channel destinations · Showing {fmt(shown.length)}. Source metadata is unverified for availability.</p>
       {shown.length > 0 ? <div className="wba-grid" aria-label="Worldwide broadcaster directory">
@@ -181,10 +182,15 @@ export default function WorldBroadcastAtlas() {
           <div className="wba-tags">
             {channel.categories.slice(0, 3).map((id) => <span key={id}>{labelFor(id, catalog.categories)}</span>)}
             {channel.languages.slice(0, 3).map((id) => <span key={id}>{labelFor(id, catalog.languages)}</span>)}
-            {guideStatus === 'ready' && guideCoverage.has(channel.id) && <span>Guide source indexed</span>}
+            {guideStatus === 'ready' && guideIndex?.indexedChannels.has(channel.id) && <span>Guide sources indexed</span>}
           </div>
           <div className="wba-card-bottom">
             <span title={channel.id}>IPTV-org ID: {channel.id}</span>
+            {guideStatus === 'ready' && guideIndex?.indexedChannels.has(channel.id) &&
+              <button className="wgd-card-button" type="button" onClick={() => {
+                setSelectedGuideId(channel.id)
+                document.getElementById('wba-guide-desk')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+              }}>View guide sources</button>}
             <a href={channel.officialUrl} target="_blank" rel="noopener noreferrer">Visit official broadcaster ↗</a>
           </div>
         </article>)}
