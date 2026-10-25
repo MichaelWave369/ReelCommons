@@ -6,6 +6,31 @@ ReelCommons is an original, independent, open-source directory for **legitimate 
 
 > **Scope honesty:** v0.1 is a curated **service directory**, not a live title-availability search engine. Provider links go to official homepages. Verify a specific title, ad load, cost, geographic restrictions, and accessibility features on the provider's site.
 
+## v2.6: Source Review Ledger · Evidence snapshots and manual GitHub handoff
+
+RCTV v2.6 extends the browser-local **Source Certification Lab** with a **Source Review Ledger**. This preserves evidence revisions and review recommendations as an append-only history *inside the app*, not an authenticated or tamper-proof ledger. Completing review steps does not change `playableUrl()`, the hardcoded broadcaster roster, IPTV-org index, M3U quarantine, or media permissions.
+
+### Evidence snapshots and recorded dispositions
+
+- Open **Open Streams → Source Certification Lab**, create or select an unverified candidate, then use the new Ledger below its existing checklist.
+- **Capture evidence revision snapshot** freezes that candidate's current name, safe publisher HTTPS homepage, proposed route, notes, seven self-attested flags and date. Later edits create future snapshots; existing ledger entries cannot be edited through this UI.
+- **Record review recommendation** pairs the same frozen evidence snapshot with a reason (15–600 characters) and one of **Request more evidence**, **Decline candidate**, or **Recommend independent code review (NOT approval)**.
+- Show the latest recorded recommendation and up to 12 recent revisions per candidate. The local export includes all events (maximum 100), even for candidate IDs that were later removed from the local intake list.
+- All decisions are explicitly advisory. There is intentionally **no** `approved` / `certified` / `verified` outcome, reviewer login, authorized media endpoint, playback flag or permission grant. Imported records are marked `USER_RECORDED_UNVERIFIED`.
+
+### Receipts, conflict checks and GitHub issue template
+
+- The Ledger is stored only in browser `localStorage` under `rctv-source-review-ledger-v1`. Export/import uses exact-field `RCTV_SOURCE_REVIEW_LEDGER_V1` JSON, strict v2.5 candidate validation, canonical UTC timestamps, event-ID deduplication and a 128 KB / 100-event cap.
+- Imports reject extra fields, fake approval states, invalid/forged trust provenance, media URLs disguised as official homepages, duplicate events and same-ID conflicting histories. Import merges valid new events without overwriting existing ones.
+- **Copy review handoff** uses the browser clipboard only after the user clicks and includes relevant local notes, snapshot count and recent events. **Open GitHub issue templates** is a separate external link to `MichaelWave369/ReelCommons`'s issue chooser. The new `.github/ISSUE_TEMPLATE/rctv-source-review.yml` form asks for public publisher evidence and reminds contributors not to share secrets.
+- The app never sends candidate information or attachments to GitHub. Pasting into a GitHub issue is **manual** and may publish the material publicly. A GitHub issue is an intake item, not permission to play. A maintainer still needs to independently verify broadcaster terms, regional availability, supported player behavior and scope, then create a distinct code-reviewed PR with tests.
+
+### Epistemic and technical limitation
+
+Browser `localStorage` and downloaded JSON can be edited or deleted; this is a **local chronology of self-recorded claims**, not cryptographically signed proof, verified identity, or third-party authorization. Re-review original publisher evidence before making a source-code decision.
+
+`src/sourceReviewLedger.test.tsx` exercises snapshots, proposed decisions, imported-forgery rejection, bounded merges, immutable-ID collision refusal, orphan candidate history and server-rendered no-playback behavior. Existing tests and CI remain unchanged. After merging, manually verify two or more candidate revisions, timeline, JSON roundtrip, conflict imports, blocked storage, mobile layout, clipboard permissions and issue handoff.
+
 ## v2.5: TV Source Certification Lab · Independent-review intake
 
 RCTV v2.5 adds **Source Certification Lab** below the Reviewed Playback Bridge in Open Streams. The name describes a workflow to organize evidence for broadcaster playback, **not** an automatic certification service. Even a seven-of-seven checklist entry is merely *ready for independent human review*. Only an audited code change can add playback support.
