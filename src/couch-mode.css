@@ -80,3 +80,13 @@
 @media(max-width:980px){.couch-stage-grid{grid-template-columns:1fr}.couch-side{display:grid;grid-template-columns:1fr 1fr;gap:10px}.couch-channel-display,.couch-channel-arrows,.couch-entry-row,.couch-numbers,.couch-filter-controls,.couch-guide-toggle{margin:0}.couch-channel-display{grid-column:1}.couch-channel-arrows{grid-column:2}.couch-entry-row,.couch-numbers{grid-column:1 / -1}.couch-filter-controls{grid-column:1}.couch-guide-toggle{grid-column:2;align-self:end}.couch-guide-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:610px){.couch-overlay{padding:5px}.couch-frame{gap:7px}.couch-topbar{padding:11px}.couch-head-actions{width:100%;justify-content:space-between}.couch-stage-area,.couch-side,.couch-guide{padding:9px}.couch-screen{min-height:220px;border-width:5px}.couch-standby{padding-bottom:60px}.couch-screen-label>small{display:none}.couch-side{display:block}.couch-channel-arrows,.couch-entry-row,.couch-numbers,.couch-filter-controls{margin-top:9px}.couch-guide-toggle{margin-top:9px}.couch-channel-display strong{font-size:40px}.couch-guide-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.couch-footer{font-size:9px}}
 @media(prefers-reduced-motion:reduce){.couch-overlay *{scroll-behavior:auto!important}}
+
+
+/* v3.1 optional opt-in gamepad support. Never grabs focus or starts playback. */
+.couch-gamepad{margin:12px 0;padding:12px;border:1px solid #6d8d89;border-radius:8px;background:#233d49}
+.couch-gamepad button{display:block;width:100%;min-height:44px;border:1px solid #a6c996;border-radius:7px;background:#355747;color:#edffdf;font-size:12px;font-weight:800;cursor:pointer;padding:11px}
+.couch-gamepad button[aria-pressed="true"]{background:#baff95;color:#163423}
+.couch-gamepad button:disabled{opacity:.55;cursor:not-allowed}
+.couch-gamepad p{font-size:11px;line-height:1.65;color:#e0efea;margin:9px 0 0}
+.couch-overlay button:focus-visible,.couch-overlay a:focus-visible,.couch-overlay select:focus-visible,.couch-overlay input:focus-visible{outline:3px solid #ffe8a1;outline-offset:3px}
+@media(prefers-reduced-motion:reduce){.couch-overlay *{scroll-behavior:auto}}
