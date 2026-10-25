@@ -11,6 +11,7 @@ import WorldTour from './WorldTour'
 import WorldAtlas from './WorldAtlas'
 import WorldBroadcastAtlas from './WorldBroadcastAtlas'
 import ReviewedPlaybackBridge from './ReviewedPlaybackBridge'
+import SourceCertificationLab from './SourceCertificationLab'
 import ChannelSurfRemote from './ChannelSurfRemote'
 import CouchMode from './CouchMode'
 import {CHANNEL_SURF_STORAGE_KEY,readChannelSurfState,serializeChannelSurfState} from './channelSurf'
@@ -106,7 +107,7 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
   return <section className="osc-page wrap" aria-labelledby="osc-heading">
     {couchOpen && <CouchMode selected={selected} favoriteIds={favorites}
       onSelect={(source) => selectSource(source, false)} onClose={closeCouchMode} />}
-    <div className="eyebrow">THE COMMON SCREEN / RCTV v2.4 · OPEN STREAMS COMMONS</div>
+    <div className="eyebrow">THE COMMON SCREEN / RCTV v2.5 · OPEN STREAMS COMMONS</div>
     <div className="osc-hero">
       <div className="osc-hero-copy">
         <span className="osc-overline"><span className="osc-signal" /> LEGITIMATE CHANNELS · ENDLESS CURIOSITY</span>
@@ -158,6 +159,7 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
     <WorldAtlas onPreview={selectSource} />
     <WorldTour onPreview={selectSource} />
     <ReviewedPlaybackBridge resetToken={bridgeResetToken} onRequestMediaLoad={() => setMediaLoadedFor(null)} />
+    <SourceCertificationLab />
     <WorldBroadcastAtlas />
 
     <div className="osc-layout">
