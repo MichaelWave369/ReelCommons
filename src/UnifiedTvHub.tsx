@@ -65,11 +65,11 @@ export default function UnifiedTvHub({
   return <section className="uth" aria-labelledby="uth-title">
     <div className="uth-heading">
       <div>
-        <span className="uth-kicker">REEL NETWORK / RCTV v3.6 · THREE SCREENS + STUDIO</span>
+        <span className="uth-kicker">REEL NETWORK / RCTV v3.7 · THREE SCREENS + STUDIO</span>
         <h2 id="uth-title">The Unified TV Home</h2>
         <p>One selected channel across the guide, regular player, lean-back Couch Mode, and Reviewed Player Desk. All 50 virtual channels remain official, curated destinations.</p>
       </div>
-      <span className="uth-version">V3.6 / REEL COMMONS</span>
+      <span className="uth-version">V3.7 / REEL COMMONS</span>
     </div>
     <div className="uth-hero">
       <div className="uth-now" role="status">
