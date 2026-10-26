@@ -18,9 +18,9 @@ async function diagnostic(){
     platform:{system:'Windows',release:'11'},
     prerequisites:{
       python:{status:'FOUND',executable:'C:\\Python312\\python.exe',version:'3.12.4',minimum:'3.11'},
-      ffmpeg:{status:'MISSING',executable:null},
-      ffprobe:{status:'MISSING',executable:null},
-      nvidiaSmi:{status:'MISSING',executable:null},
+      ffmpeg:{status:'MISSING',executable:null as string|null},
+      ffprobe:{status:'MISSING',executable:null as string|null},
+      nvidiaSmi:{status:'MISSING',executable:null as string|null},
       gpus:[] as Array<Record<string,unknown>>,
       nvidiaDriver:null as string|null,
       availableResources:{
