@@ -71,6 +71,7 @@ export async function inspectLaunchpadJson(text:string,kit?:PilotPreproductionPa
     'python','ffmpeg','ffprobe','nvidiaSmi','gpus','nvidiaDriver','availableResources',
     'wanSource','wanCheckpoint','checkpointHash','torchCuda',
   ]),'unknown or missing native prerequisites')
+  const toolStatuses:Record<string,'FOUND'|'MISSING'>={}
   for(const name of ['ffmpeg','ffprobe','nvidiaSmi']){
     const v=checks[name]
     requireValid(record(v)&&keys(v,['status','executable'])&&
@@ -79,6 +80,7 @@ export async function inspectLaunchpadJson(text:string,kit?:PilotPreproductionPa
       name+' has malformed tool observation')
     requireValid((v.status==='FOUND')===(typeof v.executable==='string'&&v.executable.length>0),
       name+' existence conflicts with executable')
+    toolStatuses[name]=v.status as 'FOUND'|'MISSING'
   }
   const py=checks.python
   requireValid(record(py)&&keys(py,['status','executable','version','minimum'])&&
@@ -91,7 +93,7 @@ export async function inspectLaunchpadJson(text:string,kit?:PilotPreproductionPa
       str(g.name,200)), 'NVIDIA GPU observations are malformed')
   requireValid(checks.nvidiaDriver===null||str(checks.nvidiaDriver,128),
     'NVIDIA driver observation is malformed')
-  if(checks.nvidiaSmi.status!=='FOUND')
+  if(toolStatuses.nvidiaSmi!=='FOUND')
     requireValid(checks.gpus.length===0,'NVIDIA devices claimed without nvidia-smi')
   const resources=checks.availableResources
   requireValid(record(resources)&&keys(resources,[
@@ -171,7 +173,7 @@ export async function inspectLaunchpadJson(text:string,kit?:PilotPreproductionPa
     readiness.actualModelInferenceCompleted===false&&readiness.publicReleaseAuthorized===false,
     'human authority or release flag was promoted')
   const actuallyPassed=py.status==='FOUND'&&
-    checks.ffmpeg.status==='FOUND'&&checks.ffprobe.status==='FOUND'&&
+    toolStatuses.ffmpeg==='FOUND'&&toolStatuses.ffprobe==='FOUND'&&
     resources.status==='POSSIBLE'&&source.status==='FOUND'&&
     checkpoint.status==='FOUND_UNVERIFIED'&&hash.status==='MATCH'&&
     torch.status==='AVAILABLE'&&pilot.status==='VALID_UNREVIEWED_PREPRODUCTION'
@@ -187,7 +189,7 @@ export async function inspectLaunchpadJson(text:string,kit?:PilotPreproductionPa
     step('python','Python 3.11+',py.status==='FOUND'?'ready':'blocked',
       'Install Python 3.11+ from the official Python source. Use that same interpreter in CineSwarm.'),
     step('ffmpeg','FFmpeg and FFprobe',
-      checks.ffmpeg.status==='FOUND'&&checks.ffprobe.status==='FOUND'?'ready':'blocked',
+      toolStatuses.ffmpeg==='FOUND'&&toolStatuses.ffprobe==='FOUND'?'ready':'blocked',
       'Install FFmpeg and FFprobe command-line binaries and make both available on your Windows PATH.'),
     step('gpu','Single-GPU free VRAM',
       !gpus.length?'blocked':actualMax>=9216?'ready':'blocked',
