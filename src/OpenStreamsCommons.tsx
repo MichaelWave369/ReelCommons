@@ -178,7 +178,7 @@ export default function OpenStreamsCommons({ onOpenLiveTV }: { onOpenLiveTV: () 
   return <section className="osc-page wrap" aria-labelledby="osc-heading">
     {couchOpen && <CouchMode selected={selected} favoriteIds={favorites}
       onSelect={(source) => selectSource(source, false)} onClose={closeCouchMode} />}
-    <div className="eyebrow">THE COMMON SCREEN / REEL NETWORK · RCTV v3.4 · OPEN STREAMS COMMONS</div>
+    <div className="eyebrow">THE COMMON SCREEN / REEL NETWORK · RCTV v3.5 · OPEN STREAMS COMMONS</div>
     <div className="osc-hero">
       <div className="osc-hero-copy">
         <span className="osc-overline"><span className="osc-signal" /> LEGITIMATE CHANNELS · ENDLESS CURIOSITY</span>
