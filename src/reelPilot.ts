@@ -40,6 +40,7 @@ export interface PilotPreproductionPacket {
   pilotDurationSeconds:number
   disclosure:string
   concept:string
+  localProductionNotes:string
   credits:{
     creativeDirection:'human review pending'
     narrationArtist:'unassigned'
@@ -300,6 +301,7 @@ export function pilotPreproductionPacket(
     createdUtc,pilotDurationSeconds:REEL_PILOT_DURATION,
     disclosure:'Proposed AI-assisted fictional/symbolic visuals. Real media production and exact AI tool use have not been verified.',
     concept:REEL_PILOT_PITCH.concept,
+    localProductionNotes:localNotes.replace(/[\u0000-\u001f\u007f]/g,' ').trim(),
     credits:{
       creativeDirection:'human review pending',
       narrationArtist:'unassigned',musicAuthor:'unassigned',
