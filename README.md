@@ -6,6 +6,27 @@ ReelCommons is an original, independent, open-source directory for **legitimate 
 
 > **Scope honesty:** v0.1 is a curated **service directory**, not a live title-availability search engine. Provider links go to official homepages. Verify a specific title, ad load, cost, geographic restrictions, and accessibility features on the provider's site.
 
+## v3.6 · REEL Pilot 001 First Real Video Shot: Wan2.1 Production Preflight
+
+REEL Originals Pilot 001 now includes **P001-S01 / First-Frame Production Preflight**, a browser-local inspection desk paired with a real native [CineSwarm first-shot receiver](https://github.com/MichaelWave369/CineSwarm/pull/5). This is our first **real-model production-plan candidate**, not the prior deterministic test-only placeholder and **not** a completed or authorized render.
+
+### The source-controlled first-shot workflow
+
+1. On REEL Network's **The First Transmission** Pilot 001 page, click **Download preproduction JSON**. The existing `REEL_ORIGINAL_PILOT_PREPRODUCTION_V1` export captures the eight timed scenes and explicitly denies human rights/editorial/public release authority.
+2. After CineSwarm PR #5 is merged, a human may run the separate local offline receiver: `python -m cineswarm.reel_shot_one reel-p001-preproduction.json --out p001-shot-one-preflight.json`. That receiver validates all eight first-party shot IDs/time boundaries and pending-review flags, then constructs one actual `production-plan/v1` candidate for eight seconds with `wan21-t2v-1.3b`, source-bound SHA-256, release authorization **false**, and no model execution. A real native plan being constructed is **not** permission to submit it.
+3. The operator may choose the additional `--check-local` flag to inspect local GPU/RAM/disk and pinned Wan 2.1 checkpoint bytes and SHA-256, without downloading models. Outcomes include `NOT_CHECKED`, specific `BLOCKED_*` reasons, or `OPERATOR_REVIEW_REQUIRED`. This final state is an *observed technical preflight*, not rights clearance or production approval.
+4. The new **REEL First-Frame Handoff** lets users explicitly import the returned JSON in the browser for exact source/candidate hash checks, 8-second/one-scene/native backend constraints, release/provenance denials, and live-pitch correlation if the corresponding kit was exported this visit. Imported JSON is **editable/untrusted** and cannot authenticate real media output or model execution. No browser network upload occurs.
+
+CineSwarm's real Wan2.1 consumer-GPU bootstrap backend requires **9216 MiB free VRAM on one GPU**, **16384 MiB free RAM**, **20480 MiB free disk**, official locally installed pinned source/checkpoint and matching SHA directory digest. It generates **native 832×480 at 16 fps** and separately performs ffmpeg upscaling/pillarboxing and fps conversion to a **1280×720/24fps** delivery master. The master is **not** native 720p.
+
+### Execution/rights separation
+
+Neither ReelCommons nor these new tools will submit jobs to a coordinator, install model weights, bypass vendor licenses, grant copyright/likeness consent, approve GPU costs, upload videos, record/rebroadcast RCTV third-party streams, or assign an RCTV original channel. A separate authorized user action is required to run and inspect actual model output, then a separate ParaCut/voice/music/QC/rights/human-release process must certify finished media before public publishing. Original RCTV **CH 001–050** and v2.7 Playback Trust Gate remain intact.
+
+[Read the REEL v3.6 operator guide](docs/REEL_FIRST_SHOT_WAN21.md), plus [the native CineSwarm PR #5](https://github.com/MichaelWave369/CineSwarm/pull/5). Native companion `tests/test_reel_shot_one.py` exercises actual pinned SHA and hardware logic using offline fixtures; browser `src/reelFirstShot.test.tsx` checks source correlation, all denied execution/release flags, provider hijacking and no-autoplay markup.
+
+After both PRs merge, manually test the exported JSON, local command (if CineSwarm is installed), optional `--check-local` probe, imported result and resulting layout. GitHub CI does **not** represent having rendered an actual cinematic scene.
+
 ## v3.5 · REEL Originals Pilot 001: The First Transmission
 
 The historic [Parallax Network MVP roadmap](https://github.com/MichaelWave369/parallax-network/blob/main/docs/mvp-roadmap.md) planned a “Welcome to Parallax Network” launch pilot. REEL v3.5 develops an **original new REEL adaptation** called **“The First Transmission”**, without claiming to have recovered lost original assets or to have generated a finished film.
