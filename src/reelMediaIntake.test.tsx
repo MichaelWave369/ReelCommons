@@ -146,9 +146,10 @@ describe('REEL v3.7 exact-hash real media editorial intake',()=>{
     bad.native.width=1280
     await expect(verifyReelMediaIntake(JSON.stringify(bad),media,kit))
       .rejects.toThrow('native')
-    await expect(verifyReelMediaIntake(JSON.stringify(a),new Blob([
-      new Uint8Array(REEL_MEDIA_MAX_BYTES+1),
-    ]),kit)).rejects.toThrow('256 MiB')
+    const oversized=new Blob([new Uint8Array(16)])
+    Object.defineProperty(oversized,'size',{value:REEL_MEDIA_MAX_BYTES+1})
+    await expect(verifyReelMediaIntake(JSON.stringify(a),oversized,kit))
+      .rejects.toThrow('256 MiB')
   })
   it('keeps our RCTV official lineup frozen and pilot page free of auto-loaded media',()=>{
     const html=renderToStaticMarkup(<ReelPilotDesk onUsePitch={()=>{}}/>)
