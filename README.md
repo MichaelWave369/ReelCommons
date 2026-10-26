@@ -6,6 +6,27 @@ ReelCommons is an original, independent, open-source directory for **legitimate 
 
 > **Scope honesty:** v0.1 is a curated **service directory**, not a live title-availability search engine. Provider links go to official homepages. Verify a specific title, ad load, cost, geographic restrictions, and accessibility features on the provider's site.
 
+## v3.5 · REEL Originals Pilot 001: The First Transmission
+
+The historic [Parallax Network MVP roadmap](https://github.com/MichaelWave369/parallax-network/blob/main/docs/mvp-roadmap.md) planned a “Welcome to Parallax Network” launch pilot. REEL v3.5 develops an **original new REEL adaptation** called **“The First Transmission”**, without claiming to have recovered lost original assets or to have generated a finished film.
+
+### A real preproduction desk
+
+- A visible **REEL Originals / Pilot 001** production section in both REEL entry points (top nav and Open Streams). The new interactive `ReelPilotDesk` contains an original **74-second, eight-scene** script with timed shot selection, narrated dialogue, visual/CineSwarm shot-direction prompts, original music/sound guidance, proposed ParaCut edits and asset/IP rights notes.
+- Select any storyboard shot to inspect precise start and end, original scene purpose, camera direction and voiceover. Everything is a **creative proposal**, not generated footage, a native video model job or a broadcast.
+- **Four downloads** sourced from the same checked-in `src/reelPilot.ts` model: `reel-p001-script.md`, `reel-p001-captions.srt`, `reel-p001-shots.csv`, and a bounded `REEL_ORIGINAL_PILOT_PREPRODUCTION_V1` JSON with producer notes and exact shot metadata. Subtitle timings are proposed pending recorded narration and editorial retiming.
+- A local **eight-point human checklist** for creative quality, visual/IP rights, voice consent, original music, disclosure/claims, model/hardware qualification, real rendered-media QC and final publisher release. Checking a box **does not** create authority or a review certificate. Exported gates all remain `not_reviewed`.
+- **Send concept to REEL Pitch Desk** fills the existing REEL `REEL_NETWORK_PITCH_PACKET_V1` form with this original candidate. Users can then review and explicitly export a separate pitch for the independent native CineSwarm v3.4 **test-only dry-run bridge**. No automatic model jobs, network requests, video rendering, publishing or channel registration occurs.
+- Exported packet flags deny agent execution, produced media, rights/QC verification, provenance receipts, native CineSwarm plan submission, approved RCTV channel slots and public publication. First-party original programming remains strictly separate from the original RCTV **CH 001–050** fixed catalog.
+
+Read the canonical creative brief at **[REEL Pilot 001 · The First Transmission](docs/REEL_PILOT_001_FIRST_TRANSMISSION.md)**. No original or third-party show IP is used or licensed by implication, and REEL branding remains subject to normal review.
+
+### CI and field checks
+
+`src/reelPilot.test.tsx` validates contiguous unique shot timestamps, script/SRT/CSV generation, a complete but denied-authority preproduction packet, bounded notes and timestamps, clean React/no-autoplay SSR, proper pitch fields, and unmodified 50-source trust policy. Existing React/Vitest, Python companion, Playback Trust Gate, TypeScript and Vite release checks remain mandatory.
+
+After merging, manually inspect the new storyboard on desktop/mobile, download and open its files, load the pilot into the pitch desk and confirm no audio/video auto-loads. A real production exercise still requires an authorized local native model, actual footage, independent human approvals, rights receipts, ParaCut assembly and a separate hosted publisher release. **No pilot is on air in v3.5.**
+
 ## v3.4 · REEL ↔ CineSwarm: first native dry-run bridge
 
 This release connects the public REEL creator-planning experience to a **separate real CineSwarm-owned local receiver** while preserving the crucial difference between *planning a show* and *generating, releasing or broadcasting media*.
