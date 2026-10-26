@@ -6,6 +6,19 @@ ReelCommons is an original, independent, open-source directory for **legitimate 
 
 > **Scope honesty:** v0.1 is a curated **service directory**, not a live title-availability search engine. Provider links go to official homepages. Verify a specific title, ad load, cost, geographic restrictions, and accessibility features on the provider's site.
 
+## v3.7 · REEL Originals: Genuine Media Evidence & Editorial Preview
+
+**After an authorized real Wan2.1 render**, REEL can now locally verify the *actual* Pilot 001 Shot 001 master MP4 against CineSwarm's exported hash and evidence summary. **This release does not generate a movie, and no real REEL footage is claimed to exist yet.**
+
+- New **Evidence & Preview Desk** below REEL Pilot 001's first-shot preflight. Users deliberately choose **both** a real master MP4 and `REEL_P001_REAL_MEDIA_EVIDENCE_V1` JSON exported from the accompanying **[CineSwarm PR #6](https://github.com/MichaelWave369/CineSwarm/pull/6)**. No network upload, file scanning, hidden player, or public broadcast occurs.
+- The browser checks first-shot source/job identifiers, known Wan 2.1 T2V 1.3B backend, expected native 832×480/16fps and master 1280×720/24fps claims, SHA-256-shaped receipt head, and consistently denied music, voice, rights and publisher authority. It then **recomputes WebCrypto SHA-256 over the selected actual master MP4 bytes** (up to 256 MiB) and compares the exact digest and byte count to the sidecar. Only a matching selection activates the manual local video preview.
+- CineSwarm PR #6 independently opens an existing SQLite database in read-only mode, verifies the hash-chained event ledger, completed native Wan21 job, native/master media files and fresh ffprobe metadata, exact local SHA-256 of both files and optional exact-hash human QC decision. It emits an **unsigned** local JSON sidecar, not a signing authority or publication grant. No model weights, media or coordinator requests are triggered by evidence export.
+- **The browser does not authenticate CineSwarm's device or operator.** Matching SHA only proves selected-file consistency with the editable, unsigned sidecar. An `ACCEPT` QC result is never an RCTV channel authorization. Without the current pilot kit, source correlation is labeled unlinked.
+- Genuine completed footage may next be **manually imported** into [ParaCut](https://github.com/MichaelWave369/paracut), then separately finished with original music, narration, rights/consent, editorial QC and explicit publisher review. No native ParaCut RenderPlan or WaveForge release artifact is forged or automatically minted.
+- Adds `src/reelMediaIntake.test.tsx` with synthetic byte-data tests for exact hashes, sidecar manipulation, fake review/rights authority, bad MP4 signatures, changed sources, disallowed backend, no media/autoplay on initial render, and an immutable RCTV CH 001–050 roster.
+
+See [the full REEL genuine media/editorial intake guide](docs/REEL_REAL_MEDIA_EDITORIAL_INTAKE.md). It explains the required installed CineSwarm environment, the offline command and manual field verification. Neither CI suite executes an actual model render.
+
 ## v3.6 · REEL Pilot 001 First Real Video Shot: Wan2.1 Production Preflight
 
 REEL Originals Pilot 001 now includes **P001-S01 / First-Frame Production Preflight**, a browser-local inspection desk paired with a real native [CineSwarm first-shot receiver](https://github.com/MichaelWave369/CineSwarm/pull/5). This is our first **real-model production-plan candidate**, not the prior deterministic test-only placeholder and **not** a completed or authorized render.
