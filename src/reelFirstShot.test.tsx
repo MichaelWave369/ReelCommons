@@ -48,7 +48,7 @@ describe('REEL v3.6 · first real shot preflight, never an executed movie',()=>{
   it('shows local-first production guidance without installing a model or fetching media',()=>{
     const html=renderToStaticMarkup(<ReelFirstShotHandoff preparedKit={null}/>)
     expect(html).toContain('First-Frame Production Preflight')
-    expect(html).toContain('wan21')
+    expect(html).toContain('Wan 2.1')
     expect(html).toContain('python -m cineswarm.reel_shot_one')
     expect(html).toContain('--check-local')
     expect(html).toContain('NO CURRENT KIT EXPORTED')
