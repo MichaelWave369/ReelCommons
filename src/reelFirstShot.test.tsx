@@ -23,7 +23,7 @@ async function nativeEnvelope() {
       prompt:kit.shots[0].imagePrompt,
       durationSeconds:8,
       delivery:{width:1280,height:720,fps:24,container:'mp4'},
-      backendPreference:['wan21-t2v-1.3b'],conditioning:[],seed:369,
+      backendPreference:['wan21-t2v-1.3b'],conditioning:[] as unknown[],seed:369,
       acceptanceEligible:true,publicReleaseAuthorized:false,
     }],
   }
