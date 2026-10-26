@@ -1,0 +1,77 @@
+/* REEL Originals: Pilot 001 creative preproduction desk */
+.rpilot{margin:25px 0;padding:20px;border:1px solid #7b9d92;border-radius:13px;background:radial-gradient(circle at 85% 0%,#3f5e4c77,transparent 37%),linear-gradient(125deg,#20343c,#1c2b3d 56%,#1b3b42);color:#f6fff3}
+.rpilot *{box-sizing:border-box}
+.rpilot-hero{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(200px,.65fr);gap:19px;align-items:center}
+.rpilot-kicker{color:#d9f5ac;font-size:10px;font-weight:900;letter-spacing:.12em}
+.rpilot-hero h3{font-size:clamp(26px,3.8vw,44px);line-height:1.08;letter-spacing:-.055em;margin:11px 0}
+.rpilot-intro{font-size:12px;line-height:1.75;color:#d4e5db;max-width:710px}
+.rpilot-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:15px}
+.rpilot-tags span{border:1px solid #6d9b85;background:#34564c;border-radius:5px;font-size:9px;font-weight:900;padding:8px;color:#e2f5d0}
+.rpilot-actions{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 0}
+.rpilot button{font-family:inherit;cursor:pointer}
+.rpilot-actions button,.rpilot-export-buttons button{min-height:44px;background:#baff95;border:1px solid #baff95;border-radius:7px;color:#173322;padding:11px 13px;font-size:10px;font-weight:900}
+.rpilot-actions button:not(:first-child){border-color:#86aea1;background:#35525a;color:#eefff5}
+.rpilot-art{position:relative;min-height:240px;border:1px solid #759991;border-radius:10px;overflow:hidden;background:radial-gradient(circle at center,#4a8a7688,#192b39 61%,#101b2b)}
+.rpilot-art-glow{position:absolute;top:50%;left:50%;width:150px;height:150px;border:1px solid #c7ffad;border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 0 35px #c1ffa35a,0 0 90px #c1ffa322,inset 0 0 35px #c1ffa34f}
+.rpilot-frame{position:absolute;inset:35px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;border:1px solid #aee6a578;background:#153a3e55}
+.rpilot-frame span{color:#d1f8c2;font-size:11px;letter-spacing:.16em}
+.rpilot-frame strong{font-size:clamp(30px,5vw,60px);letter-spacing:-.07em;color:#d4ffa9;line-height:1}
+.rpilot-frame small{font-size:9px;letter-spacing:.12em;color:#def0e7;text-align:center}
+.rpilot-art-label{position:absolute;bottom:9px;width:100%;text-align:center;font-size:8px;letter-spacing:.06em;color:#e0ffca}
+.rpilot-progress{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:19px 0 13px}
+.rpilot-progress>div{border:1px solid #678e87;background:#30464a;border-radius:7px;padding:11px}
+.rpilot-progress strong{display:block;font-size:11px;color:#eefbea}
+.rpilot-progress span{display:block;font-size:9px;color:#c8e9c1;margin-top:6px;line-height:1.5}
+.rpilot-headline{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:9px;margin:25px 0 13px}
+.rpilot-headline>div{flex:1;min-width:200px}
+.rpilot-headline span{color:#d5ffae;font-size:10px;letter-spacing:.1em;font-weight:900}
+.rpilot-headline h4{font-size:24px;line-height:1.2;letter-spacing:-.04em;margin:7px 0}
+.rpilot-headline p{font-size:11px;color:#c8dedc;line-height:1.6;margin:4px 0}
+.rpilot-total{color:#d0ffaf;white-space:nowrap}
+.rpilot-headline button{min-height:40px;border-radius:7px;padding:10px 13px;border:1px solid #8bb3a0;background:#385954;color:#ebfff1;font-size:11px;font-weight:900}
+.rpilot-workspace{display:grid;grid-template-columns:minmax(175px,.7fr) minmax(0,1.6fr);gap:12px}
+.rpilot-shotlist{display:flex;flex-direction:column;gap:6px}
+.rpilot-shotlist button{text-align:left;background:#2a4650;color:#ebfff3;border:1px solid #70948d;border-radius:7px;padding:12px;display:grid;grid-template-columns:1fr auto;gap:6px}
+.rpilot-shotlist button[aria-pressed="true"]{background:#3f6252;border-color:#baff95;box-shadow:inset 3px 0 0 #baff95}
+.rpilot-num{font-size:9px;color:#d4ffb1;font-weight:900;letter-spacing:.05em}
+.rpilot-shot-name{font-weight:900;font-size:12px;line-height:1.4;grid-column:1 / -1}
+.rpilot-time{color:#c4dcdd;font-size:10px;grid-column:2;grid-row:1;white-space:nowrap}
+.rpilot-shot-detail{padding:19px;border:1px solid #6a9087;border-radius:10px;background:#1c3643;min-width:0}
+.rpilot-detail-top{display:flex;flex-wrap:wrap;gap:9px;justify-content:space-between;align-items:center}
+.rpilot-detail-top span{color:#d5ffae;font-size:10px;letter-spacing:.05em;font-weight:900}
+.rpilot-detail-top b{font-size:9px;padding:8px;border:1px solid #789e91;border-radius:5px;background:#284d44;color:#e7ffe2}
+.rpilot-shot-detail h5{font-size:clamp(22px,3vw,32px);letter-spacing:-.04em;margin:14px 0 6px}
+.rpilot-intent{font-size:11px;color:#d1e7e1;line-height:1.6}
+.rpilot-shot-detail blockquote{border-left:4px solid #baff95;background:#2b4d4b;padding:14px 17px;border-radius:0 7px 7px 0;font-size:clamp(15px,2vw,21px);line-height:1.5;font-style:italic;color:#f0ffdd;margin:14px 0}
+.rpilot-detail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.rpilot-detail-grid>div{border-top:1px solid #648a83;padding-top:12px}
+.rpilot-detail-grid strong{color:#d2faaf;font-size:10px}
+.rpilot-detail-grid p{font-size:11px;color:#cfdfdb;line-height:1.7;margin:5px 0}
+.rpilot-shot-detail details{margin-top:13px;background:#263e4c;border:1px solid #5f8a87;border-radius:7px;padding:12px;font-size:11px}
+.rpilot-shot-detail summary{color:#d3ffbc;font-weight:900;cursor:pointer}
+.rpilot-shot-detail details p{line-height:1.7;color:#e1eee8}
+.rpilot-shot-detail details small{line-height:1.7;color:#bacbd1}
+.rpilot-script{border:1px solid #638984;border-radius:8px;padding:12px 17px;background:#1d3745}
+.rpilot-script p{display:flex;gap:12px;line-height:1.7;align-items:baseline;border-bottom:1px solid #426b68;padding-bottom:10px}
+.rpilot-script p:last-child{border-bottom:none}
+.rpilot-script span{color:#d7ffa9;font-size:11px;white-space:nowrap}
+.rpilot-script strong{font-size:13px;font-weight:500;color:#eaf9f4}
+.rpilot-gates{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.rpilot-gates label{display:flex;gap:10px;align-items:flex-start;border:1px solid #627f80;background:#233c48;border-radius:8px;padding:12px;cursor:pointer}
+.rpilot-gates input{width:17px;height:17px;flex:0 0 17px;accent-color:#baff95;margin-top:2px}
+.rpilot-gates strong{display:block;font-size:12px;color:#f0fff0}
+.rpilot-gates small{display:block;font-size:10px;color:#cbdee0;line-height:1.6;margin-top:6px}
+.rpilot-export{display:grid;grid-template-columns:1fr 250px;gap:15px;background:#284b49;border:1px solid #70958b;border-radius:9px;padding:17px;margin-top:19px}
+.rpilot-export h4{font-size:18px;margin:0 0 7px}
+.rpilot-export p{font-size:11px;line-height:1.6;color:#d0e7df}
+.rpilot-export label{display:flex;flex-direction:column;gap:9px;font-size:10px;font-weight:900;color:#d3f9be}
+.rpilot-export textarea{font:inherit;background:#193943;border:1px solid #81a79c;border-radius:6px;padding:10px;color:#e8fff0;font-size:12px;line-height:1.6;resize:vertical}
+.rpilot-export-buttons{display:flex;flex-direction:column;gap:8px}
+.rpilot-export-buttons button{background:#baff95;width:100%}
+.rpilot-export-buttons button:not(:first-child){background:#34575a;border-color:#98b3a4;color:#e8ffec}
+.rpilot-status{font-size:11px;color:#e8ffe5;background:#355f4b;border:1px solid #85bd8b;border-radius:6px;padding:12px;line-height:1.6}
+.rpilot-disclaimer{font-size:11px;line-height:1.7;color:#c7ddd9;border-top:1px solid #62817e;padding-top:14px;margin-top:18px}
+.rpilot button:focus-visible,.rpilot summary:focus-visible,.rpilot input:focus-visible,.rpilot textarea:focus-visible{outline:3px solid #ffe5ae;outline-offset:2px}
+@media(max-width:950px){.rpilot-hero{grid-template-columns:1fr}.rpilot-art{min-height:215px}.rpilot-progress{grid-template-columns:repeat(2,minmax(0,1fr))}.rpilot-export{grid-template-columns:1fr}}
+@media(max-width:680px){.rpilot{padding:13px}.rpilot-workspace{grid-template-columns:1fr}.rpilot-shotlist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.rpilot-gates{grid-template-columns:1fr}.rpilot-detail-grid{grid-template-columns:1fr}.rpilot-export-buttons button{min-height:45px}}
+@media(max-width:420px){.rpilot-shotlist{grid-template-columns:1fr}.rpilot-actions button{width:100%}.rpilot-progress{grid-template-columns:1fr}}

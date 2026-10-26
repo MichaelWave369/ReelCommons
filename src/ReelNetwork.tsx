@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import ReelCineHandoff from './ReelCineHandoff'
+import ReelPilotDesk from './ReelPilotDesk'
 import type { FormEvent } from 'react'
 import {
   createReelPitchPacket, reelPitchFilename, reelPitchJson,
@@ -65,6 +66,16 @@ export default function ReelNetwork() {
       setError(reason instanceof Error?reason.message:'Could not prepare production packet.')
     }
   }
+  function loadPilotConcept(input:ReelPitchInput) {
+    setDraft({...input})
+    setPacket(null)
+    setDeskOpen(true)
+    setError('')
+    setNotice('Pilot 001 concept loaded into the REEL pitch form. Human review remains pending. Prepare the separate REEL pitch only after checking the details.')
+    window.requestAnimationFrame(()=>{
+      document.getElementById('reel-pitch-title')?.scrollIntoView({block:'start',behavior:'smooth'})
+    })
+  }
   function exportPacket() {
     if(!packet)return
     downloadText(reelPitchJson(packet),reelPitchFilename(packet.pitch.title))
@@ -74,7 +85,7 @@ export default function ReelNetwork() {
   return <section className="reel-net" id="reel-network" aria-labelledby="reel-net-title">
     <div className="reel-net-hero">
       <div className="reel-net-hero-copy">
-        <span className="reel-net-eyebrow">A REEL COMMONS ORIGINAL · NETWORK FOUNDATION</span>
+        <span className="reel-net-eyebrow">A REEL COMMONS ORIGINAL · PILOT PRODUCTION LAB</span>
         <div className="reel-net-brand" aria-label="REEL Network"><span>R</span><span>E</span><span>E</span><span>L</span><small>NETWORK</small></div>
         <h2 id="reel-net-title" tabIndex={-1}>Our shows. Our worlds. Our network.</h2>
         <p>ReelCommons discovers the world's media. <strong>REEL</strong> is the home for our own: shows, films, game reviews, music, podcasts and CineSwarm-assisted originals.</p>
@@ -113,6 +124,7 @@ export default function ReelNetwork() {
         <span className="reel-net-lane-status">◌ DEVELOPMENT CONCEPT</span>
       </button>)}
     </div>
+    <ReelPilotDesk onUsePitch={loadPilotConcept} />
     <div className="reel-net-section-head">
       <div><span>02 / INTEROFFICE SWARM</span><h3>The creative offices</h3><p>CineSwarm works downstream of human-owned creative direction, source review and rights gates. The office cards describe deliverables, not active agent sessions.</p></div>
       <div className="reel-net-office-tabs" role="group" aria-label="Filter creative offices">
