@@ -1,10 +1,12 @@
 import {useState} from 'react'
+import ReelFirstShotHandoff from './ReelFirstShotHandoff'
 import {
   pilotMarkdown,pilotPreproductionPacket,pilotShotsCsv,
   pilotSrt,pilotTimecode,REEL_PILOT_DURATION,REEL_PILOT_GATES,
   REEL_PILOT_PITCH,REEL_PILOT_SHOTS,
 } from './reelPilot'
 import type {ReelPitchInput} from './reelNetwork'
+import type {PilotPreproductionPacket} from './reelPilot'
 import './reel-pilot.css'
 
 interface Props {
@@ -25,6 +27,7 @@ function saveText(text:string,filename:string,mimeType:string) {
 export default function ReelPilotDesk({onUsePitch}:Props) {
   const [activeId,setActiveId]=useState(REEL_PILOT_SHOTS[0].id)
   const [producerNotes,setProducerNotes]=useState('')
+  const [preparedKit,setPreparedKit]=useState<PilotPreproductionPacket|null>(null)
   const [reviewed,setReviewed]=useState<string[]>([])
   const [status,setStatus]=useState('')
   const [scriptVisible,setScriptVisible]=useState(false)
@@ -33,6 +36,7 @@ export default function ReelPilotDesk({onUsePitch}:Props) {
   function exportDraft() {
     try {
       const packet=pilotPreproductionPacket(new Date().toISOString(),producerNotes)
+      setPreparedKit(packet)
       saveText(JSON.stringify(packet,null,2),'reel-p001-preproduction.json','application/json')
       setStatus('Draft preproduction packet downloaded. All eight release gates remain NOT REVIEWED in the packet, regardless of local checklist marks.')
     }catch(error) {
@@ -137,7 +141,7 @@ export default function ReelPilotDesk({onUsePitch}:Props) {
         <label>PRODUCER NOTES · LOCAL TO THIS VISIT
           <textarea rows={3} maxLength={2000} value={producerNotes}
             placeholder="Creative revisions, visual continuity, sound cues and concerns…"
-            onChange={event=>setProducerNotes(event.target.value)}/>
+            onChange={event=>{setProducerNotes(event.target.value);setPreparedKit(null)}}/>
         </label>
       </div>
       <div className="rpilot-export-buttons">
@@ -148,6 +152,7 @@ export default function ReelPilotDesk({onUsePitch}:Props) {
       </div>
     </div>
     {status&&<p className="rpilot-status" role="status">{status}</p>}
+    <ReelFirstShotHandoff key={preparedKit?.createdUtc??'no-kit'} preparedKit={preparedKit} />
     <p className="rpilot-disclaimer">Historically inspired by the original network roadmap's “Welcome to Parallax Network” pilot concept. This is a <strong>new REEL script</strong>, not recovered original scenes or assets. Production must pass independent CineSwarm model/runtime qualification, genuine shot review, credit and rights verification, ParaCut finishing, and human publication approval before any program appears on RCTV. No external media automatically loads.</p>
   </section>
 }
