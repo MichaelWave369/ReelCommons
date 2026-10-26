@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import ReelCineHandoff from './ReelCineHandoff'
 import type { FormEvent } from 'react'
 import {
   createReelPitchPacket, reelPitchFilename, reelPitchJson,
@@ -187,6 +188,7 @@ export default function ReelNetwork() {
       </div>}
       {notice&&<p role="status" className="reel-net-notice">{notice}</p>}
     </div>}
+    <ReelCineHandoff key={packet?.createdUtc??'no-current-pitch'} currentPitch={packet} />
     <div className="reel-net-links">
       <h3>Production roots / existing engines</h3>
       <div>
