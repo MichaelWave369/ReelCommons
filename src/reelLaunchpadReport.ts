@@ -188,7 +188,7 @@ export async function inspectLaunchpadJson(text:string,kit?:PilotPreproductionPa
       'Install Python 3.11+ from the official Python source. Use that same interpreter in CineSwarm.'),
     step('ffmpeg','FFmpeg and FFprobe',
       checks.ffmpeg.status==='FOUND'&&checks.ffprobe.status==='FOUND'?'ready':'blocked',
-      'Install both command-line binaries and make them available on your Windows PATH.'),
+      'Install FFmpeg and FFprobe command-line binaries and make both available on your Windows PATH.'),
     step('gpu','Single-GPU free VRAM',
       !gpus.length?'blocked':actualMax>=9216?'ready':'blocked',
       'Check nvidia-smi on your PC. Free at least 9216 MiB VRAM on one NVIDIA GPU. Do not add memory across cards.'),
