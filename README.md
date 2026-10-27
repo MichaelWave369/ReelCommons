@@ -6,6 +6,18 @@ ReelCommons is an original, independent, open-source directory for **legitimate 
 
 > **Scope honesty:** v0.1 is a curated **service directory**, not a live title-availability search engine. Provider links go to official homepages. Verify a specific title, ad load, cost, geographic restrictions, and accessibility features on the provider's site.
 
+## v3.8 · Pilot 001 Windows GPU Launchpad, browser-side readiness report
+
+REEL Originals' first real-shot production pipeline now includes the **REEL Windows Launchpad** directly inside Pilot 001, ahead of the existing CineSwarm native-preflight and real-media evidence desks. The companion **[CineSwarm PR #8](https://github.com/MichaelWave369/CineSwarm/pull/8)** is merged.
+
+- After downloading the REEL preproduction JSON, a creator with a local CineSwarm checkout and Python can run `.\tools\REEL-Launchpad.ps1 -SaveReport` from PowerShell. There is no hidden installation, model download, GPU execution or browser-to-localhost connection. `-CheckModelHash -ProbeTorch` optionally hashes installed checkpoint bytes and checks PyTorch CUDA device visibility, still without running Wan.
+- The REEL website can inspect the explicitly chosen **local diagnostic JSON** (128 KiB maximum), validate the exact no-authority/no-inference native schema, check a source-hash match against the active pilot kit if available, show **per-GPU free VRAM**, RAM, disk, model presence/checkpoint checksum, PyTorch CUDA, Python, FFmpeg/FFprobe, and assign prioritized **First recommended action** repair guidance.
+- Correctly distinguishes untested model bytes from a pinned matching digest, absent NVIDIA devices from insufficient *free* VRAM, and a self-reported technical pass from actual model execution or human publication clearance. Two 8 GiB graphics cards cannot be added to satisfy a single 9 GiB floor.
+- Reports are **editable unsigned JSON** and never cryptographically authenticate the owner's workstation, real checkpoints or an official model license. REEL does not display private local paths, contact GPU/localhost, execute code, submit jobs, publish media or invent an RCTV channel. An imported result without this visit's source kit is labeled **unlinked**.
+- Adds `src/reelLaunchpadReport.test.tsx` to exercise fake technical passes, authority escalation, GPU arithmetic, checkpoint and source mismatches, input size, file-read UI and unchanged CH 001–050 Playback Trust Gate.
+
+The actual explicit operator-approved local render remains a *separate* CineSwarm process. Neither the REEL website nor CI has rendered the real eight-second Pilot 001 footage. See [the field operator guide](docs/REEL_WINDOWS_LAUNCHPAD_READINESS.md).
+
 ## v3.7 · REEL Originals: Genuine Media Evidence & Editorial Preview
 
 **After an authorized real Wan2.1 render**, REEL can now locally verify the *actual* Pilot 001 Shot 001 master MP4 against CineSwarm's exported hash and evidence summary. **This release does not generate a movie, and no real REEL footage is claimed to exist yet.**

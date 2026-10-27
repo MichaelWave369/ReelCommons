@@ -1,6 +1,7 @@
 import {useState} from 'react'
 import ReelFirstShotHandoff from './ReelFirstShotHandoff'
 import ReelMediaDesk from './ReelMediaDesk'
+import ReelWindowsLaunchpad from './ReelWindowsLaunchpad'
 import {
   pilotMarkdown,pilotPreproductionPacket,pilotShotsCsv,
   pilotSrt,pilotTimecode,REEL_PILOT_DURATION,REEL_PILOT_GATES,
@@ -153,6 +154,7 @@ export default function ReelPilotDesk({onUsePitch}:Props) {
       </div>
     </div>
     {status&&<p className="rpilot-status" role="status">{status}</p>}
+    <ReelWindowsLaunchpad key={preparedKit?.createdUtc??'no-kit'} activeKit={preparedKit} />
     <ReelFirstShotHandoff key={preparedKit?.createdUtc??'no-kit'} preparedKit={preparedKit} />
     <ReelMediaDesk key={preparedKit?.createdUtc??'no-kit'} activeKit={preparedKit} />
     <p className="rpilot-disclaimer">Historically inspired by the original network roadmap's “Welcome to Parallax Network” pilot concept. This is a <strong>new REEL script</strong>, not recovered original scenes or assets. Production must pass independent CineSwarm model/runtime qualification, genuine shot review, credit and rights verification, ParaCut finishing, and human publication approval before any program appears on RCTV. No external media automatically loads.</p>
