@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import ReelCineHandoff from './ReelCineHandoff'
 import ReelPilotDesk from './ReelPilotDesk'
+import MikeyFlixPortal from './MikeyFlixPortal'
 import type { FormEvent } from 'react'
 import {
   createReelPitchPacket, reelPitchFilename, reelPitchJson,
@@ -91,6 +92,7 @@ export default function ReelNetwork() {
         <p>ReelCommons discovers the world's media. <strong>REEL</strong> is the home for our own: shows, films, game reviews, music, podcasts and CineSwarm-assisted originals.</p>
         <div className="reel-net-hero-actions">
           <button type="button" onClick={()=>{setDeskOpen(true);document.getElementById('reel-pitch-title')?.scrollIntoView({block:'nearest',behavior:'smooth'})}}>◆ Enter the REEL creative floor</button>
+          <a href="#reel-mikeyflix">▣ Visit personal media</a>
           <a href={REEL_REFERENCES.cineswarm} target="_blank" rel="noopener noreferrer">CineSwarm source ↗</a>
         </div>
       </div>
@@ -104,6 +106,7 @@ export default function ReelNetwork() {
       <strong>REEL IS THE PUBLIC NETWORK IDENTITY. PARALLAX REMAINS OUR INTERNAL CREATIVE LINEAGE.</strong>
       <p>We are not affiliated with similarly named blockchain or Web3 projects. The existing Parallax Network and CineSwarm repositories retain their historical contracts. This surface is a real local planning tool, <b>not</b> proof that autonomous agents ran or that any program is publicly on air.</p>
     </div>
+    <MikeyFlixPortal />
     <div className="reel-net-stats" aria-label="REEL current network scope">
       <div><strong>{REEL_LANES.length}</strong><span>PROGRAMMING CONCEPTS</span></div>
       <div><strong>{REEL_OFFICES.length}</strong><span>CREATIVE OFFICE ROLES</span></div>

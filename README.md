@@ -6,6 +6,14 @@ ReelCommons is an original, independent, open-source directory for **legitimate 
 
 > **Scope honesty:** v0.1 is a curated **service directory**, not a live title-availability search engine. Provider links go to official homepages. Verify a specific title, ad load, cost, geographic restrictions, and accessibility features on the provider's site.
 
+## v3.9 candidate · REEL Network ↔ MikeyFlix private-media doorway
+
+REEL Network now includes an explicitly labeled private-media section leading to the [REEL Theater](https://github.com/MichaelWave369/ReelTheater) Library, where the merged Rung 13 MikeyFlix/Jellyfin LAN launcher lives. This is a **public page linking to a separate private LAN player**, not public broadcasting or embedded media.
+
+- A Pages **candidate** link is clearly marked as deployment-unverified; the public source repo is the fallback.
+- No personal server address, passwords, tokens, media metadata, remote API calls, watch history, new RCTV channels, or changes to REEL Originals publishing rights.
+- [Setup and verification notes](docs/REEL_MIKEYFLIX_PRIVATE_PORTAL.md) · [tracked issue #39](https://github.com/MichaelWave369/ReelCommons/issues/39).
+
 ## v3.8 · Pilot 001 Windows GPU Launchpad, browser-side readiness report
 
 REEL Originals' first real-shot production pipeline now includes the **REEL Windows Launchpad** directly inside Pilot 001, ahead of the existing CineSwarm native-preflight and real-media evidence desks. The companion **[CineSwarm PR #8](https://github.com/MichaelWave369/CineSwarm/pull/8)** is merged.
